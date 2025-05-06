@@ -1,0 +1,63 @@
+Documentação Basica 
+
+### **2. Livros**
+
+#### **Descrição**
+A seção de livros será dedicada a diferentes gêneros literários, resenhas de obras clássicas e contemporâneas, além de oferecer aos usuários a capacidade de registrar e gerenciar suas leituras. A ideia é criar uma comunidade de leitores que compartilham suas preferências, resenhas e recomendações.
+
+#### **Objetivo**
+Proporcionar aos usuários uma plataforma para registrar suas leituras, explorar resenhas e obter recomendações de livros com base nos interesses individuais. A seção terá uma curadoria de livros divididos por gêneros, incluindo literatura clássica, contemporânea, ficção científica, fantasia, e mais.
+
+#### **Justificativa**
+A leitura é uma atividade essencial para o desenvolvimento intelectual e emocional. Muitos leitores procuram uma maneira prática de organizar suas leituras e descobrir novas obras. O site fornecerá um espaço para isso, além de permitir a troca de opiniões e críticas sobre os livros.
+
+#### **Funcionalidades**
+- **Catálogo de Livros:** Dividido por gêneros como ficção, não-ficção, romance, fantasia, etc.
+- **Sistema de Avaliação:** Os usuários poderão avaliar os livros que leram e escrever resenhas.
+- **Recomendações Personalizadas:** Sugestões de leitura baseadas no histórico de livros lidos pelo usuário.
+- **Listas de Leitura:** Os usuários poderão adicionar livros à sua lista de "Lidos", "Para Ler" e "Lendo".
+- **Discussões e Fóruns:** Espaço para discussões sobre livros específicos, permitindo aos usuários interagir e trocar opiniões.
+
+---
+
+### **3. Filmes**
+
+#### **Descrição**
+A seção de filmes será focada em destacar tanto os clássicos do cinema quanto os lançamentos recentes. Os usuários poderão acessar informações detalhadas sobre filmes, como sinopses, trailers, críticas e as principais estrelas. Além disso, terão a possibilidade de criar uma lista personalizada de filmes assistidos e filmes a serem assistidos.
+
+#### **Objetivo**
+Oferecer aos usuários uma plataforma para explorar o universo do cinema, com acesso a informações sobre filmes, críticos renomados e opções para registrar seus filmes assistidos e futuros lançamentos de interesse.
+
+#### **Justificativa**
+O cinema é uma das formas de entretenimento mais populares no mundo. Muitas pessoas buscam recomendações de filmes e informações sobre novos lançamentos, além de quererem organizar suas listas pessoais de filmes assistidos e pendentes. Este espaço servirá como ponto de encontro para fãs de cinema.
+
+#### **Funcionalidades**
+- **Catálogo de Filmes:** Exibição de filmes por categorias como ação, drama, comédia, terror, etc.
+- **Resenhas e Críticas:** Opiniões de críticos renomados e de usuários sobre os filmes.
+- **Trailers:** Exibição de trailers de filmes atuais e lançamentos futuros.
+- **Listas Personalizadas:** O usuário pode criar suas listas de filmes assistidos e desejados.
+- **Recomendações:** Sugestões de filmes com base nas preferências do usuário e histórico de assistidos.
+
+---
+
+### **4. Musicais**
+
+#### **Descrição**
+A seção de musicais será dedicada às grandes produções musicais, tanto as clássicas quanto as mais contemporâneas. O conteúdo incluirá informações sobre as peças, suas trilhas sonoras, bastidores da produção e destaques sobre os elencos. A plataforma também terá vídeos de apresentações e dados sobre futuras produções.
+
+#### **Objetivo**
+Fornecer aos usuários uma fonte completa de informações sobre musicais, com foco nas produções mais icônicas e recentes. A seção também incluirá vídeos de performances e detalhes sobre os bastidores de cada produção.
+
+#### **Justificativa**
+Os musicais possuem uma base de fãs leal e crescente. Essa seção oferecerá conteúdo envolvente para aqueles que são apaixonados por este tipo de performance. Além disso, muitos fãs de musicais buscam um espaço para descobrir novos shows e manter-se atualizados sobre as produções mais recentes.
+
+#### **Funcionalidades**
+- **Catálogo de Musicais:** Informações sobre os musicais mais famosos e suas produções históricas.
+- **Trilhas Sonoras:** Disponibilização das músicas mais populares de cada musical.
+- **Bastidores e Elenco:** Detalhes sobre a criação dos musicais e informações sobre os membros do elenco.
+- **Vídeos de Performances:** Apresentações ao vivo e cenas icônicas de musicais.
+- **Calendário de Eventos:** Agenda com datas e informações sobre produções de musicais no mundo todo.
+
+---
+
+Essa documentação oferece uma visão clara das funcionalidades, objetivos e justificativas para cada um dos temas do seu projeto. Ela pode ser expandida e detalhada conforme o progresso do desenvolvimento do site.

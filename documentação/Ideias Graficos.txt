@@ -1,0 +1,74 @@
+Site Entre Linhas
+
+Clube do livro gamificado
+
+KPIs
+Leitura Concluída
+
+Descrição: Percentual de livros ou capítulos completados pelo usuário. Este KPI permite monitorar o progresso de leitura e motiva os usuários a continuarem suas jornadas literárias.
+
+Ranking de Leitores
+
+Descrição: Posição do usuário no ranking baseado no número de livros lidos ou pontos acumulados. Esse KPI cria um ambiente competitivo e estimula o engajamento contínuo.
+
+Número de Livros Favoritos
+
+Descrição: Quantidade de livros que o usuário marcou como favoritos. Esse indicador reflete as preferências pessoais do usuário e ajuda a destacar livros populares na comunidade.
+
+Gráficos
+Progresso de Leitura (Gráfico de Linha ou Pizza)
+
+Descrição: Exibe o quanto o usuário avançou no livro ou desafio atual. Ajuda a visualizar o progresso de maneira clara e motiva a continuar com a leitura.
+
+Ranking de Leitores (Gráfico de Barras Horizontal)
+
+Descrição: Mostra os leitores com mais pontos ou livros lidos. Este gráfico ajuda a criar uma sensação de competição saudável entre os membros do clube.
+
+Gênero Favorito (Gráfico de Pizza/Donut)
+
+Descrição: Exibe a quantidade de livros lidos por gênero, permitindo ao usuário ver suas preferências literárias. Também é uma forma de destacar gêneros populares na comunidade.
+
+Sim, Dandara! Esse template pode ser adaptado lindamente para o seu projeto do clube do livro *Entre Linhas*, especialmente considerando que você quer incluir elementos de gamificação. Aqui estão algumas sugestões de como você pode reaproveitar cada seção:
+
+---
+
+### 🧁 Seções originais e como adaptar para o *Entre Linhas*:
+
+#### **1. “Master the art of Bento Cakes…”**
+**Adaptação**: Introdução do clube — "Mergulhe no universo dos livros com o *Entre Linhas*".
+- Subtítulo: objetivos do clube, público-alvo, estilo dos livros, etc.
+- Botões: “Participe”, “Conheça os livros do mês”.
+
+#### **2. “Meet your sweet mentors”**
+**Adaptação**: Apresentação dos moderadores ou facilitadores de leitura.
+- Fotos e mini bios dos organizadores ou membros mais ativos.
+
+#### **3. “Perfect for you if…”**
+**Adaptação**: Motivos para entrar no clube.
+- Ex: “Você ama discutir livros”, “Quer desenvolver o hábito de leitura”, etc.
+
+#### **4. “Culinary workshop agenda”**
+**Adaptação**: Agenda mensal do clube.
+- Encontros, leituras da semana, desafios de gamificação.
+
+#### **5. “Delicious deal”**
+**Adaptação**: Recompensas ou níveis do sistema de gamificação.
+- Pontuações, conquistas, prêmios simbólicos (ex: destaque no mural do mês).
+
+#### **6. “What we have done together”**
+**Adaptação**: Galeria de momentos ou destaques do clube.
+- Fotos de encontros (presenciais ou online), leituras concluídas, etc.
+
+#### **7. “Happy bakers”**
+**Adaptação**: Depoimentos dos membros.
+- O que os leitores acharam da experiência, como melhoraram o hábito de leitura.
+
+#### **8. “Join the cake crew”**
+**Adaptação**: Formulário de inscrição.
+- Nome, e-mail, preferências literárias.
+
+#### **9. “Frequently baked questions”**
+**Adaptação**: FAQ sobre o clube.
+- Como participar, se há taxa, como funciona a pontuação, etc.
+
+https://www.behance.net/gallery/203971907/Bento-Cake-Masterclass-Landing-Page

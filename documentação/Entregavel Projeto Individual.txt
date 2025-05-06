@@ -1,0 +1,4 @@
+Entregavel Projeto Individual
+
+3 tabelas 
+1:1 ou N:M

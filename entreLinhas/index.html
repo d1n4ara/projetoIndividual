@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/128/2702/2702184.png" type="image/x-icon">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Entre Linhas</title>
+</head>
+
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="./image/logo.png" class="logo">
+            <span class="site-name">Entre Linhas</span>
+        </div>
+
+
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#">Início</a></li>
+                <li><a href="#">Livros</a></li>
+                <li><a href="#">Ranking</a></li>
+                <li><a href="#">Comunidade</a></li>
+            </ul>
+        </nav>
+
+        <div class="auth-buttons">
+            <a href="./login.html"><button class="btn login">Login</button></a>
+            <a href="./cadastro.html"><button class="btn signup">Cadastre-se</button></a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Seção Hero -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Desafio de Leitura Entre Linhas</h1>
+                <p>Participe do nosso clube, leia livros incríveis e suba no ranking com outras mentes curiosas!</p>
+                <a href="#"><button class="cta-btn">Comece agora</button></a>
+            </div>
+            <div class="hero-image">
+                <img src="./image/livro.gif" alt="Ilustração leitura" style="height: 350px;width: 350px;">
+            </div>
+        </section>
+
+        <!-- Seção Categorias -->
+        <div class="carrossel-container">
+            <div class="carrossel-text" id="carrossel">
+              <span>Romance</span>
+              <span>Misterio</span>
+              <span>Fantasia</span>
+              <span>Ficção Científica</span>
+              <span>Suspense e Terror</span>
+            </div>
+          </div>
+        </div>
+        
+          
+          
+
+        <!-- Seção Ranking -->
+        <section class="ranking">
+            <h2>Top Leitores do Mês</h2>
+            <ul>
+                <li><strong>1º</strong> Ana Beatriz – 12 livros</li>
+                <li><strong>2º</strong> João Pedro – 10 livros</li>
+                <li><strong>3º</strong> Carla Silva – 9 livros</li>
+            </ul>
+        </section>
+
+        <!-- Seção Destaques -->
+        <section class="featured">
+            <h2>Livros em Destaque</h2>
+            <div class="book-grid">
+                <div class="book-card">
+                    <img src="https://covers.openlibrary.org/b/id/8226191-L.jpg" alt="Capa do livro">
+                    <p>1984 – George Orwell</p>
+                </div>
+                <div class="book-card">
+                    <img src="https://covers.openlibrary.org/b/id/240727-L.jpg" alt="Capa do livro">
+                    <p>Orgulho e Preconceito – Jane Austen</p>
+                </div>
+                <div class="book-card">
+                    <img src="https://covers.openlibrary.org/b/id/5546156-L.jpg" alt="Capa do livro">
+                    <p>O Hobbit – J.R.R. Tolkien</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Rodapé simples -->
+        <footer>
+            <p>&copy; 2025 Entre Linhas – Todos os direitos reservados.</p>
+        </footer>
+    </main>
+
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+          const carrossel = document.getElementById("carrossel");
+      
+          carrossel.innerHTML += carrossel.innerHTML;
+          carrossel.innerHTML += carrossel.innerHTML;
+          carrossel.innerHTML += carrossel.innerHTML;
+      
+          // Pausar a animação quando o mouse estiver sobre o carrossel
+          carrossel.addEventListener("mouseenter", () => {
+            carrossel.style.animationPlayState = "paused";
+          });
+      
+          carrossel.addEventListener("mouseleave", () => {
+            carrossel.style.animationPlayState = "running";
+          });
+        });
+      </script>
+      
+</body>
+
+</html>

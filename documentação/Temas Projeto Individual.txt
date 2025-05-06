@@ -1,0 +1,262 @@
+Temas Projeto Individual
+
+Musicas
+-- Estilo Musicais/plataforma de musica
+
+🎤 2. Karaokê online personalizado
+Objetivo: Criar um mini site onde você e seus amigos possam cantar, ranquear performances e curtir juntos mesmo à distância.
+
+Funcionalidades:
+
+Catálogo de músicas (pode puxar via API do YouTube)
+
+Modo karaokê com letra sincronizada
+
+Sistema de ranking e votação por reação (Estrela, Fogo, Microfone)
+
+Perfil de cada participante com foto, músicas favoritas e "nível"
+
+Replays ou trechos de vídeos engraçados (se quiser adicionar gravação via webcam)
+
+Extras:
+
+Página de “Desafios de Karaokê”: tipo "canta essa sem rir", “versão dramática”, etc.
+
+Visual retrô tipo fliperama ou com vinil
+
+
+Livros
+--Clube do Livro;
+📖 2. Clube do Livro Online
+Nome possível: Entre Capítulos
+
+Funcionalidades:
+
+Área para leitura coletiva (ex: Livro do mês)
+
+Fórum/comentários por capítulo
+
+Calendário com metas de leitura
+
+Votação para escolher o próximo livro
+
+Extras:
+
+Galeria de capas lindas
+
+Emblemas: "Leitor voraz", "Primeiro comentário", etc.
+
+Página de perfil dos membros do clube
+
+-- Blog de Leitura
+✍️ 3. Blog de Leitura
+Nome possível: Café com Letras
+
+Funcionalidades:
+
+Postagens com resenhas pessoais dos livros que você leu
+
+Notas (0 a 5 estrelas) com selos personalizados tipo:
+
+"Faria um filme com esse"
+
+"Me destruiu emocionalmente"
+
+Categorias: Romance, Fantasia, Não-ficção, etc.
+
+Extras criativos:
+
+Modo noturno para leitura confortável
+
+Widget de "O que estou lendo agora"
+
+Filmes
+--Blog de Filmes;
+🎬 FILMES
+🍿 4. Blog de Filmes
+Nome possível: Sessão Dandara
+
+Funcionalidades:
+
+Resenhas de filmes e séries com comentários bem-humorados
+
+Notas pessoais + emojis
+
+Sugestões de maratonas: “Filmes pra chorar”, “Domingo de preguiça”, etc.
+
+Extras:
+
+Embed de trailers
+
+Lista “Quero ver / Já vi”
+
+Desafios mensais: “Assista 5 filmes com direção feminina”
+
+--Cinema
+🎥 5. Mini-Cinema Online
+Nome possível: CineNoiz 🎬 (puxando o nome do seu projeto anterior 👀)
+
+Funcionalidades:
+
+Área de trailers, sinopses e fichas técnicas
+
+Agenda com lançamentos da semana
+
+Mini game tipo "Adivinhe o filme pela cena"
+
+Extras:
+
+Tema visual inspirado em cinemas antigos ou neon retrô
+
+Avaliações dos visitantes (estilo Rotten Tomatoes)
+
+Danças/Musicas
+-- Musicas para dançar;
+💃 DANÇA + MÚSICA
+💃🎶 6. Músicas para Dançar
+Nome possível: DancePlay
+
+Funcionalidades:
+
+Categorias: Forró, Funk, K-pop, Sertanejo, TikTok Hits, etc.
+
+Vídeos de coreografias
+
+Lista de reprodução para festas ou treinos
+
+Extras:
+
+Botão “Começar dança aleatória”
+
+Página de "Top dançantes da semana"
+
+-- Just Dance;
+🕹️ 7. Portal Just Dance Fan
+Nome possível: Just Vibra
+
+Funcionalidades:
+
+Galeria de músicas do Just Dance com níveis de dificuldade
+
+Tutoriais e dicas de movimentos
+
+Seção “Dance Challenge”: desafio da semana
+
+Extras:
+
+Perfis dos jogadores com pontuação e favoritos
+
+Ranking de danças mais populares
+
+Layout colorido, vibrante, com ícones grandes estilo arcade
+
+Musicais 
+
+🌟 1. Meu Universo Musical – Um blog pessoal sobre musicais
+Objetivo: Compartilhar os musicais que você ama, comentar cenas marcantes, trilhas sonoras, e indicar pra amigos.
+
+Seções:
+
+💛 Favoritos: Hamilton, Wicked, Chicago, Os Miseráveis, etc.
+
+🎭 Trilhas Sonoras Inesquecíveis (playlist embutida do Spotify)
+
+✨ Melhores cenas musicais (com embeds do YouTube)
+
+💬 Comentando Musicais: suas opiniões com humor e emoção
+
+Extras:
+
+Modo karaokê: com letras de músicas famosas
+
+Reações dos visitantes com emojis tipo 🎤😢🔥🎉
+
+Página "Se você gostou de X, vai amar Y" (sugestões conectadas)
+
+🎬 2. Guia Interativo de Musicais
+Objetivo: Criar uma enciclopédia interativa com informações e curiosidades sobre musicais de palco e cinema.
+
+Funcionalidades:
+
+Página inicial com “destaque da semana”
+
+Cards clicáveis com:
+
+Sinopse
+
+Trilha sonora
+
+Elenco
+
+Curiosidades (tipo: “sabia que esse musical quase foi cancelado?”)
+
+Linha do tempo da Broadway
+
+Visual: teatral, com fundo estilo cortina vermelha, fontes cursivas e brilho estilo luz de palco
+
+🕹️ 3. “Qual Musical Você É?” – Mini site com quiz
+Objetivo: Criar um quiz divertido e visual pra visitantes descobrirem qual musical combina com sua vibe.
+
+Perguntas tipo:
+
+"Como você reage a uma crise?"
+
+"Qual dessas frases te define?"
+
+"Música lenta ou agitada?"
+
+Resultados:
+
+Wicked: "Você é poderosa, incompreendida e brilhante"
+
+High School Musical: "Você gosta de drama e de dançar nos corredores"
+
+Rent: "Você é pura intensidade e sentimento"
+
+Extras:
+
+Compartilhar resultado nas redes
+
+Página com recomendações baseadas no resultado
+
+📅 4. Calendário de Estreias de Musicais
+Objetivo: Um site atualizado com estreias de musicais (palco, streamings ou cinema), sinopses e trailers.
+
+Seções:
+
+“Em cartaz”
+
+“Em breve”
+
+“Lançamentos antigos que valem a pena rever”
+
+Área de comentários: “Já viu? Conta o que achou!”
+
+💃🎤 5. Site de Karaokê com Músicas de Musicais
+Objetivo: Um mini site onde você e seus amigos possam cantar músicas de musicais favoritos.
+
+Funcionalidades:
+
+Karaokê com letra sincronizada (YouTube + letras)
+
+Seção de duetos e corais
+
+Página de "Cante comigo": envio de áudios ou vídeos (simulado)
+
+Ranking de músicas mais cantadas
+
+Extras:
+
+Palco animado no fundo
+
+Avatar personalizável com figurino de musical
+
+Felipe Neto
+
+Documentação Projeto Individual
+
+Documentação(contexto, objetivo, justificativa)
+Escopo (descrição,requisitos,premissas e restrições)
+Product BackLog e Sprint(planilha)
+Trello e GitHub
+

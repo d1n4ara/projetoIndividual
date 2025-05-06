@@ -1,0 +1,149 @@
+✅ Quadro Trello – Projeto Entre Linhas
+Listas no Trello
+Backlog (Ideias e demandas futuras)
+
+A Fazer
+
+Em Andamento
+
+Em Teste / Revisão
+
+Concluído
+
+Apresentação (Pitch)
+
+📌 Cartões por disciplina (Exemplos)
+Tecnologia da Informação
+Criar documentação geral do projeto
+
+Planejamento no Trello com links para GitHub
+
+Subir repositório e organizar governança no Git
+
+Banco de Dados
+Criar modelo lógico e relacional do sistema
+
+Montar comandos SQL para inserção e consulta de livros
+
+Criar queries para KPIs de gamificação
+
+Algoritmos
+Criar lógica de pontos por leitura concluída
+
+Função para converter progresso em medalhas
+
+Condicionais para desbloqueio de conquistas
+
+Arquitetura de Computadores / Matemática
+Aplicar cálculos para ranking e pontuação
+
+Exemplo: XP = páginas lidas x peso do gênero literário
+
+Sistemas Operacionais
+Criar e configurar uma VM Linux
+
+Rodar o banco de dados e simular consultas
+
+Pesquisa e Inovação
+Criar Dashboard com indicadores:
+
+Livros mais lidos
+
+Gêneros mais populares
+
+Progresso dos leitores
+
+Claro, Dandara! Com base nas disciplinas envolvidas no seu projeto individual “**Entre Linhas**” e nas funcionalidades sugeridas (como gamificação, dashboard, repositório no GitHub, entre outros), aqui está um **backlog completo e estruturado** para você usar no Trello.
+
+---
+
+## 📌 **Backlog – Projeto Individual: *Entre Linhas***
+
+### 🧾 **Planejamento e Documentação (Tecnologia da Informação)**
+
+* [ ] Criar documento descritivo do projeto (objetivo, público, tecnologias usadas)
+* [ ] Planejar o projeto no Trello com etapas e prazos definidos
+* [ ] Criar repositório no GitHub e configurar README
+* [ ] Definir as regras de governança do repositório (branch, commits, pull requests)
+
+---
+
+### 🗃️ **Banco de Dados**
+
+* [ ] Criar modelo lógico do banco de dados (tabelas: usuários, livros, pontos, conquistas)
+* [ ] Implementar modelo relacional no SGBD (PostgreSQL, MySQL etc)
+* [ ] Criar comandos SQL para inserção e consulta de dados dos livros
+* [ ] Criar queries para estatísticas de leitura e gamificação
+* [ ] Popular banco com dados fictícios para teste
+
+---
+
+### 🧠 **Algoritmos e Lógica**
+
+* [ ] Implementar sistema de pontuação por leitura concluída
+* [ ] Criar algoritmo de ranking entre leitores
+* [ ] Criar lógica de desbloqueio de conquistas
+* [ ] Função para calcular progresso de leitura
+* [ ] Algoritmo para sugestões de leitura baseadas no histórico
+
+---
+
+### 🧮 **Matemática e Arquitetura**
+
+* [ ] Aplicar cálculo para gerar score de usuário
+* [ ] Definir pesos por tipo de livro ou gênero
+* [ ] Usar vetores ou listas para armazenar progresso do usuário localmente
+
+---
+
+### 💻 **Sistemas Operacionais (Linux)**
+
+* [ ] Criar e configurar VM Linux
+* [ ] Instalar o banco de dados na VM
+* [ ] Simular comandos e consultas SQL no terminal
+* [ ] Testar performance e uso de recursos da VM
+
+---
+
+### 📊 **Dashboard e Pesquisa & Inovação**
+
+* [ ] Levantar indicadores importantes (KPIs): livros lidos, gêneros mais populares, progresso médio
+* [ ] Criar a dashboard com Chart.js ou outra biblioteca
+* [ ] Implementar gráficos dinâmicos com dados reais do BD
+* [ ] Relacionar o projeto a uma pesquisa ou contexto atual (ex: desinteresse por leitura)
+
+---
+
+### 🎮 **Gamificação**
+
+* [ ] Definir níveis e progressão (Ex: Iniciante, Leitor Ávido, Mestre Literário)
+* [ ] Criar sistema de medalhas ou conquistas (Ex: “Leitor de Romance”, “3 livros em 1 mês”)
+* [ ] Design de interface para exibir pontuação, nível, e conquistas
+* [ ] Testar feedback visual ao completar uma etapa
+
+---
+
+### 💡 **Socioemocional**
+
+* [ ] Escrever sua “linha da vida” e conectar com o projeto
+* [ ] Identificar seus valores pessoais refletidos no projeto
+* [ ] Relatar sua maior dificuldade durante o desenvolvimento
+* [ ] Relatar como superou essa dificuldade
+* [ ] Preparar pitch final com emoção, propósito e clareza
+
+---
+
+### 🌐 **Interface e Front-end**
+
+* [ ] Criar página inicial com navegação intuitiva
+* [ ] Criar tela de perfil com progresso e conquistas
+* [ ] Criar tela de livros disponíveis com filtros
+* [ ] Criar tela com a dashboard
+* [ ] Criar tela de apresentação do projeto (sobre, missão, etc.)
+
+---
+
+Se quiser, posso gerar um **template Trello em JSON** para você importar direto, ou criar um **quadro modelo público** pra você duplicar.
+
+Você quer que eu faça isso?
+
