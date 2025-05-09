@@ -1,13 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/128/2702/2702184.png" type="image/x-icon">
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/styleLoginCad.css">
     <title>Entre Linhas</title>
 </head>
+
 <body>
-    
+    <div class="container" id="container">
+        <div class="form-container sign-up-container">
+            <form action="#">
+                <h1>Crie sua conta</h1>
+                <span>para acessar seus livros favoritos</span>
+                <input type="text" placeholder="Nome" />
+                <input type="email" placeholder="Email" />
+                <input type="password" placeholder="Senha" />
+                <button>Faça Login</button>
+            </form>
+        </div>
+        <div class="form-container sign-in-container">
+            <form action="#">
+                <h1>Faça seu login</h1>
+                <span>para acessar sua conta</span>
+                <input type="email" placeholder="Email" />
+                <input type="password" placeholder="Senha" />
+                <a href="#">Esqueci a senha?</a>
+                <button>Cadastre-se</button>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>Bem Vindo de volta Leitor!</h1>
+                    <p>Ja possui uma conta, Realize o seu Login</p>
+                    <button class="ghost" id="signIn">Faça Login</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>Olâ Leitor!</h1>
+                    <p>Ainda não tem uma conta, Faça seu cadastro</p>
+                    <button class="ghost" id="signUp">Cadastre-se</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const signUpButton = document.getElementById('signUp');
+        const signInButton = document.getElementById('signIn');
+        const container = document.getElementById('container');
+
+        signUpButton.addEventListener('click', () => {
+            container.classList.add("right-panel-active");
+        });
+
+        signInButton.addEventListener('click', () => {
+            container.classList.remove("right-panel-active");
+        });
+    </script>
 </body>
-</html>l
+
+</html>

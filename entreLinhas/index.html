@@ -1,119 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/128/2702/2702184.png" type="image/x-icon">
-    <link rel="stylesheet" href="./css/style.css">
     <title>Entre Linhas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body>
+    <!--NavBar-->
     <header>
-        <div class="logo-container">
-            <img src="./image/logo.png" class="logo">
-            <span class="site-name">Entre Linhas</span>
-        </div>
-
-
+        <h1><img src="./image/livro.gif" alt="">Entre Linhas</h1>
         <nav>
-            <ul class="nav-links">
-                <li><a href="#">Início</a></li>
-                <li><a href="#">Livros</a></li>
-                <li><a href="#">Ranking</a></li>
-                <li><a href="#">Comunidade</a></li>
-            </ul>
+            <a href="#">Início</a>
+            <a href="#">Livros</a>
+            <a href="#">Categorias</a>
+            <a href="#">Desenvolvedora</a>
+            <a href="./login.html">Login</a>
+            <a href="./cadastro.html">Cadastro</a>
         </nav>
-
-        <div class="auth-buttons">
-            <a href="./login.html"><button class="btn login">Login</button></a>
-            <a href="./cadastro.html"><button class="btn signup">Cadastre-se</button></a>
-        </div>
     </header>
+    <!--NavBar-->
 
-    <main>
-        <!-- Seção Hero -->
-        <section class="hero">
-            <div class="hero-content">
-                <h1>Desafio de Leitura Entre Linhas</h1>
-                <p>Participe do nosso clube, leia livros incríveis e suba no ranking com outras mentes curiosas!</p>
-                <a href="#"><button class="cta-btn">Comece agora</button></a>
-            </div>
-            <div class="hero-image">
-                <img src="./image/livro.gif" alt="Ilustração leitura" style="height: 350px;width: 350px;">
-            </div>
-        </section>
+    <br><br><br><br>
 
-        <!-- Seção Categorias -->
-        <div class="carrossel-container">
-            <div class="carrossel-text" id="carrossel">
-              <span>Romance</span>
-              <span>Misterio</span>
-              <span>Fantasia</span>
-              <span>Ficção Científica</span>
-              <span>Suspense e Terror</span>
+    <!--Banner-->
+    <div class="hero-section">
+        <div class="gradient-overlay">
+            <div class="text-container">
+                <h1>Conquer fatigue and burnout.</h1>
+                <p>Revitalize your spirit. Find connection.</p>
             </div>
-          </div>
         </div>
-        
-          
-          
+    </div>
+    <!--Banner-->
 
-        <!-- Seção Ranking -->
-        <section class="ranking">
-            <h2>Top Leitores do Mês</h2>
-            <ul>
-                <li><strong>1º</strong> Ana Beatriz – 12 livros</li>
-                <li><strong>2º</strong> João Pedro – 10 livros</li>
-                <li><strong>3º</strong> Carla Silva – 9 livros</li>
-            </ul>
-        </section>
-
-        <!-- Seção Destaques -->
-        <section class="featured">
-            <h2>Livros em Destaque</h2>
-            <div class="book-grid">
-                <div class="book-card">
-                    <img src="https://covers.openlibrary.org/b/id/8226191-L.jpg" alt="Capa do livro">
-                    <p>1984 – George Orwell</p>
-                </div>
-                <div class="book-card">
-                    <img src="https://covers.openlibrary.org/b/id/240727-L.jpg" alt="Capa do livro">
-                    <p>Orgulho e Preconceito – Jane Austen</p>
-                </div>
-                <div class="book-card">
-                    <img src="https://covers.openlibrary.org/b/id/5546156-L.jpg" alt="Capa do livro">
-                    <p>O Hobbit – J.R.R. Tolkien</p>
-                </div>
+    <!-- Sessão Informativa -->
+    <section class="intro">
+        <div class="content">
+            <div class="text">
+                <h2>In a world filled with quick fixes...</h2>
+                <p>Zen Path Retreats offers a variety of holistic experiences...</p>
+                <a href="#" class="btn">Explore Offerings</a>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Seção Rodapé simples -->
-        <footer>
-            <p>&copy; 2025 Entre Linhas – Todos os direitos reservados.</p>
-        </footer>
-    </main>
+    <!--Sessão Informativa-->
 
-    <script>
-        window.addEventListener("DOMContentLoaded", () => {
-          const carrossel = document.getElementById("carrossel");
-      
-          carrossel.innerHTML += carrossel.innerHTML;
-          carrossel.innerHTML += carrossel.innerHTML;
-          carrossel.innerHTML += carrossel.innerHTML;
-      
-          // Pausar a animação quando o mouse estiver sobre o carrossel
-          carrossel.addEventListener("mouseenter", () => {
-            carrossel.style.animationPlayState = "paused";
-          });
-      
-          carrossel.addEventListener("mouseleave", () => {
-            carrossel.style.animationPlayState = "running";
-          });
-        });
-      </script>
-      
+    <!--Sessão Categorias-->
+    <section class="quote-banner">
+        <p>Quiet the mind. Awaken the senses. Open your heart to receive.</p>
+    </section>
+
+    <section class="lost">
+        <div class="content">
+            <div class="text">
+                <h2>It's too easy to get lost in the hustle...</h2>
+                <p>Each retreat is a chance to unplug, rest, and reconnect...</p>
+            </div>
+            <div class="image">
+                <img src="deer.jpg" alt="Deer in the forest" />
+            </div>
+        </div>
+    </section>
+    <!--Sessão Categorias-->
+
+    <!--Algo-->
+    <section class="core-values">
+        <h2>Our Core Values</h2>
+        <div class="values-grid">
+            <div>Engagement</div>
+            <div>Awareness</div>
+            <div>Connection</div>
+            <div>Retreat</div>
+            <div>Adventure</div>
+        </div>
+    </section>
+    <!--Algo-->
+
+    <!--Desenvolvedora-->
+    <section class="about">
+        <div class="content">
+            <img src="stephanie.jpg" alt="Stephanie" class="profile-img" />
+            <div class="text">
+                <h3>Hi, I'm Stephanie (she/her).</h3>
+                <p>I'm a psychotherapist and certified forest therapy guide...</p>
+            </div>
+        </div>
+    </section>
+    <!--Desenvolvedora-->
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>But there is hope. There is an answer...</p>
+            <a href="#" class="btn">Explore Offerings</a>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Zen Path Retreats. All rights reserved.</p>
+        </div>
+    </footer>
+
+
+
 </body>
 
 </html>
