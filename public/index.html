@@ -1,148 +1,269 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/128/2702/2702184.png" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./assets/image/logo.png" type="image/x-icon">
     <title>Entre Linhas</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap"
-        rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body>
-    <!--NavBar-->
-    <header>
-        <h1><img src="./assets/image/logo.png" alt="">Entre Linhas</h1>
-        <nav>
-            <a href="#">Início</a>
-            <a href="#">Livros</a>
-            <a href="#">Categorias</a>
-            <a href="#">Desenvolvedora</a>
-            <a href="./login.html">Login</a>
-            <a href="./cadastro.html">Cadastro</a>
-        </nav>
-    </header>
-    <!--NavBar-->
-
-    <br><br><br><br>
-
-    <!--Banner-->
-    <div class="hero-section">
-        <div class="gradient-overlay">
-            <div class="text-container">
-                <h1>Conquer fatigue and burnout.</h1>
-                <p>Revitalize your spirit. Find connection.</p>
-            </div>
-        </div>
-    </div>
-    <!--Banner-->
-
-    <!-- Sessão Informativa -->
-    <section class="intro">
-        <div class="content">
-            <div class="text">
-                <h2>In a world filled with quick fixes...</h2>
-                <p>Zen Path Retreats offers a variety of holistic experiences...</p>
-                <a href="#" class="btn">Explore Offerings</a>
-            </div>
-        </div>
-    </section>
-
-    <!--Sessão Informativa-->
-
-    <!--Sessão Categorias-->
-    <section class="quote-banner">
-        <p>Quiet the mind. Awaken the senses. Open your heart to receive.</p>
-    </section>
-
-    <section class="lost">
-        <div class="content">
-            <div class="text">
-                <h2>It's too easy to get lost in the hustle...</h2>
-                <p>Each retreat is a chance to unplug, rest, and reconnect...</p>
-            </div>
-            <div class="image">
-                <img src="deer.jpg" alt="Deer in the forest" />
-            </div>
-        </div>
-    </section>
-    <!--Sessão Categorias-->
-
-    <!--Algo-->
-    <section class="core-values">
-        <h2>Our Core Values</h2>
-        <div class="values-grid">
-            <div>Roamce</div>
-            <div>Misterio</div>
-            <div>Fantasia</div>
-            <div>Ficção </div>
-            <div>Suspense e Terror</div>
-        </div>
-    </section>
-    <!--Algo-->
-
-    <!--Desenvolvedora-->
-    <section class="about">
-        <div class="content">
-            <div class="carousel">
-                <button class="prev">&#10094;</button>
-                <div class="carousel-images">
-                  <img src="./assets/image/banner.png" alt="Parque em cidade moderna">
-                  <img src="./assets/image/banner.png" alt="Rua pequena entre prédios">
-                  <img src="./assets/image/banner.png" alt="Vista aérea da cidade">
-                  <img src="./assets/image/banner.png" alt="Ponte à noite">
+    <!-- Header -->
+    <section id="header">
+        <div class="header container">
+            <div class="nav-bar">
+                <div class="brand">
+                    <a href="#hero">
+                        <h1><span>E</span>ntre <span>L</span>inhas</h1>
+                    </a>
                 </div>
-                <button class="next">&#10095;</button>
-              </div>
-              
-            <div class="text">
-                <h3>Olá, meu nome é Dandara</h3>
-                <p>Sou desenvolvedora em formação, apaixonada por tecnologia e sempre em busca de novos desafios.
-                    Atualmente estudo Sistemas de Informação e estou desenvolvendo projetos com foco em soluções
-                    criativas e funcionais.</p>
-                <a href="#contato" class="btn">Fale comigo</a>
+                <div class="nav-list">
+                    <div class="hamburger">
+                        <div class="bar"></div>
+                    </div>
+                    <ul>
+                        <li><a href="#hero" data-after="Home">Home</a></li>
+                        <li><a href="#services" data-after="Service">Livros</a></li>
+                        <li><a href="#projects" data-after="Projects">Generos</a></li>
+                        <li><a href="#about" data-after="About">Desenvolvedora</a></li>
+                        <li><a href="./login.html" data-after="Contact">Login</a></li>
+                        <li><a href="./cadastro.html" data-after="Contact">Cadastro</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
-    <!--Desenvolvedora-->
+    <!-- End Header -->
+
+
+    <!-- Hero Section  -->
+    <section id="hero">
+        <div class="hero container">
+            <div>
+                <h1>Cada página, <span></span></h1>
+                <h1>um novo universo <span></span></h1>
+                <h1>Venha explorar o seu <span></span></h1>
+                <a href="#projects" type="button" class="cta">Saiba Mais</a>
+            </div>
+        </div>
+    </section>
+    <!-- End Hero Section  -->
+
+    <!-- Service Section -->
+    <section id="services">
+        <div class="services container">
+            <div class="service-top">
+                <h1 class="section-title">Li<span>vr</span>os</h1>
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum deleniti maiores pariatur assumenda
+                    quas
+                    magni et, doloribus quod voluptate quasi molestiae magnam officiis dolorum, dolor provident atque
+                    molestias
+                    voluptatum explicabo!</p>
+            </div>
+            <div class="service-bottom">
+                <div class="service-item">
+                    <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/services.png" /></div>
+                    <h2>Web Design</h2>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis debitis rerum, magni voluptatem
+                        sed
+                        architecto placeat beatae tenetur officia quod</p>
+                </div>
+                <div class="service-item">
+                    <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/services.png" /></div>
+                    <h2>Web Design</h2>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis debitis rerum, magni voluptatem
+                        sed
+                        architecto placeat beatae tenetur officia quod</p>
+                </div>
+                <div class="service-item">
+                    <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/services.png" /></div>
+                    <h2>Web Design</h2>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis debitis rerum, magni voluptatem
+                        sed
+                        architecto placeat beatae tenetur officia quod</p>
+                </div>
+                <div class="service-item">
+                    <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/services.png" /></div>
+                    <h2>Web Design</h2>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis debitis rerum, magni voluptatem
+                        sed
+                        architecto placeat beatae tenetur officia quod</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Service Section -->
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="projects container">
+            <div class="projects-header">
+                <h1 class="section-title">Generos <span>Literarios</span></h1>
+            </div>
+            <div class="all-projects">
+                <div class="project-item">
+                    <div class="project-info">
+                        <h1>Romance</h1>
+                        <h2>Coding is Love</h2>
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad, iusto cupiditate voluptatum
+                            impedit unde
+                            rem ipsa distinctio illum quae mollitia ut, accusantium eius odio ducimus illo neque atque
+                            libero non sunt
+                            harum? Ipsum repellat animi, fugit architecto voluptatum odit et!</p>
+                    </div>
+                    <div class="project-img">
+                        <img src="./img/img-1.png" alt="img">
+                    </div>
+                </div>
+                <div class="project-item">
+                    <div class="project-info">
+                        <h1>Mśterio</h1>
+                        <h2>Coding is Love</h2>
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad, iusto cupiditate voluptatum
+                            impedit unde
+                            rem ipsa distinctio illum quae mollitia ut, accusantium eius odio ducimus illo neque atque
+                            libero non sunt
+                            harum? Ipsum repellat animi, fugit architecto voluptatum odit et!</p>
+                    </div>
+                    <div class="project-img">
+                        <img src="./img/img-1.png" alt="img">
+                    </div>
+                </div>
+                <div class="project-item">
+                    <div class="project-info">
+                        <h1>Fantasia</h1>
+                        <h2>Coding is Love</h2>
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad, iusto cupiditate voluptatum
+                            impedit unde
+                            rem ipsa distinctio illum quae mollitia ut, accusantium eius odio ducimus illo neque atque
+                            libero non sunt
+                            harum? Ipsum repellat animi, fugit architecto voluptatum odit et!</p>
+                    </div>
+                    <div class="project-img">
+                        <img src="./img/img-1.png" alt="img">
+                    </div>
+                </div>
+                <div class="project-item">
+                    <div class="project-info">
+                        <h1>Ficção</h1>
+                        <h2>Coding is Love</h2>
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad, iusto cupiditate voluptatum
+                            impedit unde
+                            rem ipsa distinctio illum quae mollitia ut, accusantium eius odio ducimus illo neque atque
+                            libero non sunt
+                            harum? Ipsum repellat animi, fugit architecto voluptatum odit et!</p>
+                    </div>
+                    <div class="project-img">
+                        <img src="./img/img-1.png" alt="img">
+                    </div>
+                </div>
+                <div class="project-item">
+                    <div class="project-info">
+                        <h1>Suspense e Terror</h1>
+                        <h2>Coding is Love</h2>
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad, iusto cupiditate voluptatum
+                            impedit unde
+                            rem ipsa distinctio illum quae mollitia ut, accusantium eius odio ducimus illo neque atque
+                            libero non sunt
+                            harum? Ipsum repellat animi, fugit architecto voluptatum odit et!</p>
+                    </div>
+                    <div class="project-img">
+                        <img src="./img/img-1.png" alt="img">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Projects Section -->
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="about container">
+            <div class="col-left">
+                <div class="about-img">
+                    <img src="./assets/image/dev.png" alt="img">
+                </div>
+            </div>
+            <div class="col-right">
+                <h1 class="section-title">Sobre a <span>Desenvolvedora</span></h1>
+                <h2>Estudante de Sistemas de Informação</h2>
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Asperiores, velit alias eius non illum
+                    beatae atque
+                    repellat ratione qui veritatis repudiandae adipisci maiores. At inventore necessitatibus deserunt
+                    exercitationem cumque earum omnis ipsum rem accusantium quis, quas quia, accusamus provident
+                    suscipit magni!
+                    Expedita sint ad dolore, commodi labore nihil velit earum ducimus nulla quae nostrum fugit aut,
+                    deserunt
+                    reprehenderit libero enim!</p>
+               <!-- <a href="#" class="cta">Download Resume</a>-->
+            </div>
+        </div>
+    </section>
+    <!-- End About Section -->
+
+    <!-- Contact Section 
+    <section id="contact">
+        <div class="contact container">
+            <div>
+                <h1 class="section-title">Contact <span>info</span></h1>
+            </div>
+            <div class="contact-items">
+                <div class="contact-item">
+                    <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/phone.png" /></div>
+                    <div class="contact-info">
+                        <h1>Phone</h1>
+                        <h2>+1 234 123 1234</h2>
+                        <h2>+1 234 123 1234</h2>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/new-post.png" /></div>
+                    <div class="contact-info">
+                        <h1>Email</h1>
+                        <h2>info@gmail.com</h2>
+                        <h2>abcd@gmail.com</h2>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/map-marker.png" /></div>
+                    <div class="contact-info">
+                        <h1>Address</h1>
+                        <h2>Fatikchhari, Chittagong, Bangladesh</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    End Contact Section -->
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <p>But there is hope. There is an answer...</p>
-            <a href="#" class="btn">Explore Offerings</a>
+    <section id="footer">
+        <div class="footer container">
+            <div class="brand">
+                <h1><span>E</span>ntre <span>L</span>inhas</h1>
+            </div>
+            <h2>Clube do livro Gamificado</h2>
+            <div class="social-icon">
+                <div class="social-item">
+                    <a href="#"><img src="https://img.icons8.com/bubbles/100/000000/facebook-new.png" /></a>
+                </div>
+                <div class="social-item">
+                    <a href="#"><img src="https://img.icons8.com/bubbles/100/000000/instagram-new.png" /></a>
+                </div>
+                <div class="social-item">
+                    <a href="#"><img src="https://img.icons8.com/bubbles/100/000000/twitter.png" /></a>
+                </div>
+                <div class="social-item">
+                    <a href="#"><img src="https://img.icons8.com/bubbles/100/000000/behance.png" /></a>
+                </div>
+            </div>
+            <p>Copyright © 2025 Entre Linhas. Todos os direitos reservados</p>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Zen Path Retreats. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script>
-        const carousel = document.querySelector('.carousel-images');
-        const images = document.querySelectorAll('.carousel-images img');
-        const prev = document.querySelector('.prev');
-        const next = document.querySelector('.next');
-
-        let index = 0;
-
-        function updateCarousel() {
-            carousel.style.transform = `translateX(-${index * 500}px)`;
-        }
-
-        prev.addEventListener('click', () => {
-            index = (index - 1 + images.length) % images.length;
-            updateCarousel();
-        });
-
-        next.addEventListener('click', () => {
-            index = (index + 1) % images.length;
-            updateCarousel();
-        });
-    </script>
-
-
+    </section>
+    <!-- End Footer -->
+    <script src="./app.js"></script>
 </body>
 
 </html>
