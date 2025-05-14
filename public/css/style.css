@@ -1,0 +1,315 @@
+/* Para navegadores baseados em Webkit */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  /* cor semi-transparente */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+  /* mais visível no hover */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  /* Impede rolagem horizontal */
+}
+
+body {
+  margin: 0;
+  font-family: 'Georgia', serif;
+  background-color: #f4f1e6;
+  color: #333;
+  overflow: clip;
+
+}
+
+/*NavBar*/
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 1.5rem;
+  background: #4b3621;
+  border-bottom: 2px solid #c2b280 solid transparent;
+  font-family: 'Georgia', serif;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 500;
+}
+
+header h1 {
+  color: #f0e6d2;
+  font-weight: 600;
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+header img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+nav a {
+  color: #f0e6d2;
+  margin-left: 1.2rem;
+  text-decoration: none;
+  font-size: 1rem;
+  position: relative;
+  padding: 0.5rem 0;
+  transition: color 0.3s ease;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0%;
+  background-color: #d4af7f;
+  transition: width 0.3s ease;
+}
+
+nav a:hover {
+  color: #d4af7f;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/*NavBar*/
+
+/*Banner*/
+.hero-section {
+  background: url('https://www.le.com.br/blog/wp-content/uploads/2021/09/Biblioteca-Strahov.jpg') center/cover no-repeat;
+  background-size: contain;
+  height: 100vh;
+  position: relative;
+  color: #fff;
+  font-family: 'Georgia', serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+
+}
+
+
+.overlay {
+  background: rgba(0, 0, 0, 0.4);
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.text-container {
+  max-width: 800px;
+  margin: 0 auto;
+  z-index: 2;
+}
+
+.hero-section h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+  color: #f9f6f2;
+}
+
+.hero-section p {
+  font-size: 1.2rem;
+  color: #e0dbd1;
+}
+
+/*Banner*/
+
+/*Sessão Informativa*/
+.intro {
+  border-radius: 20px 20px 0 0;
+  overflow: hidden;
+  background-color: #f4f1e6;
+  padding: 2.5rem;
+  margin: -250px auto 8rem auto;
+  /* <- margem negativa no topo */
+  width: 100%;
+  position: relative;
+  z-index: 10;
+  /* <- fica acima do banner */
+}
+
+section {
+  padding: 4rem 2rem;
+}
+
+
+
+/*Dev*/
+
+.intro .content,
+.lost .content,
+.about .content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5rem;
+  align-items: center;
+  justify-content: center;
+  padding: 5.5rem;
+}
+
+.text {
+  max-width: 500px;
+}
+
+.image img,
+.profile-img {
+  max-width: 300px;
+  border-radius: 10px;
+}
+
+.carousel {
+  position: relative;
+  width: 500px;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-images {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-images img {
+  width: 500px;
+  flex-shrink: 0;
+}
+
+.prev,
+.next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 1rem;
+  cursor: pointer;
+  font-size: 1.5rem;
+  z-index: 10;
+  border-radius: 50%;
+}
+
+.prev {
+  left: 10px;
+}
+
+.next {
+  right: 10px;
+}
+
+
+.btn {
+  display: inline-block;
+  padding: 0.7rem 1.5rem;
+  background-color: #54624b;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-top: 1rem;
+}
+
+/*Sessão Informativa*/
+
+/*Sessão Categorias*/
+.quote-banner {
+  background-color: #dcd9be;
+  padding: 8rem;
+  text-align: center;
+  font-style: italic;
+}
+
+.hope {
+  background-color: #e1e6dc;
+  text-align: center;
+  padding: 2rem;
+}
+
+.core-values {
+  background-color: #593d3b;
+  color: white;
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.core-values .values-grid {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.core-values .values-grid div {
+  background-color: #7a5c5c;
+  padding: 1rem 1.5rem;
+  border-radius: 30px;
+}
+
+.footer {
+  background-color: #2e2e2e;
+  color: #f0f0f0;
+  text-align: center;
+  padding: 2.5rem 1.5rem 1.5rem;
+  font-family: 'Georgia', serif;
+}
+
+.footer .btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.8rem 1rem;
+  background-color: #8d6748;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.footer .btn:hover {
+  background-color: #a87c58;
+}
+
+.footer-bottom {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: #bbb;
+}

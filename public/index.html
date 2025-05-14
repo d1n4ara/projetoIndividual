@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/128/2702/2702184.png" type="image/x-icon">
+    <title>Entre Linhas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <!--NavBar-->
+    <header>
+        <h1><img src="./assets/image/logo.png" alt="">Entre Linhas</h1>
+        <nav>
+            <a href="#">Início</a>
+            <a href="#">Livros</a>
+            <a href="#">Categorias</a>
+            <a href="#">Desenvolvedora</a>
+            <a href="./login.html">Login</a>
+            <a href="./cadastro.html">Cadastro</a>
+        </nav>
+    </header>
+    <!--NavBar-->
+
+    <br><br><br><br>
+
+    <!--Banner-->
+    <div class="hero-section">
+        <div class="gradient-overlay">
+            <div class="text-container">
+                <h1>Conquer fatigue and burnout.</h1>
+                <p>Revitalize your spirit. Find connection.</p>
+            </div>
+        </div>
+    </div>
+    <!--Banner-->
+
+    <!-- Sessão Informativa -->
+    <section class="intro">
+        <div class="content">
+            <div class="text">
+                <h2>In a world filled with quick fixes...</h2>
+                <p>Zen Path Retreats offers a variety of holistic experiences...</p>
+                <a href="#" class="btn">Explore Offerings</a>
+            </div>
+        </div>
+    </section>
+
+    <!--Sessão Informativa-->
+
+    <!--Sessão Categorias-->
+    <section class="quote-banner">
+        <p>Quiet the mind. Awaken the senses. Open your heart to receive.</p>
+    </section>
+
+    <section class="lost">
+        <div class="content">
+            <div class="text">
+                <h2>It's too easy to get lost in the hustle...</h2>
+                <p>Each retreat is a chance to unplug, rest, and reconnect...</p>
+            </div>
+            <div class="image">
+                <img src="deer.jpg" alt="Deer in the forest" />
+            </div>
+        </div>
+    </section>
+    <!--Sessão Categorias-->
+
+    <!--Algo-->
+    <section class="core-values">
+        <h2>Our Core Values</h2>
+        <div class="values-grid">
+            <div>Roamce</div>
+            <div>Misterio</div>
+            <div>Fantasia</div>
+            <div>Ficção </div>
+            <div>Suspense e Terror</div>
+        </div>
+    </section>
+    <!--Algo-->
+
+    <!--Desenvolvedora-->
+    <section class="about">
+        <div class="content">
+            <div class="carousel">
+                <button class="prev">&#10094;</button>
+                <div class="carousel-images">
+                  <img src="./assets/image/banner.png" alt="Parque em cidade moderna">
+                  <img src="./assets/image/banner.png" alt="Rua pequena entre prédios">
+                  <img src="./assets/image/banner.png" alt="Vista aérea da cidade">
+                  <img src="./assets/image/banner.png" alt="Ponte à noite">
+                </div>
+                <button class="next">&#10095;</button>
+              </div>
+              
+            <div class="text">
+                <h3>Olá, meu nome é Dandara</h3>
+                <p>Sou desenvolvedora em formação, apaixonada por tecnologia e sempre em busca de novos desafios.
+                    Atualmente estudo Sistemas de Informação e estou desenvolvendo projetos com foco em soluções
+                    criativas e funcionais.</p>
+                <a href="#contato" class="btn">Fale comigo</a>
+            </div>
+        </div>
+    </section>
+    <!--Desenvolvedora-->
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>But there is hope. There is an answer...</p>
+            <a href="#" class="btn">Explore Offerings</a>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Zen Path Retreats. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const carousel = document.querySelector('.carousel-images');
+        const images = document.querySelectorAll('.carousel-images img');
+        const prev = document.querySelector('.prev');
+        const next = document.querySelector('.next');
+
+        let index = 0;
+
+        function updateCarousel() {
+            carousel.style.transform = `translateX(-${index * 500}px)`;
+        }
+
+        prev.addEventListener('click', () => {
+            index = (index - 1 + images.length) % images.length;
+            updateCarousel();
+        });
+
+        next.addEventListener('click', () => {
+            index = (index + 1) % images.length;
+            updateCarousel();
+        });
+    </script>
+
+
+</body>
+
+</html>
