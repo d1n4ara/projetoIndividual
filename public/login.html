@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <script src="./js/sessao.js"></script>
 
-    <!--<link rel="stylesheet" type="text/css" href="css/login.css" media="screen" />-->
+    <link rel="shortcut icon" href="./assets/image/logo.png" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="css/login.css" media="screen" />
     <title>Entre Linhas | Login</title>
 </head>
-<body>
+<!--<body>
     <div id="container">
 
         <div class="alerta_erro">
@@ -37,7 +39,45 @@
             </div>
         </div>
     </div>
+</body>-->
+
+<body>
+    <div id="container">
+        <div id="imagem_login">
+            <img src="./assets/image/login.png" alt="Ilustração Entre Linhas">
+        </div>
+
+        <div id="formulario_login">
+            <div class="alerta_erro">
+                <div class="card_erro" id="cardErro">
+                    <span id="mensagem_erro"></span>
+                </div>
+            </div>
+
+            <div id="div_login">
+                <div id="div_titulo">Login</div>
+                <div id="corpo_login">
+                    <div id="div_email">
+                        <label>E-mail:</label>
+                        <input type="text" id="iptEmail">
+                    </div>
+                    <div id="div_senha">
+                        <label>Senha:</label>
+                        <input type="password" id="iptSenha">
+                    </div>
+                    <div id="div_button">
+                        <button onclick="entrar()">Entrar</button>
+                    </div>
+                    <div id="div_cadastro">
+                        <span>Não tem conta?</span>
+                        <a href="./cadastro.html">Cadastre-se</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>
 <script>
     function entrar() {

@@ -1,0 +1,147 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Estilização geral da página */
+body {
+    background: linear-gradient(to right, #f8f3ed, #d7c4a3);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Container principal */
+#container {
+    display: flex;
+    flex-direction: row;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 850px;
+    max-width: 95%;
+}
+
+/* Área da imagem */
+#imagem_cadastro {
+    width: 50%;
+    background-color: #f2ede4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#imagem_cadastro img {
+    max-width: 110%;
+    height: auto;
+    padding: 30px;
+}
+
+/* Área do formulário */
+#div_cadastro {
+    width: 50%;
+    padding: 40px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Título */
+#div_titulo {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #5e412f;
+    margin-bottom: 30px;
+    font-family: 'Georgia', serif;
+}
+
+/* Corpo do cadastro */
+#corpo_cadastro {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#corpo_cadastro label {
+    font-weight: bold;
+    color: #5e412f;
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+
+#corpo_cadastro input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #c8bca7;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#corpo_cadastro input:focus {
+    border-color: #9a7e58;
+}
+
+/* Botão de cadastro */
+#div_button button {
+    width: 100%;
+    padding: 12px;
+    background-color: #9a7e58;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+#div_button button:hover {
+    background-color: #7e6343;
+}
+
+/* Link para login */
+#div_login {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+#div_login a {
+    color: #9a7e58;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+#div_login a:hover {
+    text-decoration: underline;
+}
+
+/* Mensagem de erro */
+.alerta_erro {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    display: none;
+    z-index: 999;
+}
+
+.card_erro {
+    background-color: #ffdddd;
+    color: #d8000c;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid #d8000c;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}

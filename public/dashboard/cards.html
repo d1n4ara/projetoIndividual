@@ -2,119 +2,233 @@
 <html lang="pt-br">
 
 <head>
-    <link rel="shortcut icon" href="../assets/icon/favicon2.ico" type="image/x-icon">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AquaTech | Tempo Real</title>
-
-
-    <link rel="stylesheet" href="./../css/dashboards.css">
-    <link rel="stylesheet" href="./../css/estilo.css" />
-
-    <script src="../js/sessao.js"></script>
-    <script src="../js/alerta.js"></script>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet">
-</head>
-
-<body onload="validarSessao(), exibirAquarios(),  atualizacaoPeriodica()">
-
-    <div class="janela">
-
-        <div class="header-left dash-header">
-
-            <h1>AquaTech</h1>
-
-            <div class="hello">
-                <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
-            </div>
-
-            <div class="btn-nav">
-                <h3>Aquários</h3>
-            </div>
-
-            <div class="btn-nav-white">
-                <a href="./dashboard.html">
-                    <h3>Gráficos</h3>
-                </a>
-            </div>
-
-            <div class="btn-nav-white">
-                <a href="./mural.html">
-                    <h3>Mural de Avisos</h3>
-                </a>
-            </div>
-
-            <div class="btn-logout" onclick="limparSessao()">
-                <h3>Sair</h3>
-            </div>
-
-        </div>
-
-        <div class="dash">
-            <div id="alerta">
-            </div>
-            <div class="area-parametros-alerta">
-                <p class="titulo-legenda">
-                    Legenda - Parâmetros para Alertas
-                </p>
-                <div class="parametros-alerta">
-                    <div class="item-regua perigo-frio">
-                        <p>Perigo</p>
-                        <p>&lt;=5°C</p>
-                    </div>
-                    <div class="item-regua alerta-frio">
-                        <p>Alerta</p>
-                        <p>&lt;=10°C</p>
-                    </div>
-                    <div class="item-regua ideal">
-                        <p>Ideal</p>
-                        <p>20°C</p>
-                    </div>
-                    <div class="item-regua alerta-quente">
-                        <p>Alerta</p>
-                        <p>&gt;=22°C</p>
-                    </div>
-                    <div class="item-regua perigo-quente">
-                        <p>Perigo</p>
-                        <p>&gt;=23°C</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="cards" id="cardAquarios">
-
-            </div>
-
-        </div>
-
-    </div>
-
-</body>
-
-<script>
-
-    function exibirAquarios() {
-        JSON.parse(sessionStorage.AQUARIOS).forEach(item => {
-            document.getElementById("cardAquarios").innerHTML += `
-                    <div class="card-aquario">
-                        <div class="title-aquario">
-                            <h1>${item.descricao}</h1>
-                        </div>
-                        <div class="desc-aquario">
-                        <div class="temperatura">
-                            <p id="temp_aquario_${item.id}">-°C</p>
-                        </div>
-                        <div class="cor-alerta" id="card_${item.id}"></div>
-                    </div>
-                    </div>
-                    `
-        });
+  <meta charset="UTF-8" />
+  <title>Dashboard - Entre Linhas</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
     }
 
-</script>
+    body,
+    html {
+      margin: 0;
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #fdfaf6;
+      color: #3a2e2e;
+      overflow: hidden;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    nav.menu-lateral {
+      width: 240px;
+      background: #a58b65;
+      color: white;
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+      user-select: none;
+    }
+
+    nav.menu-lateral h2 {
+      margin: 0 0 1rem 0;
+      font-weight: 700;
+      font-size: 1.3rem;
+    }
+
+    nav.menu-lateral a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      transition: background-color 0.25s ease;
+    }
+
+    nav.menu-lateral a:hover,
+    nav.menu-lateral a.active {
+      background: #fff7ed;
+      color: #a58b65;
+      font-weight: 700;
+    }
+
+    main.main-content {
+      flex-grow: 1;
+      padding: 2rem;
+      overflow-y: auto;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+
+    .kpi {
+      background: #fff7ed;
+      padding: 4rem;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      font-weight: 600;
+      user-select: none;
+    }
+
+    /* NOVO: Conteúdo inferior */
+    .conteudo-inferior {
+      display: flex;
+      gap: 2rem;
+      width: 100%;
+    }
+
+    .ranking {
+      flex: 1;
+      background: #fff7ed;
+      padding: 1rem;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      max-width: 300px;
+      user-select: none;
+    }
+
+    .ranking h3 {
+      margin-top: 0;
+    }
+
+    .ranking ol {
+      padding-left: 1.2rem;
+    }
+
+    .ranking li {
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .graficos {
+      flex: 3;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    canvas {
+      background: white;
+      border-radius: 16px;
+      padding: 1rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      width: 100% !important;
+      height: 385px !important;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <nav class="menu-lateral" aria-label="Menu de navegação">
+      <h2>📚 Entre Linhas</h2>
+      <a href="./dashboard.html" class="active">Dashboard</a>
+      <a href="./quiz.html">Quiz</a>
+      <a href="./livros.html">Catálogo de Livros</a>
+      <a href="./desafio.html">Desafios e Missões</a>
+      <a href="./perfil.html">Perfil</a>
+      <a href="../index.html">Sair</a>
+      
+    </nav>
+
+    <main class="main-content" role="main" aria-label="Conteúdo principal da dashboard">
+      <section class="kpis" id="kpis"></section>
+
+      <section class="conteudo-inferior">
+        <div class="ranking" id="ranking">
+          <h3>🏆 Ranking</h3>
+          <ol>
+            <li>Usuário A - 1500 pts</li>
+            <li>Usuário B - 1200 pts</li>
+            <li>Usuário C - 900 pts</li>
+          </ol>
+        </div>
+
+        <div class="graficos">
+          <canvas id="graficoGeneros" aria-label="Gráfico de gêneros mais lidos" role="img"></canvas>
+          <canvas id="graficoQuiz" aria-label="Gráfico de respostas do quiz" role="img"></canvas>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const idUsuario = 1;
+
+    async function carregarKPIs() {
+      const resposta = await fetch(`/entrelinhas/kpis/${idUsuario}`);
+      const dados = await resposta.json();
+      const kpis = document.getElementById('kpis');
+      kpis.innerHTML = `
+        <div class="kpi">📚 <strong>${dados.livrosLidos}</strong><br>Livros lidos</div>
+        <div class="kpi">📅 <strong>${dados.paginasPorMes}</strong><br>Páginas este mês</div>
+        <div class="kpi">🌟 <strong>${dados.favoritos}</strong><br>Favoritos</div>
+        <div class="kpi">🧭 <strong>${dados.pontuacao}</strong><br>${dados.nivel}</div>
+      `;
+    }
+
+    async function carregarGeneros() {
+      const resposta = await fetch(`/entrelinhas/generos/${idUsuario}`);
+      const dados = await resposta.json();
+      new Chart(document.getElementById('graficoGeneros'), {
+        type: 'bar',
+        data: {
+          labels: dados.labels,
+          datasets: [{
+            label: 'Gêneros mais lidos',
+            backgroundColor: '#a58b65',
+            data: dados.valores
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: { beginAtZero: true }
+          }
+        }
+      });
+    }
+
+    async function carregarQuiz() {
+      const resposta = await fetch(`/entrelinhas/quiz/${idUsuario}`);
+      const dados = await resposta.json();
+      new Chart(document.getElementById('graficoQuiz'), {
+        type: 'doughnut',
+        data: {
+          labels: ['Acertos', 'Erros'],
+          datasets: [{
+            backgroundColor: ['#2ecc71', '#e74c3c'],
+            data: [dados.certas || 0, dados.erradas || 0]
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+        }
+      });
+    }
+
+    carregarKPIs();
+    carregarGeneros();
+    carregarQuiz();
+  </script>
+</body>
 
 </html>
