@@ -4,20 +4,20 @@ async function obterKPIs(req, res) {
   const { idUsuario } = req.params;
 
   try {
-    const [livrosLidosRows] = await database.execute(`
+    const livrosLidosRows = await database.executar(`
       SELECT COUNT(*) AS total FROM leitura WHERE idUsuario = ? AND finalizado = 1
     `, [idUsuario]);
 
-    const [paginasMesRows] = await database.execute(`
+    const paginasMesRows = await database.executar(`
       SELECT SUM(paginasLidas) AS total FROM leitura 
       WHERE idUsuario = ? AND MONTH(dataLeitura) = MONTH(CURDATE())
     `, [idUsuario]);
 
-    const [favoritosRows] = await database.execute(`
+    const favoritosRows = await database.executar(`
       SELECT COUNT(*) AS total FROM livro_favorito WHERE idUsuario = ?
     `, [idUsuario]);
 
-    const [pontuacaoRows] = await database.execute(`
+    const pontuacaoRows = await database.executar(`
       SELECT pontuacao FROM usuario WHERE id = ?
     `, [idUsuario]);
 
@@ -45,7 +45,7 @@ async function obterGenerosLidos(req, res) {
   const { idUsuario } = req.params;
 
   try {
-    const [rows] = await database.execute(`
+    const rows = await database.executar(`
       SELECT g.nome AS genero, COUNT(*) AS total
       FROM leitura l
       JOIN livro lv ON l.idLivro = lv.id
@@ -67,7 +67,7 @@ async function obterGenerosLidos(req, res) {
 
 async function obterRanking(req, res) {
   try {
-    const [rows] = await database.execute(`
+    const rows = await database.executar(`
       SELECT nome, pontuacao FROM usuario ORDER BY pontuacao DESC LIMIT 5
     `);
 
@@ -86,7 +86,7 @@ async function obterQuiz(req, res) {
   const { idUsuario } = req.params;
 
   try {
-    const [resultado] = await database.execute(`
+    const resultado = await database.executar(`
       SELECT 
         SUM(CASE WHEN correta = 1 THEN 1 ELSE 0 END) AS certas,
         SUM(CASE WHEN correta = 0 THEN 1 ELSE 0 END) AS erradas
