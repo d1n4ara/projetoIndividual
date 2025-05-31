@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,15 +10,88 @@
     <link rel="shortcut icon" href="./assets/image/logo.png" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="css/cadastro.css" media="screen" />
     <title>Entre Linhas| Cadastro</title>
+    <style>
+        /* Estilo para o loading */
+        #loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .loading-spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #ff6b9d;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            margin-top: 15px;
+            color: #ff6b9d;
+            font-weight: bold;
+        }
+
+        /* Estilo para as mensagens */
+        .mensagem-flutuante {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 25px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1001;
+            animation: fadeInOut 3s forwards;
+            display: none;
+        }
+
+        .mensagem-sucesso {
+            background-color: #2ecc71;
+        }
+
+        .mensagem-erro {
+            background-color: #e74c3c;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; top: 10px; }
+            10% { opacity: 1; top: 20px; }
+            90% { opacity: 1; top: 20px; }
+            100% { opacity: 0; top: 10px; }
+        }
+    </style>
 </head>
+
 <body>
     <div id="container">
-
-        <div class="alerta_erro">
-            <div class="card_erro" id="cardErro">
-                <span id="mensagem_erro"></span>
+        <!-- Overlay de loading -->
+        <div id="loading-overlay">
+            <div style="text-align: center;">
+                <div class="loading-spinner"></div>
+                <div class="loading-text">Cadastrando...</div>
             </div>
         </div>
+
+        <!-- Mensagens flutuantes -->
+        <div id="mensagemSucesso" class="mensagem-flutuante mensagem-sucesso"></div>
+        <div id="mensagemErro" class="mensagem-flutuante mensagem-erro"></div>
 
         <div id="imagem_cadastro">
             <img src="./assets/image/login.png" alt="Ilustração Entre Linhas">
@@ -27,23 +101,39 @@
             <div id="div_titulo">
                 Cadastro
             </div>
-            
+
             <div id="corpo_cadastro">
                 <div id="div_nome">
                     <label>Nome:</label>
-                    <input type="text" id="iptNome" placeholder="Ex: André Leão">
+                    <input type="text" id="iptNome" placeholder="Ex: Dandara Ramos" oninput="validarNome()">
+                    <span class="erro-validacao" id="erroNome"></span>
                 </div>
                 <div id="div_email">
                     <label>E-mail:</label>
-                    <input type="text" id="iptEmail" placeholder="andre@gmail.com">
+                    <input type="text" id="iptEmail" placeholder="dandara@gmail.com" oninput="validarEmail()">
+                    <span class="erro-validacao" id="erroEmail"></span>
+                </div>
+                <div id="div_genero">
+                    <label>Gênero Literário Favorito:</label>
+                    <select id="iptGenero" onchange="validarGenero()">
+                        <option value="">Selecione seu gênero favorito</option>
+                        <option value="1">Romance</option>
+                        <option value="2">Mistério</option>
+                        <option value="3">Fantasia</option>
+                        <option value="4">Ficção</option>
+                        <option value="5">Suspense e Terror</option>
+                    </select>
+                    <span class="erro-validacao" id="erroGenero"></span>
                 </div>
                 <div id="div_senha">
                     <label>Senha:</label>
-                    <input type="password" id="iptSenha" placeholder="********">
+                    <input type="password" id="iptSenha" placeholder="********" oninput="validarSenha()">
+                    <span class="erro-validacao" id="erroSenha"></span>
                 </div>
                 <div id="div_confirmarSenha">
                     <label>Confirme sua senha:</label>
-                    <input type="password" id="iptConfirmacaoSenha" placeholder="********">
+                    <input type="password" id="iptConfirmacaoSenha" placeholder="********" oninput="validarConfirmacaoSenha()">
+                    <span class="erro-validacao" id="erroConfirmacaoSenha"></span>
                 </div>
                 <div id="div_button">
                     <button onclick="cadastrar()">Cadastrar</button>
@@ -51,88 +141,230 @@
 
                 <div id="div_login">
                     <span>Ja possui sua conta?</span>
-                    <a href="./login.html">Entrar</a>
+                    <a href="#" onclick="irParaLogin()">Entrar</a>
                 </div>
-
-                
             </div>
 
             <div id="div_erros_login"></div>
         </div>
     </div>
 </body>
+
 </html>
 
 <script>
-    function cadastrar() {
-        // aguardar();
+    // Variáveis para controle de validação
+    var nomeValido = false;
+    var emailValido = false;
+    var senhaValida = false;
+    var confirmacaoValida = false;
+    var generoValido = false;
 
-        //Recupere o valor da nova input pelo nome do id
-        // Agora vá para o método fetch logo abaixo
-        var nomeVar = iptNome.value;
-        var emailVar = iptEmail.value;
-        var senhaVar = iptSenha.value;
-        var confirmacaoSenhaVar = iptConfirmacaoSenha.value;
+    function validarGenero() {
+        var genero = document.getElementById('iptGenero').value;
+        var erroGenero = document.getElementById('erroGenero');
+
+        if (genero === "") {
+            erroGenero.textContent = "Por favor, selecione um gênero";
+            generoValido = false;
+        } else {
+            erroGenero.textContent = "";
+            generoValido = true;
+        }
+    }
+
+    function validarNome() {
+        var nome = iptNome.value.trim();
+        var erroNome = document.getElementById('erroNome');
+
+        if (nome.length < 3) {
+            erroNome.textContent = "Nome deve ter pelo menos 3 caracteres";
+            nomeValido = false;
+        } else if (nome.length > 50) {
+            erroNome.textContent = "Nome não pode exceder 50 caracteres";
+            nomeValido = false;
+        } else if (!/^[a-zA-ZÀ-ÿ\s]+$/.test(nome)) {
+            erroNome.textContent = "Nome deve conter apenas letras e espaços";
+            nomeValido = false;
+        } else {
+            erroNome.textContent = "";
+            nomeValido = true;
+        }
+    }
+
+    function validarEmail() {
+        var email = iptEmail.value.trim();
+        var erroEmail = document.getElementById('erroEmail');
+        var regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!regexEmail.test(email)) {
+            erroEmail.textContent = "Por favor, insira um e-mail válido";
+            emailValido = false;
+        } else {
+            erroEmail.textContent = "";
+            emailValido = true;
+        }
+    }
+
+    function validarSenha() {
+        var senha = iptSenha.value;
+        var erroSenha = document.getElementById('erroSenha');
+
+        if (senha.length < 8) {
+            erroSenha.textContent = "Senha deve ter pelo menos 8 caracteres";
+            senhaValida = false;
+        } else if (!/[A-Z]/.test(senha)) {
+            erroSenha.textContent = "Senha deve conter pelo menos uma letra maiúscula";
+            senhaValida = false;
+        } else if (!/[0-9]/.test(senha)) {
+            erroSenha.textContent = "Senha deve conter pelo menos um número";
+            senhaValida = false;
+        } else {
+            erroSenha.textContent = "";
+            senhaValida = true;
+            if (iptConfirmacaoSenha.value) {
+                validarConfirmacaoSenha();
+            }
+        }
+    }
+
+    function validarConfirmacaoSenha() {
+        var senha = iptSenha.value;
+        var confirmacao = iptConfirmacaoSenha.value;
+        var erroConfirmacao = document.getElementById('erroConfirmacaoSenha');
+
+        if (confirmacao !== senha) {
+            erroConfirmacao.textContent = "As senhas não coincidem";
+            confirmacaoValida = false;
+        } else {
+            erroConfirmacao.textContent = "";
+            confirmacaoValida = true;
+        }
+    }
+
+    function mostrarLoading() {
+        document.getElementById('loading-overlay').style.display = 'flex';
+    }
+
+    function esconderLoading() {
+        document.getElementById('loading-overlay').style.display = 'none';
+    }
+
+    function mostrarMensagemErro(mensagem) {
+        const mensagemErro = document.getElementById('mensagemErro');
+        mensagemErro.textContent = mensagem;
+        mensagemErro.style.display = 'block';
+        
+        // Esconde a mensagem após 3 segundos
+        setTimeout(() => {
+            mensagemErro.style.display = 'none';
+        }, 3000);
+    }
+
+    function mostrarMensagemSucesso(mensagem) {
+        const mensagemSucesso = document.getElementById('mensagemSucesso');
+        mensagemSucesso.textContent = mensagem;
+        mensagemSucesso.style.display = 'block';
+        
+        // Esconde a mensagem após 3 segundos
+        setTimeout(() => {
+            mensagemSucesso.style.display = 'none';
+        }, 3000);
+    }
+
+    function cadastrar() {
+        // Valida todos os campos antes de enviar
+        validarNome();
+        validarEmail();
+        validarGenero();
+        validarSenha();
+        validarConfirmacaoSenha();
+
+        // Verifica se todos os campos são válidos
+        if (!nomeValido || !emailValido || !generoValido || !senhaValida || !confirmacaoValida) {
+            mostrarMensagemErro("Por favor, corrija os erros no formulário antes de enviar.");
+            return false;
+        }
 
         // Verificando se há algum campo em branco
         if (
-            nomeVar == "" ||
-            emailVar == "" ||
-            senhaVar == "" ||
-            confirmacaoSenhaVar == "" 
+            iptNome.value.trim() == "" ||
+            iptEmail.value.trim() == "" ||
+            iptGenero.value == "" ||
+            iptSenha.value == "" ||
+            iptConfirmacaoSenha.value == ""
         ) {
-            cardErro.style.display = "block";
-            mensagem_erro.innerHTML =
-            "(Mensagem de erro para todos os campos em branco)";
-
-            finalizarAguardar();
+            mostrarMensagemErro("Todos os campos são obrigatórios.");
             return false;
-        } else {
-            setInterval(sumirMensagem, 5000);
         }
+
+        mostrarLoading();
 
         // Enviando o valor da nova input
         fetch("/usuarios/cadastrar", {
             method: "POST",
             headers: {
-            "Content-Type": "application/json",
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({
-            // crie um atributo que recebe o valor recuperado aqui
-            // Agora vá para o arquivo routes/usuario.js
-            nomeServer: nomeVar,
-            emailServer: emailVar,
-            senhaServer: senhaVar
+                nomeServer: iptNome.value.trim(),
+                emailServer: iptEmail.value.trim(),
+                generoServer: document.getElementById('iptGenero').value,
+                senhaServer: iptSenha.value
             }),
         })
-            .then(function (resposta) {
+        .then(function (resposta) {
             console.log("resposta: ", resposta);
 
             if (resposta.ok) {
-                cardErro.style.display = "block";
-
-                mensagem_erro.innerHTML =
-                "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
-
-                setTimeout(() => {
-                window.location = "login.html";
-                }, "2000");
-
-                limparFormulario();
-                finalizarAguardar();
+                return resposta.json();
             } else {
-                throw "Houve um erro ao tentar realizar o cadastro!";
+                throw new Error("Erro ao cadastrar");
             }
-            })
-            .catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
-            finalizarAguardar();
-            });
+        })
+        .then(function (dados) {
+            mostrarMensagemSucesso("Cadastro realizado com sucesso! Redirecionando para login...");
+            limparFormulario();
+            
+            // Redireciona após 2 segundos
+            setTimeout(() => {
+                window.location = "login.html";
+            }, 2000);
+        })
+        .catch(function (erro) {
+            console.error(`#ERRO: ${erro}`);
+            if (erro.message.includes("email")) {
+                mostrarMensagemErro("Este e-mail já está cadastrado.");
+            } else {
+                mostrarMensagemErro("Erro ao cadastrar. Tente novamente mais tarde.");
+            }
+        })
+        .finally(function () {
+            esconderLoading();
+        });
 
         return false;
     }
 
-    function sumirMensagem() {
-        cardErro.style.display = "none";
+    function limparFormulario() {
+        iptNome.value = "";
+        iptEmail.value = "";
+        iptSenha.value = "";
+        iptConfirmacaoSenha.value = "";
+        document.getElementById('iptGenero').value = "";
+        document.querySelectorAll('.erro-validacao').forEach(el => el.textContent = "");
     }
-    </script>
+
+    function irParaLogin() {
+        document.body.classList.add('animacao-entrada');
+        sessionStorage.setItem('animarEntrada', 'true');
+        setTimeout(() => {
+            window.location.href = 'login.html';
+        }, 500);
+    }
+
+    if (sessionStorage.getItem('animarEntrada') === 'true') {
+        document.body.classList.add('animacao-entrada');
+        sessionStorage.removeItem('animarEntrada');
+    }
+</script>

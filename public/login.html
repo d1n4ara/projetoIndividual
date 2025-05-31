@@ -11,35 +11,6 @@
     <link rel="stylesheet" type="text/css" href="css/login.css" media="screen" />
     <title>Entre Linhas | Login</title>
 </head>
-<!--<body>
-    <div id="container">
-
-        <div class="alerta_erro">
-            <div class="card_erro" id="cardErro">
-                <span id="mensagem_erro"></span>
-            </div>
-        </div>
-
-        <div id="div_login">
-            <div id="div_titulo">
-                Login
-            </div>
-            <div id="corpo_login">
-                <div id="div_email">
-                    <label>E-mail:</label>
-                    <input type="text" id="iptEmail">
-                </div>
-                <div id="div_senha">
-                    <label>Senha:</label>
-                    <input type="password" id="iptSenha">
-                </div>
-                <div id="div_button">
-                    <button onclick="entrar()">Entrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>-->
 
 <body>
     <div id="container">
@@ -66,85 +37,141 @@
                         <input type="password" id="iptSenha">
                     </div>
                     <div id="div_button">
-                        <button onclick="entrar()">Entrar</button>
+                        <button id="btnEntrar" onclick="entrar()">Entrar</button>
                     </div>
+
                     <div id="div_cadastro">
                         <span>Não tem conta?</span>
-                        <a href="./cadastro.html">Cadastre-se</a>
+                        <a href="#" onclick="irParaCadastro()">Cadastre-se</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div id="loading" style="display: none;">
+        <img src="./assets/aguarde-pink2.gif" alt="Carregando...">
+    </div>
+
 </body>
 
 </html>
 <script>
-    function entrar() {
-        // aguardar();
+    // Função principal de login
+    async function entrar() {
+        // Exibe o loading
+        aguardar();
 
-        var emailVar = iptEmail.value;
-        var senhaVar = iptSenha.value;
+        // Obtém valores dos campos
+        const emailVar = document.getElementById('iptEmail').value.trim();
+        const senhaVar = document.getElementById('iptSenha').value.trim();
+        const cardErro = document.getElementById('cardErro');
+        const mensagem_erro = document.getElementById('mensagem_erro');
 
-        if (emailVar == "" || senhaVar == "") {
-            cardErro.style.display = "block"
-            mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
-            //finalizarAguardar();
+        // Validação dos campos
+        if (emailVar === "" && senhaVar === "") {
+            cardErro.style.display = "block";
+            mensagem_erro.innerHTML = "Por favor, preencha o e-mail e a senha.";
+            finalizarAguardar();
             return false;
+        } else if (emailVar === "") {
+            cardErro.style.display = "block";
+            mensagem_erro.innerHTML = "O campo de e-mail está vazio.";
+            finalizarAguardar();
+            return false;
+        } else if (senhaVar === "") {
+            cardErro.style.display = "block";
+            mensagem_erro.innerHTML = "O campo de senha está vazio.";
+            finalizarAguardar();
+            return false;
+        } else {
+            setTimeout(sumirMensagem, 5000);
         }
-        else {
-            setInterval(sumirMensagem, 5000)
-        }
 
-        console.log("FORM LOGIN: ", emailVar);
-        console.log("FORM SENHA: ", senhaVar);
+        try {
+            // Faz a requisição para a API
+            const response = await fetch('/usuarios/autenticar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    emailServer: emailVar,
+                    senhaServer: senhaVar
+                }),
+                credentials: 'include' // Importante para manter a sessão
+            });
 
-        fetch("/usuarios/autenticar", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                emailServer: emailVar,
-                senhaServer: senhaVar
-            })
-        }).then(function (resposta) {
-            console.log("ESTOU NO THEN DO entrar()!")
-            console.log(resposta);
+            // Processa a resposta
+            if (response.ok) {
+                const json = await response.json();
 
-            if (resposta.ok) {
+                // Armazena dados do usuário de forma mais segura
+                sessionStorage.setItem('usuario', JSON.stringify({
+                    id: json.id,
+                    nome: json.nome,
+                    email: json.email
+                }));
 
-                resposta.json().then(json => {
-                    console.log(json);
-                    console.log(JSON.stringify(json));
-                    sessionStorage.ID_USUARIO = json.id;
-                    sessionStorage.NOME_USUARIO = json.nome;
-                    sessionStorage.EMAIL_USUARIO = json.email;
-
-                    setTimeout(function () {
-                        window.location = "./dashboard/cards.html";
-                    }, 1000); // apenas para exibir o loading
-
-                });
+                // Redireciona após 1 segundo (para visualizar o loading)
+                setTimeout(() => {
+                    window.location.href = './dashboard/cards.html';
+                }, 1000);
 
             } else {
-
-                console.log("Houve um erro ao tentar realizar o login!");
-
-                resposta.text().then(texto => {
-                    console.error(texto);
-                    //finalizarAguardar(texto);
-                });
+                mostrarErro('E-mail ou senha inválidos');
             }
-
-        }).catch(function (erro) {
-            console.log(erro);
-        })
+        } catch (erro) {
+            console.error("Erro na requisição:", erro);
+            mostrarErro('Erro ao conectar com o servidor');
+        } finally {
+            finalizarAguardar();
+        }
 
         return false;
     }
 
+    // Funções auxiliares
+    function aguardar() {
+        const loadingElement = document.getElementById("loading");
+        const btnEntrar = document.getElementById("btnEntrar");
+
+        if (loadingElement) loadingElement.style.display = "flex";
+        if (btnEntrar) btnEntrar.disabled = true;
+    }
+
+    function finalizarAguardar() {
+        const loadingElement = document.getElementById("loading");
+        const btnEntrar = document.getElementById("btnEntrar");
+
+        if (loadingElement) loadingElement.style.display = "none";
+        if (btnEntrar) btnEntrar.disabled = false;
+    }
+
+    function mostrarErro(mensagem) {
+        const cardErro = document.getElementById('cardErro');
+        const mensagem_erro = document.getElementById('mensagem_erro');
+
+        cardErro.style.display = "block";
+        mensagem_erro.textContent = mensagem;
+
+        setTimeout(sumirMensagem, 5000);
+    }
+
     function sumirMensagem() {
-        cardErro.style.display = "none"
+        document.getElementById('cardErro').style.display = "none";
+    }
+
+    function irParaCadastro() {
+        document.body.classList.add('animacao-saida');
+        sessionStorage.setItem('animarEntrada', 'true');
+        setTimeout(() => {
+            window.location.href = 'cadastro.html';
+        }, 500);
+    }
+
+    // Animação de entrada
+    if (sessionStorage.getItem('animarEntrada') === 'true') {
+        document.body.classList.add('animacao-entrada');
+        sessionStorage.removeItem('animarEntrada');
     }
 </script>

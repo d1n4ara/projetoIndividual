@@ -89,6 +89,48 @@ body {
     border-color: #9a7e58;
 }
 
+#div_genero select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #c8bca7;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #5e412f;
+    background-color: #fff;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235e412f'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+#div_genero select:focus {
+    outline: none;
+    border-color: #9a7e58;
+    box-shadow: 0 0 0 2px rgba(154, 126, 88, 0.2);
+}
+
+/* Estilo para as options */
+#div_genero option {
+    padding: 8px;
+    background-color: #fff;
+    color: #5e412f;
+}
+
+#div_genero option:hover {
+    background-color: #f2ede4;
+}
+
+/* Estilo quando o select está aberto */
+#div_genero select:active,
+#div_genero select:focus {
+    border-color: #9a7e58;
+}
+
 /* Botão de cadastro */
 #div_button button {
     width: 100%;
@@ -143,5 +185,46 @@ body {
     border-radius: 8px;
     text-align: center;
     border: 1px solid #d8000c;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+
+body.animacao-saida {
+    animation: fadeOutLeft 0.5s forwards;
+}
+
+body.animacao-entrada {
+    animation: fadeInRight 0.5s forwards;
+}
+
+@keyframes fadeOutLeft {
+    to {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+#loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
 }

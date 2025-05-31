@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo de Livros</title>
+  <link rel="stylesheet" href="/css/estilo.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .filters {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+      gap: 10px;
+    }
+
+    #search {
+      padding: 10px;
+      width: 300px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    #btn-search {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .catalogo {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .livro-card {
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      position: relative;
+      transition: transform 0.3s;
+    }
+
+    .livro-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .favorito-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: #ccc;
+    }
+
+    .favorito-btn.favoritado {
+      color: #f00;
+    }
+
+    .livro-titulo {
+      font-size: 18px;
+      margin-top: 10px;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    .livro-autor {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .livro-descricao {
+      font-size: 14px;
+      color: #444;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Catálogo de Livros</h1>
+
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Buscar livros...">
+      <button id="searchBtn"><i class="fas fa-search"></i></button>
+    </div>
+
+    <div class="catalogo" id="livrosContainer">
+      <!-- Livros serão carregados aqui via JS -->
+    </div>
+  </div>
+
+  <script src="/js/script.js">
+    document.addEventListener('DOMContentLoaded', () => {
+      const livrosContainer = document.getElementById('livrosContainer');
+      const searchInput = document.getElementById('searchInput');
+      const searchBtn = document.getElementById('searchBtn');
+
+      // ID do usuário (em produção viria da sessão)
+      const idUsuario = 0;
+
+      // Carregar livros inicialmente
+      carregarLivros();
+
+      // Eventos
+      searchBtn.addEventListener('click', () => carregarLivros(searchInput.value));
+      searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') carregarLivros(searchInput.value);
+      });
+
+      function carregarLivros(search = '') {
+        fetch(`/livros/listar?search=${encodeURIComponent(search)}&idUsuario=${idUsuario}`)
+          .then(response => response.json())
+          .then(livros => {
+            renderizarLivros(livros);
+          })
+          .catch(error => {
+            console.error('Erro:', error);
+            livrosContainer.innerHTML = '<p>Erro ao carregar livros</p>';
+          });
+      }
+
+      function renderizarLivros(livros) {
+        livrosContainer.innerHTML = '';
+
+        if (livros.length === 0) {
+          livrosContainer.innerHTML = '<p class="no-books">Nenhum livro encontrado</p>';
+          return;
+        }
+
+        livros.forEach(livro => {
+          const livroEl = document.createElement('div');
+          livroEl.className = 'livro-card';
+          livroEl.innerHTML = `
+                <button class="favorito-btn ${livro.favoritado ? 'favoritado' : ''}" 
+                        data-id="${livro.idLivro}">
+                    <i class="fas fa-heart"></i>
+                </button>
+                <h3>${livro.titulo}</h3>
+                <p class="autor">${livro.autor}</p>
+                ${livro.genero ? `<span class="genero">${livro.genero}</span>` : ''}
+                <p class="descricao">${livro.descricao || 'Sem descrição'}</p>
+                <p class="favoritos-count">
+                    <i class="fas fa-heart"></i> ${livro.totalFavoritos || 0}
+                </p>
+            `;
+
+          livrosContainer.appendChild(livroEl);
+        });
+
+        // Adicionar eventos aos favoritos
+        document.querySelectorAll('.favorito-btn').forEach(btn => {
+          btn.addEventListener('click', function () {
+            const livroId = this.getAttribute('data-id');
+            toggleFavorito(livroId, this);
+          });
+        });
+      }
+
+      function toggleFavorito(livroId, btn) {
+        fetch('/livros/favoritar', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            idLivro: livroId,
+            idUsuario: idUsuario
+          })
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              btn.classList.toggle('favoritado');
+              // Recarregar para atualizar contagem
+              carregarLivros(searchInput.value);
+            }
+          })
+          .catch(error => {
+            console.error('Erro:', error);
+          });
+      }
+    });
+  </script>
+</body>
+
+</html>

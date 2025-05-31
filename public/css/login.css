@@ -122,3 +122,62 @@ body {
     text-align: center;
     border: 1px solid #d8000c;
 }
+
+
+body.animacao-saida {
+    animation: fadeOutLeft 0.5s forwards;
+}
+
+body.animacao-entrada {
+    animation: fadeInRight 0.5s forwards;
+}
+
+@keyframes fadeOutLeft {
+    to {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.card_erro {
+    display: none;
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 12px;
+    margin: 10px auto;
+    width: fit-content;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+}
+
+.card_erro.sucesso {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+#loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+

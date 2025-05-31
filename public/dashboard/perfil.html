@@ -3,186 +3,554 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil - Entre Linhas</title>
-    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/dashboards.css">
     <style>
-        * {
-            box-sizing: border-box;
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #f8f9fc;
+            --accent-color: #2e59d9;
+            --text-color: #5a5c69;
+            --light-color: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-radius: 10px;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fc;
+            color: var(--text-color);
             margin: 0;
             padding: 0;
-        }
-
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #f5f3fe, #eef9ff);
-            color: #333;
             display: flex;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
         }
-
-        nav {
-            width: 220px;
-            background-color: #a58b65;
+        
+        .menu-lateral {
+            width: 250px;
+            background-color: var(--primary-color);
             color: white;
-            padding: 2rem 1rem;
+            padding: 20px;
+            box-shadow: var(--shadow);
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            z-index: 10;
         }
-
-        nav h2 {
-            font-size: 1.4rem;
-            margin-bottom: 2rem;
+        
+        .menu-lateral h2 {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-
-        nav a {
+        
+        .menu-lateral a {
             color: white;
             text-decoration: none;
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .menu-lateral a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .menu-lateral a.active {
+            background-color: rgba(255, 255, 255, 0.2);
             font-weight: 600;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            transition: background 0.3s;
         }
-
-        nav a:hover,
-        nav a.active {
-            background-color: #fff7ed;
-            color: #a58b65;
+        
+        .menu-lateral a i {
+            width: 20px;
+            text-align: center;
         }
-
+        
         main {
             flex: 1;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
+            padding: 30px;
             overflow-y: auto;
         }
-
+        
         .profile {
             display: flex;
             align-items: center;
-            gap: 2rem;
-        }
-
-        .profile img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 3px solid #a58b65;
-        }
-
-        .profile-info {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .xp-bar {
-            width: 100%;
-            height: 12px;
-            background: #ddd;
-            border-radius: 6px;
+            gap: 30px;
+            background-color: var(--light-color);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            position: relative;
             overflow: hidden;
         }
-
+        
+        .profile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            background-color: var(--primary-color);
+            z-index: 0;
+        }
+        
+        .profile img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+            z-index: 1;
+        }
+        
+        .profile-info {
+            flex: 1;
+            z-index: 1;
+        }
+        
+        .profile-info h1 {
+            margin: 0;
+            color: var(--light-color);
+            font-size: 1.8rem;
+        }
+        
+        .profile-info p {
+            margin: 5px 0 15px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .xp-bar {
+            width: 100%;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
         .xp-bar-inner {
             height: 100%;
-            width: 70%;
-            /* XP percentual */
-            background-color: #a58b65;
+            width: 68.5%;
+            background: linear-gradient(90deg, #ffd700, #ffcc00);
+            border-radius: 5px;
+            position: relative;
         }
-
+        
+        .xp-bar-inner::after {
+            content: '68%';
+            position: absolute;
+            right: -30px;
+            top: -20px;
+            background-color: white;
+            color: var(--primary-color);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
         .stats {
             display: flex;
-            gap: 2rem;
-            margin-top: 1rem;
+            gap: 20px;
         }
-
+        
         .stat {
-            background: #fff;
-            padding: 1rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            padding: 15px;
+            border-radius: var(--border-radius);
             text-align: center;
             flex: 1;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
         }
-
+        
+        .stat:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .stat strong {
+            font-size: 1.3rem;
+            color: var(--accent-color);
+            display: block;
+            margin: 5px 0;
+        }
+        
         .section {
-            background: white;
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            background-color: var(--light-color);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
         }
-
+        
         .section h3 {
-            margin-bottom: 1rem;
-        }
-
-        .badges,
-        .items {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-size: 1.3rem;
             display: flex;
-            gap: 1.5rem;
+            align-items: center;
+            gap: 10px;
         }
-
-        .badge,
-        .item {
-            background: #fdfaf6;
-            padding: 1rem;
-            border-radius: 12px;
-            flex: 1;
-            text-align: center;
+        
+        .badges, .items {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .badge, .item {
+            background-color: var(--secondary-color);
+            padding: 15px 20px;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        
+        .badge:hover, .item:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .badge i, .item i {
+            font-size: 1.2rem;
+        }
+        
+        /* Novos elementos adicionados */
+        .progress-container {
+            margin-top: 30px;
+        }
+        
+        .progress-title {
             font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .progress {
+            height: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            border-radius: 5px;
+            background-color: var(--primary-color);
+        }
+        
+        .reading-goal {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+        }
+        
+        .goal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .goal-progress {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .goal-text {
+            opacity: 0.9;
+        }
+        
+        .recent-activity {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .activity-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+        }
+        
+        .activity-details {
+            flex: 1;
+        }
+        
+        .activity-time {
+            font-size: 0.8rem;
+            color: #adb5bd;
+        }
+        
+        .edit-profile {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background-color: white;
+            color: var(--primary-color);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+            box-shadow: var(--shadow);
+            z-index: 2;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .menu-lateral {
+                width: 100%;
+                flex-direction: row;
+                flex-wrap: wrap;
+                padding: 10px;
+            }
+            
+            .menu-lateral h2 {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+            
+            .menu-lateral a {
+                padding: 8px 10px;
+                font-size: 0.9rem;
+            }
+            
+            .profile {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .stats {
+                flex-direction: column;
+            }
+            
+            .profile-info {
+                width: 100%;
+            }
         }
     </style>
 </head>
 
 <body>
     <nav class="menu-lateral" aria-label="Menu de navegação">
-        <h2>📚 Entre Linhas</h2>
-        <a href="./dashboard.html" class="active">Dashboard</a>
-        <a href="./quiz.html">Quiz</a>
-        <a href="./livros.html">Catálogo de Livros</a>
-        <a href="./desafio.html">Desafios e Missões</a>
-        <a href="./perfil.html">Perfil</a>
-        <a href="../index.html">Sair</a>
-      </nav>
+        <h2><i class="fas fa-book-open"></i> Entre Linhas</h2>
+        <a href="./cards.html" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="./quiz.html"><i class="fas fa-question-circle"></i> Quiz</a>
+        <a href="./livros.html"><i class="fas fa-book"></i> Catálogo de Livros</a>
+        <a href="./desafio.html"><i class="fas fa-trophy"></i> Desafios e Missões</a>
+        <a href="./perfil.html"><i class="fas fa-user"></i> Perfil</a>
+        <a href="../index.html"><i class="fas fa-sign-out-alt"></i> Sair</a>
+    </nav>
     <main>
         <section class="profile">
-            <img src="https://via.placeholder.com/100" alt="Avatar do usuário">
+            <button class="edit-profile"><i class="fas fa-pencil-alt"></i> Editar Perfil</button>
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Avatar do usuário">
             <div class="profile-info">
-                <h1>John Willis</h1>
+                <h1>Dandara Ramos</h1>
                 <p>Nível 5 • 2400 / 3500 XP</p>
                 <div class="xp-bar">
                     <div class="xp-bar-inner"></div>
                 </div>
                 <div class="stats">
-                    <div class="stat">📚 <br><strong>27</strong><br>Livros Lidos</div>
-                    <div class="stat">📖 <br><strong>910</strong><br>Páginas Este Mês</div>
-                    <div class="stat">🌟 <br><strong>8</strong><br>Favoritos</div>
+                    <div class="stat">
+                        <i class="fas fa-book"></i>
+                        <strong>27</strong>
+                        <span>Livros Lidos</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-file-alt"></i>
+                        <strong>910</strong>
+                        <span>Páginas Este Mês</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-star"></i>
+                        <strong>8</strong>
+                        <span>Favoritos</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-calendar-check"></i>
+                        <strong>156</strong>
+                        <span>Dias de Leitura</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="reading-goal">
+            <div class="goal-header">
+                <h3><i class="fas fa-bullseye"></i> Meta de Leitura 2024</h3>
+                <div class="goal-progress">73%</div>
+            </div>
+            <div class="progress">
+                <div class="progress-bar" style="width: 73%"></div>
+            </div>
+            <p class="goal-text">Você leu 22 de 30 livros este ano. Mantenha o bom trabalho!</p>
+        </section>
+
+        <section class="section">
+            <h3><i class="fas fa-trophy"></i> Conquistas</h3>
+            <div class="badges">
+                <div class="badge">
+                    <i class="fas fa-undo"></i>
+                    <span>Comeback</span>
+                </div>
+                <div class="badge">
+                    <i class="fas fa-clover"></i>
+                    <span>Sortudo</span>
+                </div>
+                <div class="badge">
+                    <i class="fas fa-crown"></i>
+                    <span>Líder</span>
+                </div>
+                <div class="badge">
+                    <i class="fas fa-fire"></i>
+                    <span>Streak de 7 dias</span>
+                </div>
+                <div class="badge">
+                    <i class="fas fa-globe-americas"></i>
+                    <span>Viajante Literário</span>
+                </div>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-title">
+                    <span>Progresso para a próxima conquista:</span>
+                    <span>4/5</span>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar" style="width: 80%"></div>
                 </div>
             </div>
         </section>
 
         <section class="section">
-            <h3>🏆 Conquistas</h3>
-            <div class="badges">
-                <div class="badge">📘 Comeback</div>
-                <div class="badge">📗 Lucky</div>
-                <div class="badge">📕 Líder</div>
+            <h3><i class="fas fa-gift"></i> Inventário</h3>
+            <div class="items">
+                <div class="item">
+                    <i class="fas fa-clock"></i>
+                    <span>Tempo Extra</span>
+                </div>
+                <div class="item">
+                    <i class="fas fa-random"></i>
+                    <span>50/50</span>
+                </div>
+                <div class="item">
+                    <i class="fas fa-star"></i>
+                    <span>Resposta Popular</span>
+                </div>
+                <div class="item">
+                    <i class="fas fa-heart"></i>
+                    <span>Vida Extra</span>
+                </div>
             </div>
         </section>
 
         <section class="section">
-            <h3>🎁 Inventário</h3>
-            <div class="items">
-                <div class="item">⏱ Tempo Extra</div>
-                <div class="item">🔀 50/50</div>
-                <div class="item">⭐ Resposta Popular</div>
-            </div>
+            <h3><i class="fas fa-history"></i> Atividade Recente</h3>
+            <ul class="recent-activity">
+                <li class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="activity-details">
+                        <strong>Você começou a ler "1984"</strong>
+                        <p>Página 45 de 328</p>
+                    </div>
+                    <div class="activity-time">2 horas atrás</div>
+                </li>
+                <li class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="activity-details">
+                        <strong>Conquista desbloqueada: Leitor Noturno</strong>
+                        <p>Ler após as 22h por 5 dias consecutivos</p>
+                    </div>
+                    <div class="activity-time">Ontem</div>
+                </li>
+                <li class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <div class="activity-details">
+                        <strong>Quiz completado: Literatura Clássica</strong>
+                        <p>Pontuação: 85%</p>
+                    </div>
+                    <div class="activity-time">2 dias atrás</div>
+                </li>
+            </ul>
         </section>
     </main>
+
+    <script>
+        // Simulação de interatividade
+        document.querySelector('.edit-profile').addEventListener('click', function() {
+            alert('Funcionalidade de edição de perfil será implementada em breve!');
+        });
+        
+        // Efeito hover nos cards
+        const stats = document.querySelectorAll('.stat');
+        stats.forEach(stat => {
+            stat.addEventListener('mouseenter', function() {
+                const icon = this.querySelector('i');
+                icon.style.transform = 'scale(1.2)';
+            });
+            
+            stat.addEventListener('mouseleave', function() {
+                const icon = this.querySelector('i');
+                icon.style.transform = 'scale(1)';
+            });
+        });
+    </script>
 </body>
 
 </html>

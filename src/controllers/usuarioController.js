@@ -1,5 +1,4 @@
 var usuarioModel = require("../models/usuarioModel");
-var aquarioModel = require("../models/aquarioModel");
 
 function autenticar(req, res) {
     var email = req.body.emailServer;
@@ -19,7 +18,7 @@ function autenticar(req, res) {
                     console.log(resultadoAutenticar);
 
                     res.json({
-                        idUsuario: resultadoAutenticar[0].id,
+                        idUsuario: resultadoAutenticar[0].idUsuario,
                         email: resultadoAutenticar[0].email,
                         nome: resultadoAutenticar[0].nome
                     });
@@ -42,6 +41,7 @@ function cadastrar(req, res) {
     var nome = req.body.nomeServer;
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
+    var genero = req.body.generoServer;
 
     if (nome == undefined) {
         res.status(400).send("Seu nome está undefined!");
@@ -49,8 +49,10 @@ function cadastrar(req, res) {
         res.status(400).send("Seu email está undefined!");
     } else if (senha == undefined) {
         res.status(400).send("Sua senha está undefined!");
+    } else if (genero == undefined) {
+        res.status(400).send("Seu gênero favorito está undefined!");
     } else {
-        usuarioModel.cadastrar(nome, email, senha)
+        usuarioModel.cadastrar(nome, email, senha, genero)
             .then(function (resultado) {
                 res.status(201).json({
                     idUsuario: resultado.insertId,
