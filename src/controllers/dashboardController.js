@@ -1,38 +1,76 @@
-const dashboardModel = require('../models/dashboardModel');
+const dashboardModel = require("../models/dashboardModel");
+
+function buscarFavoritos(req, res) {
+  const idUsuario = req.params.idUsuario;
+
+  dashboardModel.buscarFavoritos(idUsuario).then(resultado => {
+    res.json(resultado[0]);
+  }).catch(erro => {
+    console.log(erro);
+    res.status(500).json({ erro: erro.sqlMessage });
+  });
+}
+
+function buscarMaiorPontuacao(req, res) {
+  const idUsuario = req.params.idUsuario;
+
+  dashboardModel.buscarMaiorPontuacao(idUsuario).then(resultado => {
+    res.json(resultado[0]);
+  }).catch(erro => {
+    console.log(erro);
+    res.status(500).json({ erro: erro.sqlMessage });
+  });
+}
+
+function buscarGeneroFavorito(req, res) {
+  const idUsuario = req.params.idUsuario;
+
+  dashboardModel.buscarGeneroFavorito(idUsuario).then(resultado => {
+    res.json(resultado[0]);
+  }).catch(erro => {
+    console.log(erro);
+    res.status(500).json({ erro: erro.sqlMessage });
+  });
+}
+
+function buscarQuantidadeQuizzes(req, res) {
+  const idUsuario = req.params.idUsuario;
+
+  dashboardModel.buscarQuantidadeQuizzes(idUsuario).then(resultado => {
+    res.json(resultado[0]);
+  }).catch(erro => {
+    console.log(erro);
+    res.status(500).json({ erro: erro.sqlMessage });
+  });
+}
+
+function buscarPontuacoesQuiz(req, res) {
+  const idUsuario = req.params.idUsuario;
+
+  dashboardModel.buscarPontuacoesQuiz(idUsuario).then(resultado => {
+    res.json(resultado);
+  }).catch(erro => {
+    console.log(erro);
+    res.status(500).json({ erro: erro.sqlMessage });
+  });
+}
+
+function buscarFavoritosPorGenero(req, res) {
+  const idUsuario = req.params.idUsuario;
+
+  dashboardModel.buscarFavoritosPorGenero(idUsuario).then(resultado => {
+    res.json(resultado);
+  }).catch(erro => {
+    console.log(erro);
+    res.status(500).json({ erro: erro.sqlMessage });
+  });
+}
 
 module.exports = {
-  async kpis(req, res) {
-    const { idUsuario } = req.params;
-    try {
-      const dados = await dashboardModel.obterKPIs(idUsuario);
-      res.json(dados);
-    } catch (erro) {
-      console.error('Erro obterKPIs:', erro);
-      res.status(500).json({ erro: 'Erro ao obter KPIs' });
-    }
-  },
-
-  async generos(req, res) {
-    const { idUsuario } = req.params;
-    try {
-      const dados = await dashboardModel.obterGenerosLidos(idUsuario);
-      const labels = dados.map(l => l.genero);
-      const valores = dados.map(l => l.total);
-      res.json({ labels, valores });
-    } catch (erro) {
-      console.error('Erro obterGenerosLidos:', erro);
-      res.status(500).json({ erro: 'Erro ao obter gêneros lidos' });
-    }
-  },
-
-  async quiz(req, res) {
-    const { idUsuario } = req.params;
-    try {
-      const dados = await dashboardModel.obterQuiz(idUsuario);
-      res.json(dados);
-    } catch (erro) {
-      console.error('Erro obterQuiz:', erro);
-      res.status(500).json({ erro: 'Erro ao obter dados do quiz' });
-    }
-  }
+  buscarFavoritos,
+  buscarMaiorPontuacao,
+  buscarGeneroFavorito,
+  buscarQuantidadeQuizzes,
+  buscarPontuacoesQuiz,
+  buscarFavoritosPorGenero
 };

@@ -1,518 +1,136 @@
 <!DOCTYPE html>
-<html lang="pt">
-
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./assets/image/logo.png" type="image/x-icon">
     <title>Quiz Literário</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-            color: #333;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 30px;
-            background-color: white;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .quiz-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .quiz-header h1 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-
-        .question-container {
-            margin-bottom: 25px;
-            padding: 15px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            border-left: 5px solid #3498db;
-        }
-
-        .options-container {
-            margin: 25px 0;
-        }
-
-        .option {
-            display: block;
-            margin: 12px 0;
-            padding: 12px 15px;
-            background-color: #f0f0f0;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .option:hover {
-            background-color: #e0e0e0;
-            transform: translateY(-2px);
-        }
-
-        .option input[type="radio"] {
-            margin-right: 10px;
-        }
-
-        .buttons-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-        }
-
-        button {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            font-size: 16px;
-        }
-
-        button:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-        }
-
-        #btnSubmeter {
-            background-color: #2ecc71;
-            color: white;
-        }
-
-        #btnProx {
-            background-color: #3498db;
-            color: white;
-        }
-
-        #btnTentarNovamente,
-        #btnIniciarQuiz {
-            background-color: #e74c3c;
-            color: white;
-            width: 100%;
-            margin-top: 20px;
-        }
-
-        #btnIniciarQuiz {
-            background-color: #3498db;
-            padding: 15px 30px;
-            font-size: 18px;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .result-container {
-            text-align: center;
-            margin-top: 20px;
-            padding: 30px;
-            background-color: #e8f5e9;
-            border-radius: 10px;
-            border-left: 5px solid #2ecc71;
-        }
-
-        .result-container h2 {
-            color: #27ae60;
-            margin-bottom: 20px;
-        }
-
-        #infoQuestao {
-            text-align: right;
-            font-style: italic;
-            color: #7f8c8d;
-            margin-bottom: 10px;
-        }
-
-        #img {
-            margin-bottom: 30px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .correct {
-            background-color: #d4edda;
-            border-color: #28a745;
-        }
-
-        .incorrect {
-            background-color: #f8d7da;
-            border-color: #dc3545;
-        }
-
-        .progress-container {
-            width: 100%;
-            background-color: #f1f1f1;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-
-        .progress-bar {
-            height: 10px;
-            background-color: #3498db;
-            border-radius: 5px;
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-    </style>
+    <link rel="stylesheet" href="../css/dashboards.css">
 </head>
-
 <body>
     <div class="container">
-        <div class="quiz-header">
-            <h1>Quiz de Literatura Brasileira</h1>
-            <p>Teste seus conhecimentos sobre os clássicos da literatura</p>
-        </div>
+        <nav class="menu-lateral" id="menuLateral">
+            <h2>Entre Linhas</h2>
+            <ul>
+              <li><a href="./cards.html">Dashboard</a></li>
+              <li><a href="./livros.html">Minha Estante</a></li>
+              <li><a href="./quiz.html">Quiz</a></li>
+              <li><a href="./desafio.html">Missões e Desafios</a></li>
+              <li><a href="./perfil.html">Perfil</a></li>
+              <li><a href="../index.html">Sair</a></li>
+            </ul>
+        </nav>
 
-        <div id="inicio-quiz">
-            <div id="img">
-                <img src="img/livros-quiz.jpg" alt="Livros" style="width:100%; max-height:300px; object-fit:cover;">
-            </div>
-            <button id="btnIniciarQuiz" onclick="iniciarQuiz()">INICIAR QUIZ</button>
-        </div>
-
-        <div id="quiz-container" class="hidden">
-            <div id="infoQuestao">
-                <p>Questão <span id="spanNumeroDaQuestaoAtual">1</span> de <span id="qtdQuestoes">10</span></p>
-            </div>
-
-            <div class="progress-container">
-                <div class="progress-bar" id="progressBar"></div>
-            </div>
-
-            <div class="question-container">
-                <p id="spanQuestaoExibida" class="text-bold"></p>
-            </div>
-
-            <div class="options-container" id="opcoes">
-                <label class="option">
-                    <input type="radio" name="option" value="1"> <span id="labelOpcaoUm"></span>
-                </label>
-                <label class="option">
-                    <input type="radio" name="option" value="2"> <span id="labelOpcaoDois"></span>
-                </label>
-                <label class="option">
-                    <input type="radio" name="option" value="3"> <span id="labelOpcaoTres"></span>
-                </label>
-                <label class="option">
-                    <input type="radio" name="option" value="4"> <span id="labelOpcaoQuatro"></span>
-                </label>
-            </div>
-
-            <div class="buttons-container">
-                <button onclick="submeter()" id="btnSubmeter">Responder</button>
-                <button onclick="avancar()" id="btnProx" disabled>Próxima</button>
-                <button onclick="tentarNovamente()" id="btnTentarNovamente" class="hidden">Tentar novamente</button>
-            </div>
-        </div>
-
-        <div id="resultado-container" class="hidden">
-            <div class="result-container">
-                <h2>Resultado Final</h2>
-                <p>Acertos: <span id="spanCertas">0</span></p>
-                <p>Erros: <span id="spanErradas">0</span></p>
-                <p>Pontuação Final: <span id="spanPontuacaoFinal">0</span></p>
-                <p id="msgFinal"></p>
-                <button onclick="tentarNovamente()">Tentar novamente</button>
-            </div>
-        </div>
+        <main class="quiz-area">
+            <h1>Quiz Literário</h1>
+            <form id="quiz-form">
+                <div id="perguntas-container"></div>
+                <button type="button" id="botao-proximo" style="display: none;">Próxima</button>
+                <button type="submit" id="botao-enviar" style="display: none;">Enviar Respostas</button>
+            </form>
+            <div id="resultado" class="hidden"></div>
+        </main>
     </div>
 
-
     <script>
-        // Verificação de autenticação ao carregar a página
-        document.addEventListener('DOMContentLoaded', async () => {
-            const authMessage = document.getElementById('auth-message');
-            authMessage.style.display = 'block';
+        let perguntas = [];
+        let alternativas = [];
+        let fkUsuario = 1; // Substituir com ID real se necessário
+        let indiceAtual = 0;
+        let respostasSelecionadas = {};
 
-            try {
-                const response = await fetch('/auth/verificar', {
-                    credentials: 'include'
-                });
-
-                if (!response.ok) {
-                    sessionStorage.setItem('paginaAnterior', window.location.pathname);
-                    window.location.href = '/login.html';
-                    return;
-                }
-
-                const data = await response.json();
-                sessionStorage.ID_USUARIO = data.idUsuario;
-                sessionStorage.NOME_USUARIO = data.nome;
-
-                // Esconde a mensagem e mostra o quiz
-                authMessage.style.display = 'none';
-
-                // Aqui você pode chamar sua função para carregar o quiz
-                // await carregarQuiz();
-
-            } catch (error) {
-                console.error('Erro ao verificar autenticação:', error);
-                authMessage.textContent = 'Erro ao verificar autenticação. Redirecionando...';
-                setTimeout(() => {
-                    window.location.href = '/login.html';
-                }, 2000);
-            }
-        });
-        // Variáveis globais
-        let numeroDaQuestaoAtual = 0;
-        let pontuacaoFinal = 0;
-        let certas = 0;
-        let erradas = 0;
-        let quizData = [];
-        let alternativasData = [];
-        let respostasUsuario = [];
-
-        // Carregar dados do quiz ao iniciar
-        window.onload = async function () {
-            // Verificar autenticação antes de carregar o quiz
-            const autenticado = await verificarAutenticacao();
-            if (!autenticado) {
-                redirecionarParaLogin();
-                return;
-            }
-
-            await carregarQuiz();
-            document.getElementById('btnIniciarQuiz').disabled = false;
-        };
-        
-        function redirecionarParaLogin() {
-            // Armazena a página atual para redirecionar de volta após login
-            sessionStorage.setItem('paginaAnterior', window.location.pathname);
-            window.location.href = '/login.html';
-        }
-
-        // Carregar perguntas e alternativas do servidor
         async function carregarQuiz() {
-            try {
-                const response = await fetch('/quiz/perguntas', {
-                    credentials: 'include' // Importante para enviar cookies
-                });
-                const data = await response.json();
-                quizData = data.questoes;
-                alternativasData = data.alternativas;
+            const respPerguntas = await fetch("/quiz/perguntas");
+            perguntas = await respPerguntas.json();
 
-                if (quizData.length === 0) {
-                    alert('Nenhuma pergunta encontrada. Por favor, tente mais tarde.');
-                    return;
-                }
-            } catch (error) {
-                console.error('Erro ao carregar quiz:', error);
-                alert('Erro ao carregar as perguntas. Por favor, recarregue a página.');
-            }
+            const respAlternativas = await fetch("/quiz/alternativas");
+            alternativas = await respAlternativas.json();
+
+            mostrarPergunta();
         }
 
-        // Iniciar quiz
-        function iniciarQuiz() {
-            document.getElementById('inicio-quiz').classList.add('hidden');
-            document.getElementById('quiz-container').classList.remove('hidden');
-            document.getElementById('qtdQuestoes').textContent = quizData.length;
-            atualizarBarraProgresso();
-            mostrarQuestao(0);
-        }
+        function mostrarPergunta() {
+            const container = document.getElementById("perguntas-container");
+            container.innerHTML = "";
 
+            const pergunta = perguntas[indiceAtual];
+            const alternativasPergunta = alternativas.filter(a => a.fkQuestao === pergunta.idQuestao);
 
-        // Mostrar questão atual
-        function mostrarQuestao(index) {
-            if (index < 0 || index >= quizData.length) return;
-
-            const questao = quizData[index];
-            document.getElementById('spanNumeroDaQuestaoAtual').textContent = index + 1;
-            document.getElementById('spanQuestaoExibida').textContent = questao.pergunta;
-
-            // Obter alternativas para esta questão
-            const alternativas = alternativasData.filter(a => a.fkQuestao === questao.idQuestao);
-
-            if (alternativas.length < 4) {
-                console.error('Número insuficiente de alternativas para a questão:', questao.idQuestao);
-                return;
-            }
-
-            // Preencher opções
-            document.getElementById('labelOpcaoUm').textContent = alternativas[0].texto;
-            document.getElementById('labelOpcaoDois').textContent = alternativas[1].texto;
-            document.getElementById('labelOpcaoTres').textContent = alternativas[2].texto;
-            document.getElementById('labelOpcaoQuatro').textContent = alternativas[3].texto;
-
-            // Resetar seleção e estilos
-            const options = document.getElementsByName('option');
-            options.forEach(option => {
-                option.checked = false;
-                option.parentElement.classList.remove('correct', 'incorrect');
-            });
-
-            // Habilitar/desabilitar botões
-            document.getElementById('btnSubmeter').disabled = false;
-            document.getElementById('btnProx').disabled = true;
-
-            // Atualizar barra de progresso
-            atualizarBarraProgresso();
-        }
-
-        // Atualizar barra de progresso
-        function atualizarBarraProgresso() {
-            const progresso = ((numeroDaQuestaoAtual) / quizData.length) * 100;
-            document.getElementById('progressBar').style.width = progresso + '%';
-        }
-
-        // Submeter resposta
-        async function submeter() {
-            const selectedOption = document.querySelector('input[name="option"]:checked');
-            const idUsuario = sessionStorage.getItem('idUsuario');
-
-            if (!idUsuario) {
-                console.error('ID do usuário não encontrado na sessionStorage');
-                alert('Erro: Usuário não identificado. Por favor, faça login novamente.');
-                return;
-            }
-
-            if (!selectedOption) {
-                alert('Por favor, selecione uma opção antes de responder!');
-                return;
-            }
-
-            // Desabilitar botão de submeter
-            document.getElementById('btnSubmeter').disabled = true;
-
-            // Obter alternativa selecionada
-            const questaoAtual = quizData[numeroDaQuestaoAtual];
-            const alternativas = alternativasData.filter(a => a.fkQuestao === questaoAtual.idQuestao);
-            const alternativaSelecionada = alternativas[selectedOption.value - 1];
-
-            // Marcar respostas corretas/incorretas
-            const options = document.getElementsByName('option');
-            options.forEach(option => {
-                const alternativa = alternativas[option.value - 1];
-                if (alternativa.isCorreta) {
-                    option.parentElement.classList.add('correct');
-                } else if (option.checked) {
-                    option.parentElement.classList.add('incorrect');
-                }
-            });
-
-            // Verificar se a resposta está correta
-            if (alternativaSelecionada.isCorreta) {
-                pontuacaoFinal++;
-                certas++;
-            } else {
-                erradas++;
-            }
-
-            // Registrar resposta no servidor
-            try {
-                const response = await fetch('/quiz/respostas', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        fkUsuario: parseInt(idUsuario),
-                        fkQuestao: questaoAtual.idQuestao,
-                        fkAlternativa: alternativaSelecionada.idAlternativa
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error('Erro ao registrar resposta');
-                }
-            } catch (error) {
-                console.error('Erro ao registrar resposta:', error);
-            }
-
-            // Habilitar botão de próxima
-            document.getElementById('btnProx').disabled = false;
-        }
-
-        // Avançar para próxima questão
-        function avancar() {
-            numeroDaQuestaoAtual++;
-
-            if (numeroDaQuestaoAtual < quizData.length) {
-                mostrarQuestao(numeroDaQuestaoAtual);
-            } else {
-                finalizarQuiz();
-            }
-        }
-
-        // Finalizar quiz
-        async function finalizarQuiz() {
-            document.getElementById('quiz-container').classList.add('hidden');
-            document.getElementById('resultado-container').classList.remove('hidden');
-
-            document.getElementById('spanCertas').textContent = certas;
-            document.getElementById('spanErradas').textContent = erradas;
-            document.getElementById('spanPontuacaoFinal').textContent = pontuacaoFinal;
-
-            const porcentagem = Math.round((pontuacaoFinal / quizData.length) * 100);
-            const idUsuario = sessionStorage.getItem('idUsuario');
-            let mensagem = '';
-
-            if (porcentagem <= 50) {
-                mensagem = 'Você pode melhorar seu conhecimento literário! Continue lendo os clássicos.';
-            } else if (porcentagem <= 75) {
-                mensagem = 'Bom conhecimento literário! Você está no caminho certo.';
-            } else {
-                mensagem = 'Excelente conhecimento literário! Você realmente conhece os clássicos brasileiros.';
-            }
-
-            document.getElementById('msgFinal').innerHTML = `
-                <strong>${mensagem}</strong><br>
-                Você acertou ${porcentagem}% das questões (${pontuacaoFinal} de ${quizData.length}).
+            const bloco = document.createElement("div");
+            bloco.className = "pergunta";
+            bloco.innerHTML = `
+                <h3>${pergunta.pergunta}</h3>
+                ${alternativasPergunta.map(alt => `
+                    <label>
+                        <input type="radio" name="questao_${pergunta.idQuestao}" value="${alt.idAlternativa}" ${respostasSelecionadas[pergunta.idQuestao] == alt.idAlternativa ? "checked" : ""} required>
+                        ${alt.texto}
+                    </label><br>
+                `).join("")}
             `;
+            container.appendChild(bloco);
 
-            if (!idUsuario) {
-                console.error('ID do usuário não encontrado na sessionStorage');
-                alert('Erro: Usuário não identificado. Os resultados não serão salvos.');
+            const btnProximo = document.getElementById("botao-proximo");
+            const btnEnviar = document.getElementById("botao-enviar");
+
+            if (indiceAtual < perguntas.length - 1) {
+                btnProximo.style.display = "inline-block";
+                btnEnviar.style.display = "none";
+            } else {
+                btnProximo.style.display = "none";
+                btnEnviar.style.display = "inline-block";
+            }
+        }
+
+        document.getElementById("botao-proximo").addEventListener("click", () => {
+            const pergunta = perguntas[indiceAtual];
+            const selecionado = document.querySelector(`input[name='questao_${pergunta.idQuestao}']:checked`);
+
+            if (!selecionado) {
+                alert("Por favor, selecione uma alternativa.");
                 return;
             }
-            try {
-                const response = await fetch('/quiz/resultados', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+
+            respostasSelecionadas[pergunta.idQuestao] = selecionado.value;
+            indiceAtual++;
+            mostrarPergunta();
+        });
+
+        document.getElementById("quiz-form").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            let acertos = 0;
+
+            for (let pergunta of perguntas) {
+                const idAlternativa = respostasSelecionadas[pergunta.idQuestao];
+                const alternativa = alternativas.find(a => a.idAlternativa == idAlternativa);
+
+                if (alternativa?.isCorreta) acertos++;
+
+                await fetch("/quiz/respostas", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        fkUsuario: parseInt(idUsuario),
-                        pontuacao: pontuacaoFinal,
-                        porcentagem: porcentagem,
-                        data: new Date().toISOString()
+                        fkUsuario,
+                        fkQuestao: pergunta.idQuestao,
+                        fkAlternativa: idAlternativa
                     })
                 });
-
-                if (!response.ok) {
-                    throw new Error('Erro ao registrar resultado');
-                }
-            } catch (error) {
-                console.error('Erro ao registrar resultado:', error);
             }
-        }
 
-        // Tentar novamente
-        function tentarNovamente() {
-            numeroDaQuestaoAtual = 0;
-            pontuacaoFinal = 0;
-            certas = 0;
-            erradas = 0;
+            const porcentagem = ((acertos / perguntas.length) * 100).toFixed(2);
 
-            document.getElementById('resultado-container').classList.add('hidden');
-            document.getElementById('quiz-container').classList.remove('hidden');
-            document.getElementById('inicio-quiz').classList.add('hidden');
+            await fetch("/quiz/resultados", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ fkUsuario, pontuacao: acertos, porcentagem })
+            });
 
-            mostrarQuestao(0);
-        }
+            document.getElementById("quiz-form").style.display = "none";
+            const resultado = document.getElementById("resultado");
+            resultado.classList.remove("hidden");
+            resultado.innerText = `Você acertou ${acertos} de ${perguntas.length} (${porcentagem}%)`;
+        });
+
+        carregarQuiz();
     </script>
 </body>
-
 </html>

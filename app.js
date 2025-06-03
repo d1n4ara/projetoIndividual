@@ -17,10 +17,10 @@ var app = express();
 
 var indexRouter = require("./src/routes/index");
 var usuarioRouter = require("./src/routes/usuarios");
-var avisosRouter = require("./src/routes/avisos");
 var dashboardRouter = require('./src/routes/dashboard');
-// var livroRouter = require('./src/routes/livro');
-var quizRouter = require('./src/routes/quiz')
+var livroRouter = require('./src/routes/livro');
+var generoRouter = require('./src/routes/genero');
+var quizRouter = require('./src/routes/quiz');
 
 
 
@@ -32,10 +32,11 @@ app.use(cors());
 
 app.use("/", indexRouter);
 app.use("/usuarios", usuarioRouter);
-app.use("/avisos", avisosRouter);
 app.use('/dashboard', dashboardRouter);
-// app.use("/entrelinhas", livroRouter);
+app.use("/livros", livroRouter);
 app.use("/quiz", quizRouter)
+app.use("/generos", generoRouter)
+
 
 app.listen(PORTA_APP, function () {
     console.log(`

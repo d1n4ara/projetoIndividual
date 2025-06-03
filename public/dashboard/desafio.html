@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Missões</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    .missao {
+      border: 1px solid #ccc;
+      padding: 16px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.6);
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: 15% auto;
+      padding: 20px;
+      width: 300px;
+      border-radius: 10px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+    }
+
+    .fechar {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 22px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Missões Disponíveis</h1>
+  <div id="listaMissoes"></div>
+
+  <!-- Modal de Recompensa -->
+  <div id="modalRecompensa" class="modal">
+    <div class="modal-content">
+      <span id="fecharModal" class="fechar">&times;</span>
+      <h2>Missão Concluída!</h2>
+      <p id="textoRecompensa"></p>
+    </div>
+  </div>
+
+  <script>
+    // Simula missões do banco
+    const missoes = [
+      { id: 1, titulo: "Ler por 10 minutos", descricao: "Leia qualquer livro por 10 minutos.", recompensa: "+10 XP" },
+      { id: 2, titulo: "Responder 1 quiz", descricao: "Acerte uma questão de quiz hoje.", recompensa: "+15 XP" },
+      { id: 3, titulo: "Comentar em um post", descricao: "Comente em uma postagem de outro leitor.", recompensa: "+20 XP" }
+    ];
+
+    const userId = 1; // Simulado
+
+    const container = document.getElementById("listaMissoes");
+
+    for (let i = 0; i < missoes.length; i++) {
+      const missao = missoes[i];
+
+      let div = document.createElement("div");
+      div.classList.add("missao");
+      div.innerHTML = `
+        <h3>${missao.titulo}</h3>
+        <p>${missao.descricao}</p>
+        <button onclick="concluirMissao(${missao.id}, '${missao.recompensa}')">Avançar</button>
+      `;
+      container.appendChild(div);
+    }
+
+    function concluirMissao(missaoId, recompensaTexto) {
+      // Gerar pontos aleatórios entre 8 e 25
+      const pontos = Math.floor(Math.random() * 18) + 8;
+
+      // Simulação de lógica condicional
+      let mensagem;
+      if (pontos >= 20) {
+        mensagem = "Excelente desempenho!";
+      } else if (pontos >= 12) {
+        mensagem = "Bom trabalho!";
+      } else {
+        mensagem = "Você concluiu a missão.";
+      }
+
+      const dados = {
+        fkUsuario: userId,
+        fkMissaoModelo: missaoId,
+        recompensa: recompensaTexto,
+        pontosGanho: pontos
+      };
+
+      fetch("http://localhost:3000/missao/concluir", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dados)
+      })
+      .then(res => res.json())
+      .then(data => {
+        // Mostra modal de recompensa
+        mostrarModal(`${mensagem}<br>Recompensa: <strong>${pontos} XP</strong>`);
+      })
+      .catch(err => {
+        console.error("Erro ao concluir missão:", err);
+        alert("Erro ao salvar no banco.");
+      });
+    }
+
+    function mostrarModal(texto) {
+      document.getElementById("textoRecompensa").innerHTML = texto;
+      document.getElementById("modalRecompensa").style.display = "block";
+    }
+
+    document.getElementById("fecharModal").onclick = function () {
+      document.getElementById("modalRecompensa").style.display = "none";
+    };
+
+    window.onclick = function (event) {
+      if (event.target == document.getElementById("modalRecompensa")) {
+        document.getElementById("modalRecompensa").style.display = "none";
+      }
+    };
+  </script>
+</body>
+</html>

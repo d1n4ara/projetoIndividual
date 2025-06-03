@@ -1,39 +1,34 @@
-// controllers/livroController.js
 const livroModel = require("../models/livroModel");
 
-function listar(req, res) {
-    const search = req.query.search || '';
-    const idUsuario = req.query.idUsuario || 0; // Em produção, pegar da sessão
-
-    livroModel.listar(search, idUsuario)
-        .then(resultado => {
-            res.status(200).json(resultado);
-        })
-        .catch(erro => {
-            console.log(erro);
-            res.status(500).json(erro.sqlMessage);
-        });
+async function listar(req, res) {
+    try {
+        const livros = await livroModel.listarLivros();
+        res.status(200).json(livros);
+    } catch (err) {
+        console.error("Erro ao listar livros:", err);
+        res.status(500).json({ erro: "Erro ao listar livros." });
+    }
 }
 
-function toggleFavorito(req, res) {
-    const idLivro = req.body.idLivro;
-    const idUsuario = req.body.idUsuario || 0;
+async function cadastrar(req, res) {
+    const { titulo, autor, descricao, fkGenero } = req.body;
 
-    if (!idLivro) {
-        return res.status(400).send("O ID do livro está indefinido!");
+    if (!titulo || !autor || !descricao || !fkGenero) {
+        return res.status(400).json({ erro: "Preencha todos os campos!" });
     }
 
-    livroModel.favoritar(idLivro, idUsuario)
-        .then(() => {
-            res.status(200).json({ success: true });
-        })
-        .catch(erro => {
-            console.log(erro);
-            res.status(500).json(erro.sqlMessage);
-        });
+    try {
+        await livroModel.cadastrarLivro(titulo, autor, descricao, fkGenero);
+        res.status(201).json({ mensagem: "Livro cadastrado com sucesso!" });
+    } catch (err) {
+        console.error("Erro ao cadastrar livro:", err);
+        res.status(500).json({ erro: "Erro ao cadastrar livro." });
+    }
 }
+
+
 
 module.exports = {
     listar,
-    toggleFavorito
+    cadastrar
 };

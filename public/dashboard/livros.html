@@ -2,215 +2,354 @@
 <html lang="pt-BR">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catálogo de Livros</title>
-  <link rel="stylesheet" href="/css/estilo.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f5f5f5;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    h1 {
-      text-align: center;
-      color: #333;
-    }
-
-    .filters {
-      display: flex;
-      justify-content: center;
-      margin: 20px 0;
-      gap: 10px;
-    }
-
-    #search {
-      padding: 10px;
-      width: 300px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-    }
-
-    #btn-search {
-      padding: 10px 20px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .catalogo {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 20px;
-      padding: 20px;
-    }
-
-    .livro-card {
-      background-color: white;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 15px;
-      position: relative;
-      transition: transform 0.3s;
-    }
-
-    .livro-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .favorito-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: none;
-      border: none;
-      font-size: 20px;
-      cursor: pointer;
-      color: #ccc;
-    }
-
-    .favorito-btn.favoritado {
-      color: #f00;
-    }
-
-    .livro-titulo {
-      font-size: 18px;
-      margin-top: 10px;
-      margin-bottom: 5px;
-      color: #333;
-    }
-
-    .livro-autor {
-      color: #666;
-      font-size: 14px;
-      margin-bottom: 10px;
-    }
-
-    .livro-descricao {
-      font-size: 14px;
-      color: #444;
-      line-height: 1.4;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <link rel="shortcut icon" href="./assets/image/logo.png" type="image/x-icon">
+  <link rel="stylesheet" href="../css/dashboards.css">
+  <title>Cadastro de Livros</title>
 </head>
 
 <body>
-  <div class="container">
-    <h1>Catálogo de Livros</h1>
 
-    <div class="search-container">
-      <input type="text" id="searchInput" placeholder="Buscar livros...">
-      <button id="searchBtn"><i class="fas fa-search"></i></button>
+  <nav class="menu-lateral" id="menuLateral">
+    <h2>Entre Linhas</h2>
+    <ul>
+      <li><a href="./cards.html">Dashboard</a></li>
+      <li><a href="./livros.html">Minha Estante</a></li>
+      <li><a href="./quiz.html">Quiz</a></li>
+      <li><a href="./desafio.html">Missões e Desafios</a></li>
+      <li><a href="./perfil.html">Perfil</a></li>
+      <li><a href="../index.html">Sair</a></li>
+    </ul>
+  </nav>
+
+  <div class="conteudo-principal">
+    
+    <form id="formLivro">
+      <input type="text" id="titulo" placeholder="Título" required />
+      <input type="text" id="autor" placeholder="Autor" required />
+      <select id="fkGenero" required>
+        <option value="" disabled selected>Selecione um gênero</option>
+      </select>
+      <textarea id="descricao" placeholder="Descrição" required></textarea>
+      <button type="submit">Cadastrar Livro</button>
+    </form>
+
+    <h2>Livros Cadastrados</h2>
+    
+    <!-- Filtros -->
+    <div class="filtros-container">
+      <select id="filtroGenero">
+        <option value="">Todos os gêneros</option>
+      </select>
+      <button id="btnFavoritos">Mostrar Favoritos</button>
+      <button id="btnTodos" class="ativo">Mostrar Todos</button>
     </div>
 
-    <div class="catalogo" id="livrosContainer">
-      <!-- Livros serão carregados aqui via JS -->
+    <div class="carrossel-container">
+      <div class="carrossel-track" id="livrosContainer">
+        <!-- Os livros serão inseridos aqui pelo JavaScript -->
+      </div>
+    </div>
+
+    <div class="carrossel-nav">
+      <button id="prevBtn" disabled>Anterior</button>
+      <button id="nextBtn">Próximo</button>
     </div>
   </div>
 
-  <script src="/js/script.js">
-    document.addEventListener('DOMContentLoaded', () => {
-      const livrosContainer = document.getElementById('livrosContainer');
-      const searchInput = document.getElementById('searchInput');
-      const searchBtn = document.getElementById('searchBtn');
+  <script>
+    // Variáveis globais
+    let currentSlide = 0;
+    let slidesPerPage = 4;
+    let livrosData = [];
+    let generosData = [];
+    let filtroAtual = 'todos';
+    let generoSelecionado = '';
 
-      // ID do usuário (em produção viria da sessão)
-      const idUsuario = 0;
-
-      // Carregar livros inicialmente
-      carregarLivros();
-
-      // Eventos
-      searchBtn.addEventListener('click', () => carregarLivros(searchInput.value));
-      searchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') carregarLivros(searchInput.value);
-      });
-
-      function carregarLivros(search = '') {
-        fetch(`/livros/listar?search=${encodeURIComponent(search)}&idUsuario=${idUsuario}`)
-          .then(response => response.json())
-          .then(livros => {
-            renderizarLivros(livros);
-          })
-          .catch(error => {
-            console.error('Erro:', error);
-            livrosContainer.innerHTML = '<p>Erro ao carregar livros</p>';
-          });
-      }
-
-      function renderizarLivros(livros) {
-        livrosContainer.innerHTML = '';
-
-        if (livros.length === 0) {
-          livrosContainer.innerHTML = '<p class="no-books">Nenhum livro encontrado</p>';
-          return;
-        }
-
-        livros.forEach(livro => {
-          const livroEl = document.createElement('div');
-          livroEl.className = 'livro-card';
-          livroEl.innerHTML = `
-                <button class="favorito-btn ${livro.favoritado ? 'favoritado' : ''}" 
-                        data-id="${livro.idLivro}">
-                    <i class="fas fa-heart"></i>
-                </button>
-                <h3>${livro.titulo}</h3>
-                <p class="autor">${livro.autor}</p>
-                ${livro.genero ? `<span class="genero">${livro.genero}</span>` : ''}
-                <p class="descricao">${livro.descricao || 'Sem descrição'}</p>
-                <p class="favoritos-count">
-                    <i class="fas fa-heart"></i> ${livro.totalFavoritos || 0}
-                </p>
-            `;
-
-          livrosContainer.appendChild(livroEl);
-        });
-
-        // Adicionar eventos aos favoritos
-        document.querySelectorAll('.favorito-btn').forEach(btn => {
-          btn.addEventListener('click', function () {
-            const livroId = this.getAttribute('data-id');
-            toggleFavorito(livroId, this);
-          });
-        });
-      }
-
-      function toggleFavorito(livroId, btn) {
-        fetch('/livros/favoritar', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            idLivro: livroId,
-            idUsuario: idUsuario
-          })
+    // Carrega os gêneros do backend
+    function carregarGeneros() {
+      fetch("/generos/listar")
+        .then(res => {
+          if (!res.ok) throw new Error("Erro ao carregar gêneros");
+          return res.json();
         })
-          .then(response => response.json())
-          .then(data => {
-            if (data.success) {
-              btn.classList.toggle('favoritado');
-              // Recarregar para atualizar contagem
-              carregarLivros(searchInput.value);
-            }
-          })
-          .catch(error => {
-            console.error('Erro:', error);
+        .then(generos => {
+          generosData = generos;
+          
+          // Preenche o select do formulário
+          const selectForm = document.getElementById("fkGenero");
+          generos.forEach(gen => {
+            const opt = document.createElement("option");
+            opt.value = gen.id;
+            opt.textContent = gen.nome;
+            selectForm.appendChild(opt);
           });
+          
+          // Preenche o select de filtro
+          const selectFiltro = document.getElementById("filtroGenero");
+          generos.forEach(gen => {
+            const opt = document.createElement("option");
+            opt.value = gen.id;
+            opt.textContent = gen.nome;
+            selectFiltro.appendChild(opt);
+          });
+        })
+        .catch(err => {
+          alert("Falha ao carregar gêneros: " + err.message);
+        });
+    }
+
+    // Atualiza a posição do carrossel
+    function updateCarrossel() {
+      const carrosselTrack = document.getElementById('livrosContainer');
+      const slideWidth = 100 / Math.ceil(livrosData.length / slidesPerPage);
+      carrosselTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+      
+      document.getElementById('prevBtn').disabled = currentSlide === 0;
+      document.getElementById('nextBtn').disabled = currentSlide >= Math.ceil(livrosData.length / slidesPerPage) - 1;
+    }
+
+    // Alterna o status de favorito de um livro
+    function toggleFavorito(livroId, favoritado) {
+      fetch("/livros/favoritar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          livroId: livroId,
+          favoritado: favoritado 
+        })
+      })
+      .then(res => {
+        if (!res.ok) throw new Error("Erro ao atualizar favorito");
+        return res.json();
+      })
+      .then(data => {
+        if (data.success) {
+          // Atualiza o estado local
+          const livro = livrosData.find(l => l.id === livroId);
+          if (livro) {
+            livro.favorito = favoritado;
+          }
+          
+          // Atualiza o botão visualmente
+          const btn = document.querySelector(`.favorito-btn[data-livro-id="${livroId}"]`);
+          if (btn) {
+            btn.classList.toggle('favoritado', favoritado);
+          }
+          
+          // Se estivermos filtrando por favoritos, atualiza a lista
+          if (filtroAtual === 'favoritos') {
+            listarLivros();
+          }
+        } else {
+          alert(data.message || "Erro ao favoritar livro");
+        }
+      })
+      .catch(err => {
+        alert("Erro na comunicação com o servidor: " + err.message);
+      });
+    }
+
+    // Filtra os livros com base nas seleções
+    function filtrarLivros() {
+      let livrosFiltrados = [...livrosData];
+      
+      // Aplica filtro de favoritos
+      if (filtroAtual === 'favoritos') {
+        livrosFiltrados = livrosFiltrados.filter(livro => livro.favorito);
+      }
+      
+      // Aplica filtro por gênero
+      if (generoSelecionado) {
+        livrosFiltrados = livrosFiltrados.filter(livro => livro.fkGenero == generoSelecionado);
+      }
+      
+      return livrosFiltrados;
+    }
+
+    // Lista os livros cadastrados (com filtros aplicados)
+    function listarLivros() {
+      const livrosFiltrados = filtrarLivros();
+      const container = document.getElementById("livrosContainer");
+      container.innerHTML = '';
+      
+      // Se não houver livros com os filtros atuais
+      if (livrosFiltrados.length === 0) {
+        container.innerHTML = '<div class="carrossel-slide"><p style="grid-column: 1/-1; text-align: center;">Nenhum livro encontrado com os filtros atuais.</p></div>';
+        document.getElementById('prevBtn').disabled = true;
+        document.getElementById('nextBtn').disabled = true;
+        return;
+      }
+      
+      // Cria os slides do carrossel
+      const totalSlides = Math.ceil(livrosFiltrados.length / slidesPerPage);
+      
+      for (let i = 0; i < totalSlides; i++) {
+        const slide = document.createElement('div');
+        slide.className = 'carrossel-slide';
+        
+        const startIdx = i * slidesPerPage;
+        const endIdx = startIdx + slidesPerPage;
+        const livrosSlide = livrosFiltrados.slice(startIdx, endIdx);
+        
+        livrosSlide.forEach(livro => {
+          const livroCard = document.createElement('div');
+          livroCard.className = 'livro-card';
+          livroCard.innerHTML = `
+            <button class="favorito-btn ${livro.favorito ? 'favoritado' : ''}" 
+                    data-livro-id="${livro.id}" 
+                    onclick="toggleFavorito(${livro.id}, ${!livro.favorito})">
+              ♥
+            </button>
+            <strong>${livro.titulo}</strong>
+            <em>por ${livro.autor}</em>
+            <p>${livro.descricao}</p>
+            <div class="genero">${livro.genero}</div>
+          `;
+          slide.appendChild(livroCard);
+        });
+        
+        container.appendChild(slide);
+      }
+      
+      // Reseta para o primeiro slide
+      currentSlide = 0;
+      updateCarrossel();
+    }
+
+    // Carrega todos os livros do servidor
+    function carregarLivros() {
+      fetch("/livros/listar")
+        .then(res => {
+          if (!res.ok) throw new Error("Erro ao listar livros");
+          return res.json();
+        })
+        .then(livros => {
+          livrosData = livros;
+          listarLivros();
+        })
+        .catch(err => {
+          alert("Erro ao buscar livros: " + err.message);
+        });
+    }
+
+    // Cadastra um novo livro
+    document.getElementById("formLivro").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const btn = this.querySelector('button[type="submit"]');
+      btn.disabled = true;
+
+      const titulo = document.getElementById("titulo").value;
+      const autor = document.getElementById("autor").value;
+      const descricao = document.getElementById("descricao").value;
+      const fkGenero = document.getElementById("fkGenero").value;
+      const generoNovo = document.getElementById("generoNovo").value;
+
+      // Se um novo gênero foi digitado, usamos ele
+      const generoPayload = generoNovo ? 
+        { novoGenero: generoNovo } : 
+        { fkGenero: fkGenero };
+
+      fetch("/livros/cadastrar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          titulo, 
+          autor, 
+          descricao,
+          ...generoPayload
+        })
+      })
+        .then(res => {
+          btn.disabled = false;
+          if (!res.ok) throw new Error("Erro ao cadastrar livro");
+          return res.json();
+        })
+        .then(data => {
+          alert(data.mensagem || data.erro);
+          if (!data.erro) {
+            document.getElementById("formLivro").reset();
+            carregarLivros();
+            
+            // Se foi adicionado um novo gênero, recarrega a lista de gêneros
+            if (generoNovo) {
+              carregarGeneros();
+            }
+          }
+        })
+        .catch(err => {
+          alert("Erro na comunicação com o servidor: " + err.message);
+          btn.disabled = false;
+        });
+    });
+
+    // Navegação do carrossel
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateCarrossel();
       }
     });
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      const livrosFiltrados = filtrarLivros();
+      if (currentSlide < Math.ceil(livrosFiltrados.length / slidesPerPage) - 1) {
+        currentSlide++;
+        updateCarrossel();
+      }
+    });
+
+    // Filtro por gênero
+    document.getElementById('filtroGenero').addEventListener('change', function() {
+      generoSelecionado = this.value;
+      listarLivros();
+    });
+
+    // Filtro por favoritos
+    document.getElementById('btnFavoritos').addEventListener('click', function() {
+      filtroAtual = 'favoritos';
+      this.classList.add('ativo');
+      document.getElementById('btnTodos').classList.remove('ativo');
+      listarLivros();
+    });
+
+    // Mostrar todos os livros
+    document.getElementById('btnTodos').addEventListener('click', function() {
+      filtroAtual = 'todos';
+      this.classList.add('ativo');
+      document.getElementById('btnFavoritos').classList.remove('ativo');
+      listarLivros();
+    });
+
+    // Ajusta o número de livros por slide conforme o tamanho da tela
+    function adjustSlidesPerPage() {
+      const width = window.innerWidth;
+      
+      if (width < 600) {
+        slidesPerPage = 1;
+      } else if (width < 900) {
+        slidesPerPage = 2;
+      } else if (width < 1200) {
+        slidesPerPage = 3;
+      } else {
+        slidesPerPage = 4;
+      }
+      
+      if (livrosData.length > 0) {
+        listarLivros();
+      }
+    }
+
+    // Inicialização
+    window.onload = function () {
+      carregarGeneros();
+      carregarLivros();
+      window.addEventListener('resize', adjustSlidesPerPage);
+    };
+
+    // Torna a função toggleFavorito acessível globalmente para os botões
+    window.toggleFavorito = toggleFavorito;
   </script>
 </body>
 

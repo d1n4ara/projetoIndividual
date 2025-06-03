@@ -1,339 +1,724 @@
-    * {
-      box-sizing: border-box;
-    }
+/* Reset */
+* {
+  box-sizing: border-box;
+}
 
-    body,
-    html {
-      margin: 0;
-      height: 100%;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #fdfaf6;
-      color: #3a2e2e;
-      overflow: hidden;
-    }
+body html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: #fdfaf6;
+  color: #3a2e2e;
+  height: 100%;
+}
 
-    .container {
-      display: flex;
-      height: 100vh;
-      width: 100vw;
-    }
+/* Container flex nav + main */
+.container {
+  display: flex;
+  min-height: 100vh;
+}
 
-    nav.menu-lateral {
-      width: 240px;
-      background: #a58b65;
-      color: white;
-      padding: 2rem 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
-      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-      user-select: none;
-    }
+/* Variáveis de cor - Vintage Pink */
+:root {
+  --vintage-pink-light: #FCABA7;
+  --vintage-pink-medium: #D08280;
+  --vintage-pink-dark: #BD4B4B;
+  --vintage-brown-dark: #4D3229;
+  --vintage-brown-medium: #896253;
+  --text-light: #f8f8f8;
+}
 
-    nav.menu-lateral h2 {
-      margin: 0 0 1rem 0;
-      font-weight: 700;
-      font-size: 1.3rem;
-    }
+/* INCIO CSS NAV LATERAL */
 
-    nav.menu-lateral a {
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      padding: 0.6rem 1rem;
+#menuLateral {
+  width: 250px;
+  height: 100vh;
+  background-color: var(--vintage-brown-dark);
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 30px 0;
+  box-shadow: 3px 0 15px rgba(0, 0, 0, 0.1);
+  border-right: 2px solid var(--vintage-pink-medium);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+#menuLateral h2 {
+  color: var(--vintage-pink-light);
+  text-align: center;
+  font-family: 'Georgia', serif;
+  font-style: italic;
+  font-size: 28px;
+  margin-bottom: 40px;
+  padding-bottom: 15px;
+  border-bottom: 1px dashed var(--vintage-pink-medium);
+}
+
+#menuLateral ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+}
+
+#menuLateral li {
+  margin-bottom: 5px;
+}
+
+#menuLateral li a {
+  display: block;
+  color: var(--text-light);
+  text-decoration: none;
+  padding: 12px 25px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  position: relative;
+  font-family: 'Georgia', serif;
+}
+
+#menuLateral li a:hover {
+  background-color: rgba(252, 171, 167, 0.2);
+  color: white;
+  padding-left: 30px;
+}
+
+#menuLateral li a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background-color: var(--vintage-pink-light);
+  transform: scaleY(0);
+  transition: transform 0.2s ease;
+}
+
+#menuLateral li a:hover::before {
+  transform: scaleY(1);
+}
+
+#menuLateral li a.active {
+  background-color: rgba(189, 75, 75, 0.3);
+  color: white;
+  padding-left: 30px;
+  border-left: 3px solid var(--vintage-pink-dark);
+}
+
+#menuLateral li a.active::before {
+  transform: scaleY(1);
+  background-color: var(--vintage-pink-dark);
+}
+
+@media (max-width: 768px) {
+  #menuLateral {
+    width: 70px;
+    overflow: hidden;
+  }
+
+  #menuLateral h2 {
+    font-size: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+    position: relative;
+  }
+
+  #menuLateral h2::after {
+    content: "EL";
+    font-size: 22px;
+    color: var(--vintage-pink-light);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  #menuLateral li a {
+    padding: 15px;
+    text-align: center;
+  }
+
+  #menuLateral li a span {
+    display: none;
+  }
+
+  #menuLateral li a:hover {
+    padding-left: 15px;
+  }
+}
+
+.conteudo-principal {
+  margin-left: 250px;
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .conteudo-principal {
+    margin-left: 70px;
+  }
+}
+
+main.content {
+  flex: 1;
+  margin-left: 240px;
+  /* espaço para nav */
+  padding: 2rem;
+  min-height: 100vh;
+  background: #fdfaf6;
+  transition: margin-left 0.3s ease;
+}
+/* FIM CSS NAV LATERAL*/
+
+/* INICIO CSS KPI E GRAFICO */
+
+.kpis {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.kpi {
+  border: 1px solid #ccc;
+  padding: 15px 25px;
+  border-radius: 8px;
+  background: #fff7ed;
+  text-align: center;
+  flex: 1 1 22%;
+  min-width: 180px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-weight: 600;
+  transition: transform 0.2s ease;
+}
+
+.kpi:hover {
+  transform: translateY(-5px);
+}
+
+.kpi h2 {
+  margin: 0 0 10px;
+  font-size: 2em;
+  color: #a58b65;
+}
+
+/* GRÁFICOS */
+.charts {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+canvas {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  flex: 1 1 400px;
+  max-width: 600px;
+  height: 300px !important;
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+  nav.menu-lateral {
+    position: fixed;
+    height: 100vh;
+    transform: translateX(-100%);
+    z-index: 1050;
+  }
+
+  nav.menu-lateral.show {
+    transform: translateX(0);
+  }
+
+  .btn-hamburguer {
+    display: flex;
+  }
+
+  main.content {
+    margin-left: 0;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .kpis {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .charts {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+/*FIM CSS KPI E GRAFICO*/
+
+/* INICIO CSS QUIZ */
+
+.quiz-area {
+  flex: 1;
+  padding: 40px;
+  background-color: #fff;
+  border-left: 1px solid #f0e0e0;
+}
+
+.quiz-area h1 {
+  color: #BD4B4B;
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 2.5em;
+  border-bottom: 2px dashed #D08280;
+  padding-bottom: 15px;
+}
+
+/* ============ ESTRUTURA PRINCIPAL ============ */
+#quiz-form {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(189, 75, 75, 0.1);
+  border: 1px solid #f0e0e0;
+}
+
+/* ============ PERGUNTAS E ALTERNATIVAS ============ */
+.pergunta {
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: #fff9f9;
+  border-radius: 6px;
+  border-left: 4px solid #FCABA7;
+  transition: transform 0.3s ease;
+}
+
+.pergunta:hover {
+  transform: translateY(-3px);
+}
+
+.pergunta h3 {
+  color: #4D3229;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.3em;
+  font-weight: 600;
+}
+
+/* ============ RADIO BUTTONS PERSONALIZADOS ============ */
+.pergunta label {
+  display: block;
+  padding: 15px;
+  margin-bottom: 12px;
+  background-color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid #f0e0e0;
+  position: relative;
+  padding-left: 50px;
+}
+
+.pergunta label:hover {
+  background-color: #fff5f5;
+  border-color: #D08280;
+}
+
+.pergunta input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Círculo externo */
+.pergunta label::before {
+  content: "";
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  border: 2px solid #D08280;
+  border-radius: 50%;
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+/* ============ ESTILOS DE SELEÇÃO ============ */
+.pergunta input[type="radio"]:checked+label {
+  background-color: #fff0f0;
+  border-color: #BD4B4B;
+  box-shadow: 0 2px 8px rgba(189, 75, 75, 0.1);
+}
+
+.pergunta input[type="radio"]:checked+label::before {
+  border-color: #BD4B4B;
+  background-color: #f8e8e8;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #BD4B4B;
+}
+
+.pergunta input[type="radio"]:checked + label::after {
+  content: "";
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  background-color: #BD4B4B;
+  border-radius: 50%;
+}
+
+
+/* Removido o seletor ::after que criava a bolinha interna */
+
+/* ============ BOTÕES ============ */
+button {
+  background-color: #BD4B4B;
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Georgia', serif;
+  margin-top: 25px;
+  letter-spacing: 0.5px;
+}
+
+button:hover {
+  background-color: #A53E3E;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(189, 75, 75, 0.3);
+}
+
+#botao-proximo,
+#botao-enviar {
+  display: block;
+  margin: 35px auto 0;
+  min-width: 180px;
+  text-align: center;
+}
+
+/* ============ RESULTADO ============ */
+#resultado {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 30px;
+  background-color: #fff9f9;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 1.2em;
+  color: #4D3229;
+  border: 1px solid #FCABA7;
+  box-shadow: 0 4px 15px rgba(189, 75, 75, 0.1);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+}
+
+#resultado.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============ RESPONSIVIDADE ============ */
+@media (max-width: 768px) {
+  #quiz-form {
+    padding: 20px;
+  }
+
+  .pergunta {
+    padding: 15px;
+  }
+
+  .pergunta label {
+    padding: 12px 15px 12px 45px;
+  }
+
+  button {
+    padding: 12px 20px;
+    width: 100%;
+  }
+}
+
+/* FIM CSS QUIZ */
+
+/* FIM CSS CATALOGO */
+
+    /* Formulário compacto */
+    #formLivro {
+      background: white;
+      padding: 1rem;
       border-radius: 8px;
-      transition: background-color 0.25s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+      max-width: 550px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
     }
 
-    nav.menu-lateral a:hover,
-    nav.menu-lateral a.active {
-      background: #fff7ed;
-      color: #a58b65;
-      font-weight: 700;
+    #formLivro input,
+    #formLivro select {
+      padding: 0.6rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 0.9rem;
     }
 
-    main.main-content {
-      flex-grow: 1;
-      padding: 2rem;
-      overflow-y: auto;
-      background: transparent;
+    #formLivro textarea {
+      grid-column: span 2;
+      min-height: 80px;
+      resize: vertical;
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    #formLivro button {
+      grid-column: span 2;
+      background-color: #BD4B4B;
+      color: white;
+      border: none;
+      padding: 0.6rem;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    #formLivro button:hover {
+      background-color: #A53E3E;
+    }
+
+    /* Filtros */
+    .filtros-container {
       display: flex;
-      flex-direction: column;
-      gap: 2rem;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      align-items: center;
+      flex-wrap: wrap;
     }
 
-    .kpis {
+    .filtros-container select, 
+    .filtros-container button {
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+      font-size: 0.9rem;
+    }
+
+    .filtros-container button {
+      background-color: #4D3229;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .filtros-container button:hover {
+      background-color: #3a2620;
+    }
+
+    .filtros-container button.ativo {
+      background-color: #BD4B4B;
+    }
+
+    /* Estatísticas */
+    .estatisticas-container {
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 1.5rem;
+      max-width: 550px;
+    }
+
+    .estatisticas-container h3 {
+      color: #4D3229;
+      margin-bottom: 0.5rem;
+    }
+
+    .estatisticas-container p {
+      margin-bottom: 0.3rem;
+      font-size: 0.9rem;
+    }
+
+    /* Carrossel de livros */
+    .carrossel-container {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      margin: 2rem 0;
+    }
+
+    .carrossel-track {
+      display: flex;
+      transition: transform 0.5s ease;
+      height: 100%;
+    }
+
+    .carrossel-slide {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      flex: 0 0 100%;
+      padding: 0 1rem;
+    }
+
+    .livro-card {
+      background: white;
+      border-radius: 8px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      height: 260px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .livro-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .livro-card strong {
+      color: #4D3229;
+      font-size: 1.1rem;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    .livro-card em {
+      color: #896253;
+      font-style: italic;
+      font-size: 0.85rem;
+    }
+
+    .livro-card p {
+      color: #3a2e2e;
+      font-size: 0.8rem;
+      margin: 0.8rem 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+    }
+
+    .livro-card .genero {
+      color: #BD4B4B;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+
+    .favorito-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #ccc;
+      transition: all 0.3s ease;
+    }
+
+    .favorito-btn.favoritado {
+      color: #BD4B4B;
+    }
+
+    .carrossel-nav {
+      display: flex;
+      justify-content: center;
+      margin-top: 1.5rem;
       gap: 1rem;
     }
 
-    .kpi {
-      background: #fff7ed;
-      padding: 4rem;
-      border-radius: 16px;
-      text-align: center;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      font-weight: 600;
-      user-select: none;
-    }
-
-    /* NOVO: Conteúdo inferior */
-    .conteudo-inferior {
-      display: flex;
-      gap: 2rem;
-      width: 100%;
-    }
-
-    .ranking {
-      flex: 1;
-      background: #fff7ed;
-      padding: 1rem;
-      border-radius: 16px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      max-width: 300px;
-      user-select: none;
-    }
-
-    .ranking h3 {
-      margin-top: 0;
-    }
-
-    .ranking ol {
-      padding-left: 1.2rem;
-    }
-
-    .ranking li {
-      margin-bottom: 0.5rem;
-      font-weight: 600;
-    }
-
-    .graficos {
-      flex: 3;
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    canvas {
-      background: white;
-      border-radius: 16px;
-      padding: 1rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      width: 100% !important;
-      height: 385px !important;
-    }
-
-    /* Quiz */
-
-    /* Estilos do quiz */
-    #quiz-container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 30px;
-      background-color: #fff;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    #quiz-header {
-      text-align: center;
-      margin-bottom: 30px;
-      padding-bottom: 20px;
-      border-bottom: 2px solid #f2ede4;
-    }
-
-    #quiz-header h1 {
-      color: #5a3921;
-      margin-bottom: 10px;
-    }
-
-    #quiz-header p {
-      color: #7e6343;
-      margin-top: 0;
-    }
-
-    #quiz-progress {
-      background-color: #f2ede4;
-      padding: 8px 15px;
-      border-radius: 20px;
-      font-weight: bold;
-      display: inline-block;
-      color: #5a3921;
-    }
-
-    #pergunta-container {
-      margin-bottom: 30px;
-    }
-
-    #pergunta-texto {
-      font-size: 1.4rem;
-      color: #5e412f;
-      line-height: 1.5;
-    }
-
-    #alternativas-container {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .alternativa {
-      padding: 15px 20px;
-      border: 2px solid #f2ede4;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-size: 1.1rem;
-    }
-
-    .alternativa:hover {
-      background-color: #f8f3ed;
-      border-color: #d4c4a8;
-    }
-
-    .alternativa.selecionada {
-      border-color: #9a7e58;
-      background-color: #f2ede4;
-      font-weight: 600;
-    }
-
-    #quiz-actions {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 40px;
-    }
-
-    #quiz-actions button {
-      padding: 12px 25px;
-      border: none;
-      border-radius: 8px;
-      background-color: #9a7e58;
+    .carrossel-nav button {
+      background-color: #BD4B4B;
       color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
       cursor: pointer;
-      transition: all 0.3s;
-      font-weight: 600;
-      font-size: 1rem;
+      transition: all 0.3s ease;
     }
 
-    #quiz-actions button:hover {
-      background-color: #7e6343;
-      transform: translateY(-2px);
+    .carrossel-nav button:hover {
+      background-color: #A53E3E;
     }
 
-    #quiz-actions button:disabled {
-      background-color: #cccccc;
+    .carrossel-nav button:disabled {
+      background-color: #D08280;
       cursor: not-allowed;
-      transform: none;
-    }
-
-    /* Resultado */
-    #resultado-container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 30px;
-      background-color: #fff;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    #resultado-container h2 {
-      color: #5a3921;
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    #livro-recomendado {
-      display: flex;
-      gap: 30px;
-      margin-bottom: 40px;
-      text-align: left;
-    }
-
-    #livro-capa {
-      width: 180px;
-      height: auto;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    #livro-titulo {
-      color: #5a3921;
-      margin-top: 0;
-      font-size: 1.6rem;
-    }
-
-    #livro-autor,
-    #livro-genero {
-      color: #7e6343;
-      margin-bottom: 10px;
-    }
-
-    #livro-descricao {
-      line-height: 1.6;
-      color: #5e412f;
-    }
-
-    .grafico-container {
-      margin: 30px auto;
-      max-width: 500px;
-    }
-
-    #quiz-actions-resultado {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 30px;
-    }
-
-    #btn-favorito {
-      background-color: #e74c3c;
-    }
-
-    #btn-favorito:hover {
-      background-color: #c0392b;
-    }
-
-    #btn-reiniciar {
-      background-color: #9a7e58;
-    }
-
-    #btn-reiniciar:hover {
-      background-color: #7e6343;
     }
 
     /* Responsividade */
-    @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-        height: auto;
-        overflow-y: auto;
-      }
-
-      nav.menu-lateral {
-        width: 100%;
-        flex-direction: row;
-        flex-wrap: wrap;
-        padding: 1rem;
-      }
-
-      nav.menu-lateral h2 {
-        width: 100%;
-        margin-bottom: 0.5rem;
-      }
-
-      main.main-content {
-        padding: 1.5rem;
-      }
-
-      #livro-recomendado {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      #quiz-actions,
-      #quiz-actions-resultado {
-        flex-direction: column;
-        gap: 15px;
+    @media (max-width: 1200px) {
+      .carrossel-slide {
+        grid-template-columns: repeat(3, 1fr);
       }
     }
+
+    @media (max-width: 900px) {
+      .carrossel-slide {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      #formLivro {
+        grid-template-columns: 1fr;
+      }
+      
+      #formLivro textarea,
+      #formLivro button {
+        grid-column: span 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      #menuLateral {
+        width: 70px;
+      }
+
+      #menuLateral h2 {
+        font-size: 0;
+      }
+
+      #menuLateral h2::after {
+        content: "EL";
+        font-size: 22px;
+      }
+
+      #menuLateral li a {
+        padding: 15px;
+        text-align: center;
+      }
+
+      #menuLateral li a span {
+        display: none;
+      }
+
+      .conteudo-principal {
+        margin-left: 70px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .carrossel-slide {
+        grid-template-columns: 1fr;
+      }
+    }
+
+/* FIM CSS CATALOGO */

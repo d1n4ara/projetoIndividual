@@ -4,224 +4,117 @@ USE entreLinhas;
 
 -- GÊNERO
 CREATE TABLE genero (
-    idGenero INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(50)
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	nome VARCHAR(50)
 );
 
 -- USUÁRIO
 CREATE TABLE usuario (
-    idUsuario INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(50),
-    email VARCHAR(50) UNIQUE,
-    senha VARCHAR(255),
-    pontos INT DEFAULT 0,
-    nivel INT DEFAULT 1,
-    fkGeneroFavorito INT,
-    FOREIGN KEY (fkGeneroFavorito) REFERENCES genero(idGenero)
+	idUsuario INT PRIMARY KEY AUTO_INCREMENT
+    , nome VARCHAR(50)
+    , email VARCHAR(50)
+    , senha VARCHAR(50)
+    , pontos INT default 0
+    , nivel INT default 1
+    , fkGeneroFavorito INT
+    , FOREIGN KEY (fkGeneroFavorito) REFERENCES genero(id)
 );
 
--- POSTAGEM
+-- PERFIL (1:1 com USUÁRIO)
+CREATE TABLE perfil (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	bio TEXT,
+	fotoPerfil VARCHAR(255),
+	fkUsuario INT UNIQUE, -- garante 1:1
+	FOREIGN KEY (fkUsuario) REFERENCES usuario(idUsuario)
+);
+
+-- POSTAGEM (1:N com USUÁRIO)
 CREATE TABLE postagem (
-    idPostagem INT PRIMARY KEY AUTO_INCREMENT,
-    titulo VARCHAR(100),
-    descricao VARCHAR(150),
-    data_postagem DATETIME DEFAULT CURRENT_TIMESTAMP,
-    fkUsuario INT,
-    FOREIGN KEY (fkUsuario) REFERENCES usuario(idUsuario)
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	titulo VARCHAR(100),
+	descricao VARCHAR(150),
+	dataPostagem DATETIME DEFAULT CURRENT_TIMESTAMP,
+	fkUsuario INT,
+	FOREIGN KEY (fkUsuario) REFERENCES usuario(idUsuario)
 );
 
 -- LIVRO
-CREATE TABLE livro (
-    idLivro INT PRIMARY KEY AUTO_INCREMENT,
-    titulo VARCHAR(100),
-    autor VARCHAR(100),
-    genero VARCHAR(50),
-    descricao VARCHAR(300),
-    fkGenero INT,
-    FOREIGN KEY (fkGenero) REFERENCES genero(idGenero)
+create table livro (
+	id INT PRIMARY KEY AUTO_INCREMENT
+    , titulo VARCHAR(100)
+    , autor VARCHAR(100)
+    , genero VARCHAR(50)
+    , descricao VARCHAR(300) 
+    , fkGenero INT
+    , FOREIGN KEY (fkGenero) REFERENCES genero(id)
 );
 
--- LIVRO FAVORITO
-CREATE TABLE livroFavorito (
-    idLivroFavorito INT PRIMARY KEY AUTO_INCREMENT,
-    fkUsuario INT,
-    fkLivro INT,
-    data_favorito DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (fkUsuario) REFERENCES usuario(idUsuario),
-    FOREIGN KEY (fkLivro) REFERENCES livro(idLivro)
-);
+-- LIVRO FAVORITO (N:N entre USUÁRIO e LIVRO)
+CREATE TABLE livro_favorito (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	fkUsuario INT,
+	fkLivro INT,
+	dataFavorito DATETIME DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY (fkUsuario) REFERENCES usuario(usuario),
+	FOREIGN KEY (fkLivro) REFERENCES livro(id)
+); 
 
--- INTERAÇÃO DE LEITURA
+-- INTERAÇÃO (N:N disfarçado — permite múltiplos registros por usuário/livro)
 CREATE TABLE interacao (
-    idInteracao INT PRIMARY KEY AUTO_INCREMENT,
-    porcentagem_lida DECIMAL(5,2),
-    data_atualizacao DATETIME DEFAULT CURRENT_TIMESTAMP,
-    fkUsuario INT,
-    fkLivro INT,
-    FOREIGN KEY (fkUsuario) REFERENCES usuario(idUsuario),
-    FOREIGN KEY (fkLivro) REFERENCES livro(idLivro)
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	porcentagemLida DECIMAL(5,2),
+	dataAtualizacao DATETIME DEFAULT CURRENT_TIMESTAMP,
+	fkUsuario INT,
+	fkLivro INT,
+	FOREIGN KEY (fkUsuario) REFERENCES usuario(idUsuario),
+	FOREIGN KEY (fkLivro) REFERENCES livro(id)
 );
 
--- QUIZ (simplificado)
-CREATE TABLE quiz (
-    idQuiz INT PRIMARY KEY AUTO_INCREMENT,
-    titulo VARCHAR(100),
-    descricao VARCHAR(300),
-    data_criacao DATETIME DEFAULT CURRENT_TIMESTAMP
-);
-
--- QUESTÕES
-CREATE TABLE questao (
-    idQuestao INT PRIMARY KEY AUTO_INCREMENT,
-    pergunta VARCHAR(300),
-    fkQuiz INT,
-    FOREIGN KEY (fkQuiz) REFERENCES quiz(idQuiz)
-);
-
--- ALTERNATIVAS
-CREATE TABLE alternativa (
-    idAlternativa INT PRIMARY KEY AUTO_INCREMENT,
-    texto VARCHAR(300),
-    isCorreta BOOLEAN,
-    fkQuestao INT,
-    FOREIGN KEY (fkQuestao) REFERENCES questao(idQuestao)
-);
-
--- RESPOSTAS DOS USUÁRIOS (tabela única para registrar respostas)
-CREATE TABLE respostaUsuario (
-    idRespostaUsuario INT PRIMARY KEY AUTO_INCREMENT,
-    fkUsuario INT,
-    fkQuiz INT,
-    fkQuestao INT,
-    fkAlternativa INT,
-    dataResposta DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (fkUsuario) REFERENCES usuario(idUsuario),
-    FOREIGN KEY (fkQuiz) REFERENCES quiz(idQuiz),
-    FOREIGN KEY (fkQuestao) REFERENCES questao(idQuestao),
-    FOREIGN KEY (fkAlternativa) REFERENCES alternativa(idAlternativa)
-);
-
--- RESULTADOS DO QUIZ (para estatísticas)
-CREATE TABLE resultadoQuiz (
-    idResultado INT PRIMARY KEY AUTO_INCREMENT,
-    fkUsuario INT,
-    fkQuiz INT,
-    pontuacao INT,
-    porcentagemAcertos DECIMAL(5,2),
-    dataRealizacao DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (fkUsuario) REFERENCES usuario(idUsuario),
-    FOREIGN KEY (fkQuiz) REFERENCES quiz(idQuiz)
-);
-
--- INSERÇÕES DE DADOS INICIAIS
 INSERT INTO genero (nome) VALUES 
-    ('Romance'),
-    ('Mistério'),
-    ('Fantasia'),
-    ('Ficção Científica'),
-    ('Suspense e Terror'),
-    ('Literatura Brasileira'),
-    ('Literatura Estrangeira');
+	('Romance'),
+	('Mistério'),
+	('Fantasia'),
+	('Ficção'),
+	('Suspense e Terror');
 
--- LIVROS DE EXEMPLO (apenas alguns para o quiz)
-INSERT INTO livro (titulo, autor, genero, descricao, fkGenero) VALUES
-('Dom Casmurro', 'Machado de Assis', 'Literatura Brasileira', 'Clássico da literatura brasileira sobre ciúme e traição', 6),
-('A Hora da Estrela', 'Clarice Lispector', 'Literatura Brasileira', 'Último romance da autora, sobre a vida de Macabéa', 6),
-('O Cortiço', 'Aluísio Azevedo', 'Literatura Brasileira', 'Romance naturalista sobre a vida em um cortiço no Rio de Janeiro', 6),
-('Memórias Póstumas de Brás Cubas', 'Machado de Assis', 'Literatura Brasileira', 'Narrado por um defunto autor, crítica à sociedade brasileira', 6),
-('Grande Sertão: Veredas', 'Guimarães Rosa', 'Literatura Brasileira', 'Clássico da literatura brasileira com linguagem inovadora', 6),
-('1984', 'George Orwell', 'Ficção Científica', 'Distopia sobre vigilância e controle totalitário', 4),
-('O Senhor dos Anéis', 'J.R.R. Tolkien', 'Fantasia', 'Trilogia épica sobre a Terra Média e o Um Anel', 3);
+-- LIVROS (Agrupados por fk_genero)
+-- ROMANCE (fk_genero = 1)
+INSERT INTO livro (titulo, autor, descricao, fkGenero) VALUES
+('A Culpa é das Estrelas', 'John Green', 'Dois adolescentes com câncer vivem uma história de amor.', 1),
+('A Seleção', 'Kiera Cass', 'Uma competição por amor e poder em uma monarquia futurista.', 1),
+('Me Chame Pelo Seu Nome', 'André Aciman', 'Um verão inesquecível na Itália e um romance intenso.', 1),
+('O Visconde que Me Amava', 'Julia Quinn', 'Um romance de época da série Bridgerton.', 1),
+('Como Eu Era Antes de Você', 'Jojo Moyes', 'Uma cuidadora transforma a vida de um homem tetraplégico.', 1);
 
--- INSERIR QUIZ DE LITERATURA
-INSERT INTO quiz (titulo, descricao) VALUES 
-('Quiz de Literatura Brasileira', 'Teste seus conhecimentos sobre os clássicos da literatura brasileira');
+-- MISTÉRIO (fk_genero = 2)
+INSERT INTO livro (titulo, autor, descricao, fkGenero) VALUES
+('A Rainha Vermelha', 'Victoria Aveyard', 'Uma jovem descobre poderes em uma sociedade dividida por sangue.', 2),
+('E Não Sobrou Nenhum', 'Agatha Christie', 'Dez estranhos presos em uma ilha com segredos mortais.', 2),
+('Misery', 'Stephen King', 'Um autor sequestrado por sua fã número um.', 2),
+('O Homem de Giz', 'C. J. Tudor', 'Um grupo de amigos se envolve com assassinatos e segredos.', 2),
+('A Paciente Silenciosa', 'Alex Michaelides', 'Uma mulher que comete um crime brutal e para de falar.', 2);
 
--- OBTER ID DO QUIZ INSERIDO
-SET @idQuiz = LAST_INSERT_ID();
+-- FANTASIA (fk_genero = 3)
+INSERT INTO livro (titulo, autor, descricao, fkGenero) VALUES
+('O Senhor dos Anéis', 'J.R.R. Tolkien', 'Uma jornada épica para destruir o Um Anel.', 3),
+('As Crônicas de Nárnia', 'C.S. Lewis', 'Crianças descobrem um mundo mágico através de um guarda-roupa.', 3),
+('Harry Potter e a Pedra Filosofal', 'J.K. Rowling', 'Um garoto bruxo descobre seu destino em Hogwarts.', 3),
+('Trono de Vidro', 'Sarah J. Maas', 'Uma assassina luta por sua liberdade e um trono.', 3),
+('Alice no País das Maravilhas', 'Lewis Carroll', 'Uma garota cai na toca de um coelho e entra em um mundo estranho.', 3);
 
--- PERGUNTAS DO QUIZ
-INSERT INTO questao (pergunta, fkQuiz) VALUES 
-('Quem é o autor de "Dom Casmurro"?', @idQuiz),
-('Qual destes livros foi escrito por Clarice Lispector?', @idQuiz),
-('Qual é o movimento literário de "O Cortiço"?', @idQuiz),
-('Quem é o narrador de "Memórias Póstumas de Brás Cubas"?', @idQuiz),
-('Qual destes autores escreveu "Grande Sertão: Veredas"?', @idQuiz),
-('Em que ano foi publicado "Dom Casmurro"?', @idQuiz),
-('Qual destes NÃO é um livro de Machado de Assis?', @idQuiz),
-('Qual é o tema principal de "O Cortiço"?', @idQuiz),
-('Qual destes livros é considerado o marco inicial do Realismo no Brasil?', @idQuiz),
-('Quem é o protagonista de "Dom Casmurro"?', @idQuiz);
+-- FICÇÃO (fk_genero = 4)
+INSERT INTO livro (titulo, autor, descricao, fkGenero) VALUES
+('O Guia do Mochileiro das Galáxias', 'Douglas Adams', 'Aventura absurda no espaço com um humano e seu amigo alien.', 4),
+('1984', 'George Orwell', 'Um futuro distópico de vigilância e controle totalitário.', 4),
+('Fahrenheit 451', 'Ray Bradbury', 'Uma sociedade onde livros são proibidos e queimados.', 4),
+('Bird Box', 'Josh Malerman', 'Uma força invisível leva pessoas à loucura e ao suicídio.', 4),
+('Eu, Robô', 'Isaac Asimov', 'Contos sobre as leis da robótica e dilemas éticos.', 4);
 
--- ALTERNATIVAS PARA CADA QUESTÃO
--- Questão 1
-INSERT INTO alternativa (texto, isCorreta, fkQuestao) VALUES
-('Machado de Assis', TRUE, 1),
-('José de Alencar', FALSE, 1),
-('Graciliano Ramos', FALSE, 1),
-('Guimarães Rosa', FALSE, 1);
-
--- Questão 2
-INSERT INTO alternativa (texto, isCorreta, fkQuestao) VALUES
-('A Hora da Estrela', TRUE, 2),
-('Vidas Secas', FALSE, 2),
-('O Ateneu', FALSE, 2),
-('Memórias Sentimentais de João Miramar', FALSE, 2);
-
--- Questão 3
-INSERT INTO alternativa (texto, isCorreta, fkQuestao) VALUES
-('Naturalismo', TRUE, 3),
-('Romantismo', FALSE, 3),
-('Modernismo', FALSE, 3),
-('Parnasianismo', FALSE, 3);
-
--- Questão 4
-INSERT INTO alternativa (texto, isCorreta, fkQuestao) VALUES
-('Brás Cubas', TRUE, 4),
-('Bentinho', FALSE, 4),
-('Capitu', FALSE, 4),
-('Quincas Borba', FALSE, 4);
-
--- Questão 5
-INSERT INTO alternativa (texto, isCorreta, fkQuestao) VALUES
-('Guimarães Rosa', TRUE, 5),
-('Carlos Drummond de Andrade', FALSE, 5),
-('Jorge Amado', FALSE, 5),
-('Érico Veríssimo', FALSE, 5);
-
--- Questão 6
-INSERT INTO alternativa (texto, isCorreta, fkQuestao) VALUES
-('1899', TRUE, 6),
-('1880', FALSE, 6),
-('1902', FALSE, 6),
-('1875', FALSE, 6);
-
--- Questão 7
-INSERT INTO alternativa (texto, isCorreta, fkQuestao) VALUES
-('O Tempo e o Vento', TRUE, 7),
-('Quincas Borba', FALSE, 7),
-('Memórias Póstumas de Brás Cubas', FALSE, 7),
-('Dom Casmurro', FALSE, 7);
-
--- Questão 8
-INSERT INTO alternativa (texto, isCorreta, fkQuestao) VALUES
-('A vida nos cortiços do Rio de Janeiro no século XIX', TRUE, 8),
-('A escravidão no Brasil colonial', FALSE, 8),
-('A imigração italiana em São Paulo', FALSE, 8),
-('A guerra de Canudos', FALSE, 8);
-
--- Questão 9
-INSERT INTO alternativa (texto, isCorreta, fkQuestao) VALUES
-('Memórias Póstumas de Brás Cubas', TRUE, 9),
-('O Guarani', FALSE, 9),
-('Iracema', FALSE, 9),
-('Dom Casmurro', FALSE, 9);
-
--- Questão 10
-INSERT INTO alternativa (texto, isCorreta, fkQuestao) VALUES
-('Bentinho', TRUE, 10),
-('Brás Cubas', FALSE, 10),
-('Rubião', FALSE, 10),
-('Riobaldo', FALSE, 10);
-
-select * from usuario;
+-- SUSPENSE E TERROR (fk_genero = 5)
+INSERT INTO livro (titulo, autor, descricao, fkGenero) VALUES
+('It: A Coisa', 'Stephen King', 'Um grupo enfrenta um ser aterrorizante que muda de forma.', 5),
+('O Rei da Terra do Nunca', 'Stephen King', 'Terror psicológico envolvendo infância e monstros.', 5),
+('A Estrada da Noite', 'Joe Hill', 'Um colecionador de objetos macabros compra um terno assombrado.', 5),
+('O Corvo e Outras Histórias', 'Edgar Allan Poe', 'Contos sombrios com horror psicológico.', 5),
+('O Cemitério', 'Stephen King', 'Uma família descobre um cemitério com poderes sombrios.', 5);

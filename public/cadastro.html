@@ -356,15 +356,8 @@
     }
 
     function irParaLogin() {
-        document.body.classList.add('animacao-entrada');
-        sessionStorage.setItem('animarEntrada', 'true');
         setTimeout(() => {
             window.location.href = 'login.html';
         }, 500);
-    }
-
-    if (sessionStorage.getItem('animarEntrada') === 'true') {
-        document.body.classList.add('animacao-entrada');
-        sessionStorage.removeItem('animarEntrada');
     }
 </script>

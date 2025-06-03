@@ -1,56 +1,58 @@
-const db = require('../database/config');
+const database = require("../database/config");
+
+function buscarFavoritos(idUsuario) {
+  const instrucao = `SELECT COUNT(*) AS totalFavoritos FROM livro_favorito WHERE fkUsuario = ${idUsuario};`;
+  return database.executar(instrucao);
+}
+
+function buscarMaiorPontuacao(idUsuario) {
+  const instrucao = `SELECT MAX(pontuacao) AS maiorPontuacao FROM resultadoQuiz WHERE fkUsuario = ${idUsuario};`;
+  return database.executar(instrucao);
+}
+
+function buscarGeneroFavorito(idUsuario) {
+  const instrucao = `
+    SELECT g.nome AS genero
+    FROM usuario u
+    LEFT JOIN genero g ON u.fkGeneroFavorito = g.id
+    WHERE u.idUsuario = ${idUsuario};
+  `;
+  return database.executar(instrucao);
+}
+
+
+function buscarQuantidadeQuizzes(idUsuario) {
+  const instrucao = `SELECT COUNT(*) AS totalQuizzes FROM resultadoQuiz WHERE fkUsuario = ${idUsuario};`;
+  return database.executar(instrucao);
+}
+
+function buscarPontuacoesQuiz(idUsuario) {
+  const instrucao = `
+    SELECT DATE_FORMAT(dataQuiz, '%d/%m') AS dataQuiz, pontuacao
+    FROM resultadoQuiz 
+    WHERE fkUsuario = ${idUsuario}
+    ORDER BY dataQuiz DESC
+    LIMIT 7;
+  `;
+  return database.executar(instrucao);
+}
+
+function buscarFavoritosPorGenero(idUsuario) {
+  const instrucao = `
+    SELECT genero, COUNT(*) AS total 
+    FROM livro_favorito 
+    JOIN livro ON livro_favorito.fkLivro = livro.id 
+    WHERE livro_favorito.fkUsuario = ${idUsuario}
+    GROUP BY genero;
+  `;
+  return database.executar(instrucao);
+}
 
 module.exports = {
-  async obterKPIs(idUsuario) {
-    const sql = `
-      SELECT 
-        (SELECT COUNT(*) FROM interacao WHERE fkUsuario = ${idUsuario} AND porcentagem_lida = 100) AS livrosLidos,
-        (SELECT COUNT(*) FROM interacao WHERE fkUsuario = ${idUsuario} AND MONTH(data_atualizacao) = MONTH(CURDATE())) AS paginasPorMes,
-        (SELECT COUNT(*) FROM livroFavorito WHERE fkUsuario = ${idUsuario}) AS favoritos,
-        (SELECT pontos FROM usuario WHERE idUsuario = ${idUsuario}) AS pontuacao
-    `;
-
-    const resultados = await db.executar(sql);
-    const dados = resultados[0];
-
-    const pontuacao = dados.pontuacao || 0;
-    const nivel = pontuacao >= 1000 ? "📘 Avançado"
-      : pontuacao >= 500 ? "📗 Intermediário"
-        : "📕 Iniciante";
-
-    return {
-      livrosLidos: dados.livrosLidos || 0,
-      paginasPorMes: dados.paginasPorMes || 0,
-      favoritos: dados.favoritos || 0,
-      pontuacao,
-      nivel
-    };
-  },
-
-  async obterGenerosLidos(idUsuario) {
-    const sql = `
-      SELECT g.nome AS genero, COUNT(*) AS total
-      FROM interacao i
-      JOIN livro l ON i.fkLivro = l.idLivro
-      JOIN genero g ON l.fkGenero = g.idGenero
-      WHERE i.fkUsuario = ${idUsuario} AND i.porcentagem_lida = 100
-      GROUP BY g.nome
-    `;
-    const resultados = await db.executar(sql);
-    return resultados;
-  },
-
-  async obterQuiz(idUsuario) {
-    const sql = `
-     SELECT 
-      SUM(CASE WHEN a.isCorreta = 1 THEN 1 ELSE 0 END) AS certas,
-      SUM(CASE WHEN a.isCorreta = 0 THEN 1 ELSE 0 END) AS erradas
-    FROM respostaUsuario ru
-    JOIN alternativa a ON ru.fkAlternativa = a.idAlternativa
-      WHERE ru.fkUsuario = 1
-
-    `;
-    const resultados = await db.executar(sql);
-    return resultados[0] || { certas: 0, erradas: 0 };
-  }
+  buscarFavoritos,
+  buscarMaiorPontuacao,
+  buscarGeneroFavorito,
+  buscarQuantidadeQuizzes,
+  buscarPontuacoesQuiz,
+  buscarFavoritosPorGenero
 };

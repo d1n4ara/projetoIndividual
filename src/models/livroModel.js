@@ -1,55 +1,57 @@
-// models/livroModel.js
-const database = require("../database/config");
+const db = require('../database/config'); 
 
-function listar(search = '', idUsuario = 0) {
-    console.log("ACESSEI O LIVRO MODEL");
-    
-    let query = `
-        SELECT l.idLivro, l.titulo, l.autor, g.genero, l.descricao,
-               (SELECT COUNT(*) FROM livroFavorito WHERE fkLivro = l.idLivro) as totalFavoritos,
-               EXISTS(SELECT 1 FROM livroFavorito WHERE fkLivro = l.idLivro AND fkUsuario = ${idUsuario}) as favoritado
-        FROM livro l
-        LEFT JOIN genero g ON l.fkGenero = g.idGenero
-    `;
-    
-    if (search) {
-        query += ` WHERE l.titulo LIKE '%${search}%' OR l.autor LIKE '%${search}%' OR g.genero LIKE '%${search}%'`;
-    }
-    
-    console.log("Executando a instrução SQL: \n" + query);
-    return new Promise((resolve, reject) => {
-        database.query(query, (erro, resultado) => {
-            if (erro) {
-                reject(erro);
-            } else {
-                resolve(resultado);
-            }
-        });
-    });
+function listarLivros() {
+    return db.executar(`
+        SELECT livro.id, livro.titulo, livro.autor, livro.descricao, genero.nome AS genero
+        FROM livro
+        JOIN genero ON livro.fkGenero = genero.id
+        ORDER BY livro.titulo ASC
+    `);
 }
 
-function favoritar(idLivro, idUsuario) {
-    console.log("ACESSEI O LIVRO MODEL - favoritar");
+function cadastrarLivro(titulo, autor, descricao, fkGenero) {
+    return db.executar(`
+        INSERT INTO livro (titulo, autor, descricao, fkGenero)
+        VALUES ('${titulo}', '${autor}', '${descricao}', ${fkGenero})
+    `);
+}
+
+
+const livroFavoritoModel = {
+  adicionar(fkUsuario, fkLivro, callback) {
+    const query = "INSERT INTO livro_favorito (fkUsuario, fkLivro) VALUES (?, ?)";
+    db.query(query, [fkUsuario, fkLivro], callback);
+  },
+
+  remover(fkUsuario, fkLivro, callback) {
+    const query = "DELETE FROM livro_favorito WHERE fkUsuario = ? AND fkLivro = ?";
+    db.query(query, [fkUsuario, fkLivro], callback);
+  },
+
+  verificar(fkUsuario, fkLivro, callback) {
+    const query = "SELECT 1 FROM livro_favorito WHERE fkUsuario = ? AND fkLivro = ?";
+    db.query(query, [fkUsuario, fkLivro], (err, results) => {
+      if (err) return callback(err);
+      const isFavorito = results.length > 0;
+      callback(null, isFavorito);
+    });
+  },
+
+  listarPorUsuario(fkUsuario, callback) {
     const query = `
-        INSERT INTO livroFavorito (fkUsuario, fkLivro) 
-        VALUES (${idUsuario}, ${idLivro})
-        ON DUPLICATE KEY DELETE FROM livroFavorito 
-        WHERE fkUsuario = ${idUsuario} AND fkLivro = ${idLivro};
+      SELECT l.* 
+      FROM livro_favorito lf
+      JOIN livro l ON lf.fkLivro = l.idLivro
+      WHERE lf.fkUsuario = ?
     `;
-    
-    console.log("Executando a instrução SQL: \n" + query);
-    return new Promise((resolve, reject) => {
-        database.query(query, (erro, resultado) => {
-            if (erro) {
-                reject(erro);
-            } else {
-                resolve(resultado);
-            }
-        });
-    });
-}
+    db.query(query, [fkUsuario], callback);
+  }
+};
+
+module.exports = livroFavoritoModel;
+
 
 module.exports = {
-    listar,
-    favoritar
+    listarLivros,
+    cadastrarLivro
 };

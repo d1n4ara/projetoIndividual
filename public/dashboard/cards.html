@@ -1,229 +1,167 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
   <meta charset="UTF-8" />
-  <title>Dashboard - Entre Linhas</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="shortcut icon" href="./assets/image/logo.png" type="image/x-icon">
+  <title>Dashboard Entre Linhas</title>
   <link rel="stylesheet" href="../css/dashboards.css">
-  <style>
-    .graficos {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-top: 20px;
-    }
-    
-    .grafico-container {
-      background: white;
-      border-radius: 10px;
-      padding: 15px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-    
-    .grafico-container h4 {
-      margin-top: 0;
-      color: #5a4a42;
-      text-align: center;
-    }
-    
-    canvas {
-      width: 100% !important;
-      height: 300px !important;
-    }
-  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
-  <div class="container">
-    <nav class="menu-lateral" aria-label="Menu de navegação">
-      <h2>📚 Entre Linhas</h2>
-      <a href="./cards.html" class="active">Dashboard</a>
-      <a href="./quiz.html">Quiz</a>
-      <a href="./livros.html">Catálogo de Livros</a>
-      <a href="./desafio.html">Desafios e Missões</a>
-      <a href="./perfil.html">Perfil</a>
-      <a href="../index.html">Sair</a>
-    </nav>
 
-    <main class="main-content" role="main" aria-label="Conteúdo principal da dashboard">
-      <section class="kpis" id="kpis"></section>
+  <nav class="menu-lateral" id="menuLateral">
+    <h2>Entre Linhas</h2>
+    <!--<div class="hello">
+      <h3>Olá, <span id="idUsuario">usuário</span>!</h3>
+    </div>-->
+    <ul>
+      <li><a href="./cards.html">Dashboard</a></li>
+      <li><a href="./livros.html">Minha Estante</a></li>
+      <li><a href="./quiz.html">Quiz</a></li>
+      <li><a href="./desafio.html">Missões e Desafios</a></li>
+      <li><a href="./perfil.html">Perfil</a></li>
+      <li><a href="../index.html">Sair</a></li>
+    </ul>
+  </nav>
 
-      <section class="conteudo-inferior">
-        <div class="ranking" id="ranking">
-          <h3>🏆 Ranking</h3>
-          <ol>
-            <li>Usuário A - 1500 pts</li>
-            <li>Usuário B - 1200 pts</li>
-            <li>Usuário C - 900 pts</li>
-          </ol>
-        </div>
 
-        <div class="graficos">
-          <div class="grafico-container">
-            <h4>📊 Gêneros Mais Lidos</h4>
-            <canvas id="graficoGeneros" aria-label="Gráfico de gêneros mais lidos" role="img"></canvas>
-          </div>
-          
-          <div class="grafico-container">
-            <h4>❓ Desempenho no Quiz</h4>
-            <canvas id="graficoQuiz" aria-label="Gráfico de respostas do quiz" role="img"></canvas>
-          </div>
-        </div>
-      </section>
-    </main>
+  <!-- Conteúdo principal -->
+  <main class="content" id="mainContent">
+    <h1>Dashboard Entre Linhas</h1>
+
+    <div class="kpis">
+      <div class="kpi">
+        <h2 id="favoritosCount">0</h2>
+        <p>Livros Favoritados</p>
+      </div>
+      <div class="kpi">
+        <h2 id="maiorPontuacao">0</h2>
+        <p>Maior Pontuação no Quiz</p>
+      </div>
+      <div class="kpi">
+        <h2 id="generoFavorito">-</h2>
+        <p>Gênero Favorito</p>
+      </div>
+      <div class="kpi">
+        <h2 id="quantidadeQuizzes">0</h2>
+        <p>Quizzes Realizados</p>
+      </div>
+    </div>
+
+    <div class="charts">
+      <canvas id="linhaPontuacoes"></canvas>
+      <canvas id="barraFavoritosGenero"></canvas>
+    </div>
+  </main>
   </div>
 
   <script>
-    const idUsuario = 1;
-    const coresGeneros = ['#a58b65', '#d4a373', '#fefae0', '#ccd5ae', '#e9edc9', '#faedcd'];
-    const coresQuiz = ['#2ecc71', '#e74c3c', '#3498db', '#f39c12', '#9b59b6'];
-
-    async function carregarKPIs() {
-      try {
-        const resposta = await fetch(`/entrelinhas/kpis/${idUsuario}`);
-        const dados = await resposta.json();
-        const kpis = document.getElementById('kpis');
-        kpis.innerHTML = `
-          <div class="kpi">📚 <strong>${dados.livrosLidos}</strong><br>Livros lidos</div>
-          <div class="kpi">📅 <strong>${dados.paginasPorMes}</strong><br>Páginas este mês</div>
-          <div class="kpi">🌟 <strong>${dados.favoritos}</strong><br>Favoritos</div>
-          <div class="kpi">🧭 <strong>${dados.pontuacao}</strong><br>${dados.nivel}</div>
-        `;
-      } catch (erro) {
-        console.error("Erro ao carregar KPIs:", erro);
+    const idUsuario = sessionStorage.ID_USUARIO;
+  
+    window.onload = function () {
+      if (!idUsuario) {
+        alert("Usuário não identificado. Faça login novamente.");
+        return;
       }
-    }
-
-    async function carregarGeneros() {
-      try {
-        const resposta = await fetch(`/entrelinhas/generos/${idUsuario}`);
-        const dados = await resposta.json();
-        
-        // Se não houver dados, mostra mensagem
-        if (!dados.labels || dados.labels.length === 0) {
-          document.getElementById('graficoGeneros').parentNode.innerHTML = 
-            '<p>Nenhum dado disponível sobre gêneros lidos.</p>';
-          return;
-        }
-        
-        new Chart(document.getElementById('graficoGeneros'), {
-          type: 'bar',
-          data: {
-            labels: dados.labels,
-            datasets: [{
-              label: 'Quantidade de Livros',
-              backgroundColor: coresGeneros,
-              borderColor: '#5a4a42',
-              borderWidth: 1,
-              data: dados.valores,
-              hoverBackgroundColor: '#8a735a',
-              hoverBorderColor: '#5a4a42'
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                display: false
-              },
-              tooltip: {
-                callbacks: {
-                  label: function(context) {
-                    return `${context.parsed.y} livro(s)`;
-                  }
-                }
-              }
-            },
-            scales: {
-              y: { 
-                beginAtZero: true,
-                title: {
-                  display: true,
-                  text: 'Quantidade de Livros'
-                }
-              },
-              x: {
-                title: {
-                  display: true,
-                  text: 'Gêneros Literários'
-                }
-              }
-            }
-          }
-        });
-      } catch (erro) {
-        console.error("Erro ao carregar gêneros:", erro);
-        document.getElementById('graficoGeneros').parentNode.innerHTML = 
-          '<p>Não foi possível carregar os dados de gêneros.</p>';
-      }
-    }
-
-    async function carregarQuiz() {
-      try {
-        const resposta = await fetch(`/entrelinhas/quiz/${idUsuario}`);
-        const dados = await resposta.json();
-        
-        // Se não houver dados, mostra mensagem
-        if ((dados.certas === undefined || dados.certas === 0) && 
-            (dados.erradas === undefined || dados.erradas === 0)) {
-          document.getElementById('graficoQuiz').parentNode.innerHTML = 
-            '<p>Nenhum dado disponível sobre quizzes.</p>';
-          return;
-        }
-        
-        new Chart(document.getElementById('graficoQuiz'), {
-          type: 'doughnut',
-          data: {
-            labels: ['Acertos', 'Erros', 'Não respondidas'],
-            datasets: [{
-              backgroundColor: [coresQuiz[0], coresQuiz[1], coresQuiz[2]],
-              borderColor: '#fff',
-              borderWidth: 2,
-              data: [
-                dados.certas || 0, 
-                dados.erradas || 0, 
-                (dados.total || 0) - (dados.certas || 0) - (dados.erradas || 0)
-              ],
-              hoverOffset: 10
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                position: 'bottom',
-              },
-              tooltip: {
-                callbacks: {
-                  label: function(context) {
-                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                    const value = context.parsed;
-                    const percentage = Math.round((value / total) * 100);
-                    return `${context.label}: ${value} (${percentage}%)`;
-                  }
-                }
-              }
-            },
-            cutout: '60%'
-          }
-        });
-      } catch (erro) {
-        console.error("Erro ao carregar quiz:", erro);
-        document.getElementById('graficoQuiz').parentNode.innerHTML = 
-          '<p>Não foi possível carregar os dados de quiz.</p>';
-      }
-    }
-
-    // Carrega todos os dados quando a página é carregada
-    document.addEventListener('DOMContentLoaded', function() {
+  
       carregarKPIs();
-      carregarGeneros();
-      carregarQuiz();
-    });
+      carregarGraficos();
+    };
+  
+    function fetchJson(url) {
+      return fetch(url).then(res => {
+        if (!res.ok) throw new Error("Erro na requisição");
+        return res.json();
+      });
+    }
+  
+    function carregarKPIs() {
+      fetchJson(`/dashboard/favoritos/${idUsuario}`)
+        .then(favoritos => {
+          document.getElementById("favoritosCount").innerText = favoritos.totalFavoritos || 0;
+        })
+        .catch(e => console.error("Erro ao carregar favoritos:", e));
+  
+      fetchJson(`/dashboard/maior-pontuacao/${idUsuario}`)
+        .then(maiorPontuacao => {
+          document.getElementById("maiorPontuacao").innerText = maiorPontuacao.maiorPontuacao || 0;
+        })
+        .catch(e => console.error("Erro ao carregar maior pontuação:", e));
+  
+      fetchJson(`/dashboard/genero-favorito/${idUsuario}`)
+        .then(generoFavorito => {
+          document.getElementById("generoFavorito").innerText = generoFavorito.generoFavorito || "-";
+        })
+        .catch(e => console.error("Erro ao carregar gênero favorito:", e));
+  
+      fetchJson(`/dashboard/quantidade-quizzes/${idUsuario}`)
+        .then(quantidadeQuizzes => {
+          document.getElementById("quantidadeQuizzes").innerText = quantidadeQuizzes.totalQuizzes || 0;
+        })
+        .catch(e => console.error("Erro ao carregar quantidade de quizzes:", e));
+    }
+  
+    function carregarGraficos() {
+      // Gráfico de linha: pontuações
+      fetchJson(`/dashboard/pontuacoes-quiz/${idUsuario}`)
+        .then(pontuacoes => {
+          const labelsLinha = pontuacoes.map(r => r.dataQuiz);
+          const dataLinha = pontuacoes.map(r => r.pontuacao);
+  
+          new Chart(document.getElementById("linhaPontuacoes"), {
+            type: 'line',
+            data: {
+              labels: labelsLinha,
+              datasets: [{
+                label: 'Pontuação no Quiz',
+                data: dataLinha,
+                borderColor: 'rgb(54, 162, 235)',
+                fill: false,
+                tension: 0.3,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+              }]
+            },
+            options: {
+              scales: { y: { beginAtZero: true } },
+              plugins: { legend: { display: true } }
+            }
+          });
+        })
+        .catch(e => console.error("Erro ao carregar gráfico de linha:", e));
+  
+      // Gráfico de barras: livros favoritados por gênero
+      fetchJson(`/dashboard/favoritos-por-genero/${idUsuario}`)
+        .then(favoritosGenero => {
+          const labelsBarra = favoritosGenero.map(r => r.genero);
+          const dataBarra = favoritosGenero.map(r => r.total);
+  
+          new Chart(document.getElementById("barraFavoritosGenero"), {
+            type: 'bar',
+            data: {
+              labels: labelsBarra,
+              datasets: [{
+                label: 'Livros Favoritados por Gênero',
+                data: dataBarra,
+                backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                borderColor: 'rgb(255, 99, 132)',
+                borderWidth: 1
+              }]
+            },
+            options: {
+              scales: { y: { beginAtZero: true, stepSize: 1 } },
+              plugins: { legend: { display: true } }
+            }
+          });
+        })
+        .catch(e => console.error("Erro ao carregar gráfico de barras:", e));
+    }
   </script>
+  
+
 </body>
 
 </html>
