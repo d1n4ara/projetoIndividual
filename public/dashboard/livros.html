@@ -41,16 +41,15 @@
       <select id="filtroGenero">
         <option value="">Todos os gêneros</option>
       </select>
-      <button id="btnFavoritos">Mostrar Favoritos</button>
-      <button id="btnTodos" class="ativo">Mostrar Todos</button>
     </div>
 
     <div class="carrossel-container">
       <div class="carrossel-track" id="livrosContainer">
-        <!-- Os livros serão inseridos aqui pelo JavaScript -->
+        <!-- Os livros serão inseridos nesse espaço pelo JavaScript -->
       </div>
     </div>
 
+    <!--Botães do carrossel-->
     <div class="carrossel-nav">
       <button id="prevBtn" disabled>Anterior</button>
       <button id="nextBtn">Próximo</button>
@@ -59,8 +58,8 @@
 
   <script>
     // Variáveis globais
-    let currentSlide = 0;
-    let slidesPerPage = 4;
+    let slideAtual = 0;
+    let slidePag = 4;
     let livrosData = [];
     let generosData = [];
     let filtroAtual = 'todos';
@@ -102,62 +101,16 @@
     // Atualiza a posição do carrossel
     function updateCarrossel() {
       const carrosselTrack = document.getElementById('livrosContainer');
-      const slideWidth = 100 / Math.ceil(livrosData.length / slidesPerPage);
-      carrosselTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+      const slideWidth = 100 / Math.ceil(livrosData.length / slidePag);
+      carrosselTrack.style.transform = `translateX(-${slideAtual * 100}%)`;
       
-      document.getElementById('prevBtn').disabled = currentSlide === 0;
-      document.getElementById('nextBtn').disabled = currentSlide >= Math.ceil(livrosData.length / slidesPerPage) - 1;
-    }
-
-    // Alterna o status de favorito de um livro
-    function toggleFavorito(livroId, favoritado) {
-      fetch("/livros/favoritar", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          livroId: livroId,
-          favoritado: favoritado 
-        })
-      })
-      .then(res => {
-        if (!res.ok) throw new Error("Erro ao atualizar favorito");
-        return res.json();
-      })
-      .then(data => {
-        if (data.success) {
-          // Atualiza o estado local
-          const livro = livrosData.find(l => l.id === livroId);
-          if (livro) {
-            livro.favorito = favoritado;
-          }
-          
-          // Atualiza o botão visualmente
-          const btn = document.querySelector(`.favorito-btn[data-livro-id="${livroId}"]`);
-          if (btn) {
-            btn.classList.toggle('favoritado', favoritado);
-          }
-          
-          // Se estivermos filtrando por favoritos, atualiza a lista
-          if (filtroAtual === 'favoritos') {
-            listarLivros();
-          }
-        } else {
-          alert(data.message || "Erro ao favoritar livro");
-        }
-      })
-      .catch(err => {
-        alert("Erro na comunicação com o servidor: " + err.message);
-      });
+      document.getElementById('prevBtn').disabled = slideAtual === 0;
+      document.getElementById('nextBtn').disabled = slideAtual >= Math.ceil(livrosData.length / slidePag) - 1;
     }
 
     // Filtra os livros com base nas seleções
     function filtrarLivros() {
       let livrosFiltrados = [...livrosData];
-      
-      // Aplica filtro de favoritos
-      if (filtroAtual === 'favoritos') {
-        livrosFiltrados = livrosFiltrados.filter(livro => livro.favorito);
-      }
       
       // Aplica filtro por gênero
       if (generoSelecionado) {
@@ -182,14 +135,14 @@
       }
       
       // Cria os slides do carrossel
-      const totalSlides = Math.ceil(livrosFiltrados.length / slidesPerPage);
+      const totalSlides = Math.ceil(livrosFiltrados.length / slidePag);
       
       for (let i = 0; i < totalSlides; i++) {
         const slide = document.createElement('div');
         slide.className = 'carrossel-slide';
         
-        const startIdx = i * slidesPerPage;
-        const endIdx = startIdx + slidesPerPage;
+        const startIdx = i * slidePag;
+        const endIdx = startIdx + slidePag;
         const livrosSlide = livrosFiltrados.slice(startIdx, endIdx);
         
         livrosSlide.forEach(livro => {
@@ -199,7 +152,6 @@
             <button class="favorito-btn ${livro.favorito ? 'favoritado' : ''}" 
                     data-livro-id="${livro.id}" 
                     onclick="toggleFavorito(${livro.id}, ${!livro.favorito})">
-              ♥
             </button>
             <strong>${livro.titulo}</strong>
             <em>por ${livro.autor}</em>
@@ -213,7 +165,7 @@
       }
       
       // Reseta para o primeiro slide
-      currentSlide = 0;
+      slideAtual = 0;
       updateCarrossel();
     }
 
@@ -286,16 +238,16 @@
 
     // Navegação do carrossel
     document.getElementById('prevBtn').addEventListener('click', () => {
-      if (currentSlide > 0) {
-        currentSlide--;
+      if (slideAtual > 0) {
+        slideAtual--;
         updateCarrossel();
       }
     });
 
     document.getElementById('nextBtn').addEventListener('click', () => {
       const livrosFiltrados = filtrarLivros();
-      if (currentSlide < Math.ceil(livrosFiltrados.length / slidesPerPage) - 1) {
-        currentSlide++;
+      if (slideAtual < Math.ceil(livrosFiltrados.length / slidePag) - 1) {
+        slideAtual++;
         updateCarrossel();
       }
     });
@@ -306,34 +258,18 @@
       listarLivros();
     });
 
-    // Filtro por favoritos
-    document.getElementById('btnFavoritos').addEventListener('click', function() {
-      filtroAtual = 'favoritos';
-      this.classList.add('ativo');
-      document.getElementById('btnTodos').classList.remove('ativo');
-      listarLivros();
-    });
-
-    // Mostrar todos os livros
-    document.getElementById('btnTodos').addEventListener('click', function() {
-      filtroAtual = 'todos';
-      this.classList.add('ativo');
-      document.getElementById('btnFavoritos').classList.remove('ativo');
-      listarLivros();
-    });
-
     // Ajusta o número de livros por slide conforme o tamanho da tela
-    function adjustSlidesPerPage() {
+    function adjustslidePag() {
       const width = window.innerWidth;
       
       if (width < 600) {
-        slidesPerPage = 1;
+        slidePag = 1;
       } else if (width < 900) {
-        slidesPerPage = 2;
+        slidePag = 2;
       } else if (width < 1200) {
-        slidesPerPage = 3;
+        slidePag = 3;
       } else {
-        slidesPerPage = 4;
+        slidePag = 4;
       }
       
       if (livrosData.length > 0) {
@@ -348,8 +284,6 @@
       window.addEventListener('resize', adjustSlidesPerPage);
     };
 
-    // Torna a função toggleFavorito acessível globalmente para os botões
-    window.toggleFavorito = toggleFavorito;
   </script>
 </body>
 

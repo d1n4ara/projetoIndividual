@@ -1,3 +1,8 @@
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
 /* Reset */
 * {
   box-sizing: border-box;
@@ -207,22 +212,6 @@ main.content {
 }
 
 /* GRÁFICOS */
-.charts {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-canvas {
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 10px;
-  flex: 1 1 400px;
-  max-width: 600px;
-  height: 300px !important;
-}
 
 /* RESPONSIVO */
 @media (max-width: 768px) {
@@ -254,7 +243,7 @@ canvas {
   }
 
   .charts {
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
   }
 }

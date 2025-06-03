@@ -14,9 +14,9 @@
 
   <nav class="menu-lateral" id="menuLateral">
     <h2>Entre Linhas</h2>
-    <!--<div class="hello">
+    <div class="hello">
       <h3>Olá, <span id="idUsuario">usuário</span>!</h3>
-    </div>-->
+    </div>
     <ul>
       <li><a href="./cards.html">Dashboard</a></li>
       <li><a href="./livros.html">Minha Estante</a></li>
@@ -42,7 +42,7 @@
         <p>Maior Pontuação no Quiz</p>
       </div>
       <div class="kpi">
-        <h2 id="generoFavorito">-</h2>
+        <h2 id="generoFavorito">--</h2>
         <p>Gênero Favorito</p>
       </div>
       <div class="kpi">
@@ -52,65 +52,63 @@
     </div>
 
     <div class="charts">
-      <canvas id="linhaPontuacoes"></canvas>
-      <canvas id="barraFavoritosGenero"></canvas>
+      <div style="max-width: 100%; height: 300px; overflow: hidden;">
+        <canvas id="linhaPontuacoes"></canvas>
+      </div>
+      <div>
+        <canvas id="barraFavoritosGenero"></canvas>
+      </div>
     </div>
   </main>
   </div>
 
   <script>
     const idUsuario = sessionStorage.ID_USUARIO;
-  
+
     window.onload = function () {
       if (!idUsuario) {
         alert("Usuário não identificado. Faça login novamente.");
         return;
       }
-  
+
       carregarKPIs();
       carregarGraficos();
     };
-  
+
     function fetchJson(url) {
       return fetch(url).then(res => {
         if (!res.ok) throw new Error("Erro na requisição");
         return res.json();
       });
     }
-  
+
     function carregarKPIs() {
-      fetchJson(`/dashboard/favoritos/${idUsuario}`)
-        .then(favoritos => {
-          document.getElementById("favoritosCount").innerText = favoritos.totalFavoritos || 0;
-        })
-        .catch(e => console.error("Erro ao carregar favoritos:", e));
-  
       fetchJson(`/dashboard/maior-pontuacao/${idUsuario}`)
         .then(maiorPontuacao => {
           document.getElementById("maiorPontuacao").innerText = maiorPontuacao.maiorPontuacao || 0;
         })
         .catch(e => console.error("Erro ao carregar maior pontuação:", e));
-  
+
       fetchJson(`/dashboard/genero-favorito/${idUsuario}`)
         .then(generoFavorito => {
-          document.getElementById("generoFavorito").innerText = generoFavorito.generoFavorito || "-";
+          document.getElementById("generoFavorito").innerText = generoFavorito.generoFavorito || "--";
         })
         .catch(e => console.error("Erro ao carregar gênero favorito:", e));
-  
+
       fetchJson(`/dashboard/quantidade-quizzes/${idUsuario}`)
         .then(quantidadeQuizzes => {
           document.getElementById("quantidadeQuizzes").innerText = quantidadeQuizzes.totalQuizzes || 0;
         })
         .catch(e => console.error("Erro ao carregar quantidade de quizzes:", e));
     }
-  
+
     function carregarGraficos() {
       // Gráfico de linha: pontuações
       fetchJson(`/dashboard/pontuacoes-quiz/${idUsuario}`)
         .then(pontuacoes => {
           const labelsLinha = pontuacoes.map(r => r.dataQuiz);
           const dataLinha = pontuacoes.map(r => r.pontuacao);
-  
+
           new Chart(document.getElementById("linhaPontuacoes"), {
             type: 'line',
             data: {
@@ -119,26 +117,25 @@
                 label: 'Pontuação no Quiz',
                 data: dataLinha,
                 borderColor: 'rgb(54, 162, 235)',
-                fill: false,
-                tension: 0.3,
-                pointRadius: 5,
-                pointHoverRadius: 7,
+                tension: 0.5,
+                pointRadius: 8,
+                pointHoverRadius: 8,
               }]
-            },
-            options: {
-              scales: { y: { beginAtZero: true } },
-              plugins: { legend: { display: true } }
+            }, options: {
+              responsive: true,
+              maintainAspectRatio: false
             }
+
           });
         })
         .catch(e => console.error("Erro ao carregar gráfico de linha:", e));
-  
+
       // Gráfico de barras: livros favoritados por gênero
       fetchJson(`/dashboard/favoritos-por-genero/${idUsuario}`)
         .then(favoritosGenero => {
           const labelsBarra = favoritosGenero.map(r => r.genero);
           const dataBarra = favoritosGenero.map(r => r.total);
-  
+
           new Chart(document.getElementById("barraFavoritosGenero"), {
             type: 'bar',
             data: {
@@ -150,17 +147,13 @@
                 borderColor: 'rgb(255, 99, 132)',
                 borderWidth: 1
               }]
-            },
-            options: {
-              scales: { y: { beginAtZero: true, stepSize: 1 } },
-              plugins: { legend: { display: true } }
             }
           });
         })
         .catch(e => console.error("Erro ao carregar gráfico de barras:", e));
     }
   </script>
-  
+
 
 </body>
 

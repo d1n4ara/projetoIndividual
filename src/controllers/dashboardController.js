@@ -1,16 +1,5 @@
 const dashboardModel = require("../models/dashboardModel");
 
-function buscarFavoritos(req, res) {
-  const idUsuario = req.params.idUsuario;
-
-  dashboardModel.buscarFavoritos(idUsuario).then(resultado => {
-    res.json(resultado[0]);
-  }).catch(erro => {
-    console.log(erro);
-    res.status(500).json({ erro: erro.sqlMessage });
-  });
-}
-
 function buscarMaiorPontuacao(req, res) {
   const idUsuario = req.params.idUsuario;
 
@@ -55,22 +44,9 @@ function buscarPontuacoesQuiz(req, res) {
   });
 }
 
-function buscarFavoritosPorGenero(req, res) {
-  const idUsuario = req.params.idUsuario;
-
-  dashboardModel.buscarFavoritosPorGenero(idUsuario).then(resultado => {
-    res.json(resultado);
-  }).catch(erro => {
-    console.log(erro);
-    res.status(500).json({ erro: erro.sqlMessage });
-  });
-}
-
 module.exports = {
-  buscarFavoritos,
   buscarMaiorPontuacao,
   buscarGeneroFavorito,
   buscarQuantidadeQuizzes,
-  buscarPontuacoesQuiz,
-  buscarFavoritosPorGenero
+  buscarPontuacoesQuiz
 };
