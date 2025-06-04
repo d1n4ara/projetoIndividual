@@ -20,15 +20,6 @@ CREATE TABLE usuario (
     , FOREIGN KEY (fkGeneroFavorito) REFERENCES genero(id)
 );
 
--- PERFIL (1:1 com USUÁRIO)
-CREATE TABLE perfil (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	bio TEXT,
-	fotoPerfil VARCHAR(255),
-	fkUsuario INT UNIQUE, -- garante 1:1
-	FOREIGN KEY (fkUsuario) REFERENCES usuario(idUsuario)
-);
-
 -- POSTAGEM (1:N com USUÁRIO)
 CREATE TABLE postagem (
 	id INT PRIMARY KEY AUTO_INCREMENT,
@@ -44,31 +35,42 @@ create table livro (
 	id INT PRIMARY KEY AUTO_INCREMENT
     , titulo VARCHAR(100)
     , autor VARCHAR(100)
-    , genero VARCHAR(50)
     , descricao VARCHAR(300) 
     , fkGenero INT
     , FOREIGN KEY (fkGenero) REFERENCES genero(id)
 );
 
--- LIVRO FAVORITO (N:N entre USUÁRIO e LIVRO)
-CREATE TABLE livro_favorito (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	fkUsuario INT,
-	fkLivro INT,
-	dataFavorito DATETIME DEFAULT CURRENT_TIMESTAMP,
-	FOREIGN KEY (fkUsuario) REFERENCES usuario(usuario),
-	FOREIGN KEY (fkLivro) REFERENCES livro(id)
-); 
+CREATE TABLE questao (
+    idQuestao INT PRIMARY KEY AUTO_INCREMENT,
+    pergunta TEXT NOT NULL
+);
 
--- INTERAÇÃO (N:N disfarçado — permite múltiplos registros por usuário/livro)
-CREATE TABLE interacao (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	porcentagemLida DECIMAL(5,2),
-	dataAtualizacao DATETIME DEFAULT CURRENT_TIMESTAMP,
-	fkUsuario INT,
-	fkLivro INT,
-	FOREIGN KEY (fkUsuario) REFERENCES usuario(idUsuario),
-	FOREIGN KEY (fkLivro) REFERENCES livro(id)
+CREATE TABLE alternativa (
+    idAlternativa INT PRIMARY KEY AUTO_INCREMENT,
+    texto VARCHAR(255) NOT NULL,
+    isCorreta BOOLEAN NOT NULL,
+    fkQuestao INT NOT NULL,
+    FOREIGN KEY (fkQuestao) REFERENCES questao(idQuestao)
+);
+
+CREATE TABLE resposta (
+    idResposta INT PRIMARY KEY AUTO_INCREMENT,
+    fkUsuario INT NOT NULL,
+    fkQuestao INT NOT NULL,
+    fkAlternativa INT NOT NULL,
+    dataResposta DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (fkUsuario) REFERENCES usuario(idUsuario),
+    FOREIGN KEY (fkQuestao) REFERENCES questao(idQuestao),
+    FOREIGN KEY (fkAlternativa) REFERENCES alternativa(idAlternativa)
+);
+
+CREATE TABLE resultadoQuiz (
+    idResultado INT PRIMARY KEY AUTO_INCREMENT,
+    fkUsuario INT NOT NULL,
+    pontuacao INT NOT NULL,
+    porcentagem DECIMAL(5,2) NOT NULL,
+    dataQuiz DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (fkUsuario) REFERENCES usuario(idUsuario)
 );
 
 INSERT INTO genero (nome) VALUES 
@@ -118,3 +120,46 @@ INSERT INTO livro (titulo, autor, descricao, fkGenero) VALUES
 ('A Estrada da Noite', 'Joe Hill', 'Um colecionador de objetos macabros compra um terno assombrado.', 5),
 ('O Corvo e Outras Histórias', 'Edgar Allan Poe', 'Contos sombrios com horror psicológico.', 5),
 ('O Cemitério', 'Stephen King', 'Uma família descobre um cemitério com poderes sombrios.', 5);
+
+-- Tabela de perguntas
+INSERT INTO questao (pergunta) VALUES
+('Quem escreveu "Dom Casmurro"?'),
+('Qual obra começa com a frase "Todas as famílias felizes se parecem, cada família infeliz é infeliz à sua maneira"?'),
+('Quem é o autor de "Grande Sertão: Veredas"?'),
+('Qual personagem é conhecido por viver num quarto de despejo em São Paulo?'),
+('Quem escreveu a peça "O Auto da Compadecida"?');
+
+-- Alternativas para pergunta 1
+INSERT INTO alternativa (texto, isCorreta, fkQuestao) VALUES
+('Machado de Assis', TRUE, 1),
+('José de Alencar', FALSE, 1),
+('Clarice Lispector', FALSE, 1),
+('Monteiro Lobato', FALSE, 1);
+
+-- Alternativas para pergunta 2
+INSERT INTO alternativa (texto, isCorreta, fkQuestao) VALUES
+('Liev Tolstói', TRUE, 2),
+('Fiódor Dostoiévski', FALSE, 2),
+('Anton Tchekhov', FALSE, 2),
+('Franz Kafka', FALSE, 2);
+
+-- Alternativas para pergunta 3
+INSERT INTO alternativa (texto, isCorreta, fkQuestao) VALUES
+('João Guimarães Rosa', TRUE, 3),
+('Graciliano Ramos', FALSE, 3),
+('Jorge Amado', FALSE, 3),
+('Carlos Drummond de Andrade', FALSE, 3);
+
+-- Alternativas para pergunta 4
+INSERT INTO alternativa (texto, isCorreta, fkQuestao) VALUES
+('Carolina Maria de Jesus', TRUE, 4),
+('Rachel de Queiroz', FALSE, 4),
+('Maria Firmina dos Reis', FALSE, 4),
+('Cecília Meireles', FALSE, 4);
+
+-- Alternativas para pergunta 5
+INSERT INTO alternativa (texto, isCorreta, fkQuestao) VALUES
+('Ariano Suassuna', TRUE, 5),
+('Nelson Rodrigues', FALSE, 5),
+('Dias Gomes', FALSE, 5),
+('Machado de Assis', FALSE, 5);

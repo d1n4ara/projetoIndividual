@@ -1,157 +1,160 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
-  <title>Missões</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-
-    .missao {
-      border: 1px solid #ccc;
-      padding: 16px;
-      margin-bottom: 15px;
-      border-radius: 8px;
-    }
-
-    button {
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #45a049;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 999;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.6);
-    }
-
-    .modal-content {
-      background-color: #fff;
-      margin: 15% auto;
-      padding: 20px;
-      width: 300px;
-      border-radius: 10px;
-      text-align: center;
-      position: relative;
-      box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-    }
-
-    .fechar {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      font-size: 22px;
-      cursor: pointer;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fórum de Discussão</title>
+  <link rel="stylesheet" href="../css/dashboards.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
-  <h1>Missões Disponíveis</h1>
-  <div id="listaMissoes"></div>
 
-  <!-- Modal de Recompensa -->
-  <div id="modalRecompensa" class="modal">
+<body>
+  <header>
+    <h1>Fórum de Discussão</h1>
+    <div class="user-actions">
+      <button id="loginBtn">Login</button>
+      <button id="registerBtn">Registrar</button>
+      <span id="userName" class="hidden"></span>
+      <button id="logoutBtn" class="hidden">Sair</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="post-form hidden">
+      <h2>Criar Nova Postagem</h2>
+      <form id="postForm">
+        <div class="form-group">
+          <label for="postTitle">Título:</label>
+          <input type="text" id="postTitle" required>
+        </div>
+        <div class="form-group">
+          <label for="postContent">Conteúdo:</label>
+          <textarea id="postContent" rows="5" required></textarea>
+        </div>
+        <button type="submit">Publicar</button>
+      </form>
+    </section>
+
+    <section class="posts-container">
+      <h2>Últimas Postagens</h2>
+      <div class="filter-controls">
+        <input type="text" id="searchInput" placeholder="Buscar postagens...">
+        <button id="newPostBtn">Nova Postagem</button>
+      </div>
+      <div id="postsList" class="posts-list">
+        <!-- Postagens serão carregadas aqui via JavaScript -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal de Login/Registro -->
+  <div id="authModal" class="modal hidden">
     <div class="modal-content">
-      <span id="fecharModal" class="fechar">&times;</span>
-      <h2>Missão Concluída!</h2>
-      <p id="textoRecompensa"></p>
+      <span class="close-btn">&times;</span>
+      <div class="auth-tabs">
+        <button class="tab-btn active" data-tab="login">Login</button>
+        <button class="tab-btn" data-tab="register">Registrar</button>
+      </div>
+
+      <form id="loginForm" class="auth-form">
+        <div class="form-group">
+          <label for="loginEmail">Email:</label>
+          <input type="email" id="loginEmail" required>
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Senha:</label>
+          <input type="password" id="loginPassword" required>
+        </div>
+        <button type="submit">Entrar</button>
+      </form>
+
+      <form id="registerForm" class="auth-form hidden">
+        <div class="form-group">
+          <label for="registerName">Nome:</label>
+          <input type="text" id="registerName" required>
+        </div>
+        <div class="form-group">
+          <label for="registerEmail">Email:</label>
+          <input type="email" id="registerEmail" required>
+        </div>
+        <div class="form-group">
+          <label for="registerPassword">Senha:</label>
+          <input type="password" id="registerPassword" required>
+        </div>
+        <button type="submit">Registrar</button>
+      </form>
     </div>
   </div>
 
   <script>
-    // Simula missões do banco
-    const missoes = [
-      { id: 1, titulo: "Ler por 10 minutos", descricao: "Leia qualquer livro por 10 minutos.", recompensa: "+10 XP" },
-      { id: 2, titulo: "Responder 1 quiz", descricao: "Acerte uma questão de quiz hoje.", recompensa: "+15 XP" },
-      { id: 3, titulo: "Comentar em um post", descricao: "Comente em uma postagem de outro leitor.", recompensa: "+20 XP" }
-    ];
+    document.addEventListener("DOMContentLoaded", () => {
+      const postForm = document.getElementById("postForm");
+      const postsList = document.getElementById("postsList");
+      const newPostBtn = document.getElementById("newPostBtn");
+      const postSection = document.querySelector(".post-form");
 
-    const userId = 1; // Simulado
+      // Pega o ID do usuário da sessionStorage
+      const idUsuario = sessionStorage.ID_USUARIO;
 
-    const container = document.getElementById("listaMissoes");
-
-    for (let i = 0; i < missoes.length; i++) {
-      const missao = missoes[i];
-
-      let div = document.createElement("div");
-      div.classList.add("missao");
-      div.innerHTML = `
-        <h3>${missao.titulo}</h3>
-        <p>${missao.descricao}</p>
-        <button onclick="concluirMissao(${missao.id}, '${missao.recompensa}')">Avançar</button>
-      `;
-      container.appendChild(div);
-    }
-
-    function concluirMissao(missaoId, recompensaTexto) {
-      // Gerar pontos aleatórios entre 8 e 25
-      const pontos = Math.floor(Math.random() * 18) + 8;
-
-      // Simulação de lógica condicional
-      let mensagem;
-      if (pontos >= 20) {
-        mensagem = "Excelente desempenho!";
-      } else if (pontos >= 12) {
-        mensagem = "Bom trabalho!";
-      } else {
-        mensagem = "Você concluiu a missão.";
+      if (!idUsuario) {
+        alert("Você precisa estar logado para visualizar ou criar postagens.");
+        return;
       }
 
-      const dados = {
-        fkUsuario: userId,
-        fkMissaoModelo: missaoId,
-        recompensa: recompensaTexto,
-        pontosGanho: pontos
-      };
+      function carregarPostagens() {
+        fetch("/postagens/listar")
+          .then(res => res.json())
+          .then(data => {
+            postsList.innerHTML = "";
+            data.forEach(post => {
+              const postEl = document.createElement("div");
+              postEl.classList.add("post");
+              postEl.innerHTML = `
+            <h3>${post.titulo}</h3>
+            <p>${post.descricao}</p>
+            <span>Postado por <strong>${post.nome}</strong> em ${new Date(post.dataPostagem).toLocaleString()}</span>
+          `;
+              postsList.appendChild(postEl);
+            });
+          })
+          .catch(err => {
+            console.error("Erro ao carregar postagens:", err);
+          });
+      }
 
-      fetch("http://localhost:3000/missao/concluir", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(dados)
-      })
-      .then(res => res.json())
-      .then(data => {
-        // Mostra modal de recompensa
-        mostrarModal(`${mensagem}<br>Recompensa: <strong>${pontos} XP</strong>`);
-      })
-      .catch(err => {
-        console.error("Erro ao concluir missão:", err);
-        alert("Erro ao salvar no banco.");
+      postForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const titulo = document.getElementById("postTitle").value;
+        const descricao = document.getElementById("postContent").value;
+
+        fetch("/postagens/criar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ titulo, descricao, fkUsuario: idUsuario })
+        })
+          .then(res => {
+            if (res.ok) {
+              postForm.reset();
+              carregarPostagens();
+              postSection.classList.add("hidden");
+            } else {
+              alert("Erro ao criar postagem");
+            }
+          })
+          .catch(err => {
+            console.error("Erro ao enviar postagem:", err);
+          });
       });
-    }
 
-    function mostrarModal(texto) {
-      document.getElementById("textoRecompensa").innerHTML = texto;
-      document.getElementById("modalRecompensa").style.display = "block";
-    }
+      newPostBtn.addEventListener("click", () => {
+        postSection.classList.toggle("hidden");
+      });
 
-    document.getElementById("fecharModal").onclick = function () {
-      document.getElementById("modalRecompensa").style.display = "none";
-    };
+      carregarPostagens();
+    });
 
-    window.onclick = function (event) {
-      if (event.target == document.getElementById("modalRecompensa")) {
-        document.getElementById("modalRecompensa").style.display = "none";
-      }
-    };
   </script>
 </body>
+
 </html>
