@@ -5,7 +5,8 @@ function listarLivros() {
         SELECT livro.id, livro.titulo, livro.autor, livro.descricao, fkGenero AS genero
         FROM livro
         JOIN genero ON livro.fkGenero = genero.id
-        ORDER BY livro.titulo ASC
+        GROUP BY livro.id, livro.titulo, livro.autor, livro.descricao
+        ORDER BY livro.titulo
     `);
 }
 

@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="./assets/image/logo.png" type="image/x-icon">
-    <title>Entre Linhas</title>
+    <title>Entre Linhas - Clube do Livro com Gamificação</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body>
     <!-- Header -->
-    <section id="header">
-        <div class="header container">
+    <header id="header">
+        <div class="header">
             <div class="nav-bar">
                 <div class="brand">
                     <a href="#hero">
@@ -22,248 +22,201 @@
                 <div class="nav-list">
                     <div class="hamburger">
                         <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
                     </div>
                     <ul>
                         <li><a href="#hero" data-after="Home">Home</a></li>
-                        <li><a href="#services" data-after="Service">Livros</a></li>
-                        <li><a href="#projects" data-after="Projects">Generos</a></li>
-                        <li><a href="#about" data-after="About">Desenvolvedora</a></li>
-                        <li><a href="./login.html" data-after="Contact">Login</a></li>
-                        <li><a href="./cadastro.html" data-after="Contact">Cadastro</a></li>
+                        <li><a href="#sobre" data-after="Sobre">Sobre</a></li>
+                        <li><a href="#generos" data-after="Gêneros">Gêneros</a></li>
+                        <li><a href="#gamificacao" data-after="Gamificação">Gamificação</a></li>
+                        <li><a href="#dev" data-after="Desenvolvedora">Desenvolvedora</a></li>
+                        <li><a href="./login.html" data-after="Login">Login</a></li>
+                        <li><a href="./cadastro.html" data-after="Cadastro">Cadastro</a></li>
                     </ul>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- End Header -->
+    </header>
 
-
-    <!-- Hero Section  -->
+    <!-- Hero Section -->
     <section id="hero">
         <div class="hero container">
             <div>
-                <h1>Cada página, <span></span></h1>
-                <h1>um novo universo <span></span></h1>
-                <h1>Venha explorar o seu <span></span></h1>
-                <a href="#projects" type="button" class="cta">Saiba Mais</a>
+                <h1>Cada página, um novo universo</h1>
+                <h1>Venha explorar o seu</h1>
+                <a href="#generos" class="cta">Saiba Mais</a>
             </div>
         </div>
     </section>
-    <!-- End Hero Section  -->
 
-    <!-- Service Section -->
-    <section id="services">
-        <div class="services container">
-            <div class="service-top">
-                <h1 class="section-title">Li<span>vr</span>os</h1>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum deleniti maiores pariatur assumenda
-                    quas
-                    magni et, doloribus quod voluptate quasi molestiae magnam officiis dolorum, dolor provident atque
-                    molestias
-                    voluptatum explicabo!</p>
-            </div>
-            <div class="service-bottom">
-                <div class="service-item">
-                    <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/services.png" /></div>
-                    <h2>Web Design</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis debitis rerum, magni voluptatem
-                        sed
-                        architecto placeat beatae tenetur officia quod</p>
+    <!-- Sobre o Projeto -->
+    <section id="sobre">
+        <div class="container">
+            <h2>O que é o Entre Linhas?</h2>
+            <div class="sobre-content">
+                <div class="sobre-text">
+                    <p>O Entre Linhas é um clube do livro inovador que combina a paixão pela leitura com elementos de
+                        gamificação para tornar a experiência literária ainda mais envolvente e recompensadora.</p>
+                    <p>Nosso propósito é conectar leitores, incentivar a descoberta de novos gêneros e autores, e
+                        transformar a leitura em uma jornada divertida e interativa.</p>
+                    <p>Complete missões, ganhe pontos, descubra novas histórias e evolua como leitor em nossa comunidade
+                        literária.</p>
                 </div>
-                <div class="service-item">
-                    <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/services.png" /></div>
-                    <h2>Web Design</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis debitis rerum, magni voluptatem
-                        sed
-                        architecto placeat beatae tenetur officia quod</p>
-                </div>
-                <div class="service-item">
-                    <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/services.png" /></div>
-                    <h2>Web Design</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis debitis rerum, magni voluptatem
-                        sed
-                        architecto placeat beatae tenetur officia quod</p>
-                </div>
-                <div class="service-item">
-                    <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/services.png" /></div>
-                    <h2>Web Design</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis debitis rerum, magni voluptatem
-                        sed
-                        architecto placeat beatae tenetur officia quod</p>
+                <div class="sobre-img">
+                    <img src="./assets/image/livros.jpeg" alt="Livros empilhados">
                 </div>
             </div>
         </div>
     </section>
-    <!-- End Service Section -->
 
-    <!-- Projects Section -->
-    <section id="projects">
-        <div class="projects container">
-            <div class="projects-header">
-                <h1 class="section-title">Generos <span>Literarios</span></h1>
-            </div>
-            <div class="all-projects">
-                <div class="project-item">
-                    <div class="project-info">
-                        <h1>Romance</h1>
-                        <h2>Coding is Love</h2>
-                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad, iusto cupiditate voluptatum
-                            impedit unde
-                            rem ipsa distinctio illum quae mollitia ut, accusantium eius odio ducimus illo neque atque
-                            libero non sunt
-                            harum? Ipsum repellat animi, fugit architecto voluptatum odit et!</p>
-                    </div>
-                    <div class="project-img">
-                        <img src="./img/img-1.png" alt="img">
-                    </div>
-                </div>
-                <div class="project-item">
-                    <div class="project-info">
-                        <h1>Mśterio</h1>
-                        <h2>Coding is Love</h2>
-                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad, iusto cupiditate voluptatum
-                            impedit unde
-                            rem ipsa distinctio illum quae mollitia ut, accusantium eius odio ducimus illo neque atque
-                            libero non sunt
-                            harum? Ipsum repellat animi, fugit architecto voluptatum odit et!</p>
-                    </div>
-                    <div class="project-img">
-                        <img src="./img/img-1.png" alt="img">
-                    </div>
-                </div>
-                <div class="project-item">
-                    <div class="project-info">
-                        <h1>Fantasia</h1>
-                        <h2>Coding is Love</h2>
-                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad, iusto cupiditate voluptatum
-                            impedit unde
-                            rem ipsa distinctio illum quae mollitia ut, accusantium eius odio ducimus illo neque atque
-                            libero non sunt
-                            harum? Ipsum repellat animi, fugit architecto voluptatum odit et!</p>
-                    </div>
-                    <div class="project-img">
-                        <img src="./img/img-1.png" alt="img">
-                    </div>
-                </div>
-                <div class="project-item">
-                    <div class="project-info">
-                        <h1>Ficção</h1>
-                        <h2>Coding is Love</h2>
-                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad, iusto cupiditate voluptatum
-                            impedit unde
-                            rem ipsa distinctio illum quae mollitia ut, accusantium eius odio ducimus illo neque atque
-                            libero non sunt
-                            harum? Ipsum repellat animi, fugit architecto voluptatum odit et!</p>
-                    </div>
-                    <div class="project-img">
-                        <img src="./img/img-1.png" alt="img">
-                    </div>
-                </div>
-                <div class="project-item">
-                    <div class="project-info">
-                        <h1>Suspense e Terror</h1>
-                        <h2>Coding is Love</h2>
-                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad, iusto cupiditate voluptatum
-                            impedit unde
-                            rem ipsa distinctio illum quae mollitia ut, accusantium eius odio ducimus illo neque atque
-                            libero non sunt
-                            harum? Ipsum repellat animi, fugit architecto voluptatum odit et!</p>
-                    </div>
-                    <div class="project-img">
-                        <img src="./img/img-1.png" alt="img">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- End Projects Section -->
+    <!-- Gêneros Literários -->
+    <section id="generos">
+        <div class="container">
+            <h2>Gêneros Literários</h2>
+            <p class="text-center">Explore diversos universos através de nossos gêneros selecionados</p>
 
-    <!-- About Section -->
-    <section id="about">
-        <div class="about container">
-            <div class="col-left">
-                <div class="about-img">
-                    <img src="./assets/image/dev.png" alt="img">
+            <div class="generos-grid">
+                <div class="genero-card">
+                    <div class="genero-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Romance</h3>
+                    <p>Histórias de amor e relacionamentos que tocam o coração e exploram as complexidades humanas.</p>
                 </div>
-            </div>
-            <div class="col-right">
-                <h1 class="section-title">Sobre a <span>Desenvolvedora</span></h1>
-                <h2>Estudante de Sistemas de Informação</h2>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Asperiores, velit alias eius non illum
-                    beatae atque
-                    repellat ratione qui veritatis repudiandae adipisci maiores. At inventore necessitatibus deserunt
-                    exercitationem cumque earum omnis ipsum rem accusantium quis, quas quia, accusamus provident
-                    suscipit magni!
-                    Expedita sint ad dolore, commodi labore nihil velit earum ducimus nulla quae nostrum fugit aut,
-                    deserunt
-                    reprehenderit libero enim!</p>
-               <!-- <a href="#" class="cta">Download Resume</a>-->
-            </div>
-        </div>
-    </section>
-    <!-- End About Section -->
 
-    <!-- Contact Section 
-    <section id="contact">
-        <div class="contact container">
-            <div>
-                <h1 class="section-title">Contact <span>info</span></h1>
-            </div>
-            <div class="contact-items">
-                <div class="contact-item">
-                    <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/phone.png" /></div>
-                    <div class="contact-info">
-                        <h1>Phone</h1>
-                        <h2>+1 234 123 1234</h2>
-                        <h2>+1 234 123 1234</h2>
+                <div class="genero-card">
+                    <div class="genero-icon">
+                        <i class="fas fa-user-secret"></i>
                     </div>
+                    <h3>Mistério</h3>
+                    <p>Enigmas intrigantes e reviravoltas surpreendentes que mantêm você virando as páginas.</p>
                 </div>
-                <div class="contact-item">
-                    <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/new-post.png" /></div>
-                    <div class="contact-info">
-                        <h1>Email</h1>
-                        <h2>info@gmail.com</h2>
-                        <h2>abcd@gmail.com</h2>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/map-marker.png" /></div>
-                    <div class="contact-info">
-                        <h1>Address</h1>
-                        <h2>Fatikchhari, Chittagong, Bangladesh</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    End Contact Section -->
 
-    <!-- Footer -->
-    <section id="footer">
-        <div class="footer container">
-            <div class="brand">
-                <h1><span>E</span>ntre <span>L</span>inhas</h1>
-            </div>
-            <h2>Clube do livro Gamificado</h2>
-            <div class="social-icon">
-                <div class="social-item">
-                    <a href="#"><img src="https://img.icons8.com/bubbles/100/000000/facebook-new.png" /></a>
+                <div class="genero-card">
+                    <div class="genero-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Ficção Científica</h3>
+                    <p>Explorações futuristas e especulações sobre tecnologia, espaço e sociedades alternativas.</p>
                 </div>
-                <div class="social-item">
-                    <a href="#"><img src="https://img.icons8.com/bubbles/100/000000/instagram-new.png" /></a>
-                </div>
-                <div class="social-item">
-                    <a href="#"><img src="https://img.icons8.com/bubbles/100/000000/twitter.png" /></a>
-                </div>
-                <div class="social-item">
-                    <a href="#"><img src="https://img.icons8.com/bubbles/100/000000/behance.png" /></a>
+
+                <div class="genero-card">
+                    <div class="genero-icon">
+                        <i class="fas fa-dragon"></i>
+                    </div>
+                    <h3>Fantasia</h3>
+                    <p>Mundos mágicos, criaturas lendárias e aventuras épicas além da imaginação.</p>
                 </div>
             </div>
-            <p>Copyright © 2025 Entre Linhas. Todos os direitos reservados</p>
         </div>
     </section>
-    <!-- End Footer -->
-    <script src="./app.js"></script>
+
+    <!-- Comunidade de Leitores -->
+    <section id="comunidade" class="comunidade-section">
+        <div class="container">
+            <div class="comunidade-header">
+                <h2>Mais que um clube, uma <span>comunidade</span> literária</h2>
+                <p class="comunidade-subtitle">Onde páginas viram pontes entre leitores</p>
+            </div>
+
+            <div class="comunidade-features">
+                <!-- Feature 1 -->
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-users fa-lg"></i>
+                        <div class="icon-circle"></div>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Conexões que inspiram</h3>
+                        <p>Encontre sua tribo literária - pessoas que compartilham seu gosto por gêneros, autores ou
+                            simplesmente pela magia das histórias.</p>
+                        <div class="feature-link">
+                            <a href="#">Conheça grupos <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="feature-item reverse">
+                    <div class="feature-content">
+                        <h3>Debates que enriquecem</h3>
+                        <p>Nossos fóruns temáticos são espaços vibrantes onde cada interpretação agrega novas camadas à
+                            experiência de leitura.</p>
+                        <div class="feature-link">
+                            <a href="#">Explore discussões <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="feature-icon">
+                        <i class="fas fa-comments fa-lg"></i>
+                        <div class="icon-circle"></div>
+                    </div>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-calendar-alt fa-lg"></i>
+                        <div class="icon-circle"></div>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Eventos que unem</h3>
+                        <p>De encontros virtuais a sessões de leitura coletiva, criamos momentos especiais para
+                            compartilhar o amor pelos livros.</p>
+                        <div class="feature-link">
+                            <a href="#">Veja a agenda <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sobre a Desenvolvedora -->
+    <section id="dev">
+        <div class="container">
+            <h2>Sobre a Desenvolvedora</h2>
+            <div class="dev-content">
+                <div class="dev-img">
+                    <img src="./assets/image/minhaFoto.jpeg" alt="Desenvolvedora">
+                </div>
+                <div class="dev-text">
+                    <h3>Dandara</h3>
+                    <p>Sou estudante de Sistemas de Informação e apaixonada por tecnologia e literatura. O Entre Linhas
+                        nasceu da minha vontade de unir essas duas paixões em um projeto que pudesse incentivar a
+                        leitura de forma criativa e interativa.</p>
+                    <p>Durante o desenvolvimento deste projeto, pude aprimorar minhas habilidades em HTML, CSS,
+                        JavaScript e conceitos de gamificação, além de aprender sobre design de experiência do usuário e
+                        engajamento.</p>
+                    <p class="assinatura">"Entre Linhas é mais do que um projeto. É meu universo de aprendizado, código
+                        e histórias."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contato -->
+    <section id="contato">
+        <div class="container">
+            <h2>Contato</h2>
+                <center><p class="text-center">Quer saber mais sobre o projeto ou entrar em contato?</p></center>
+            <div class="contato-links">
+                <a href="https://github.com/d1n4ara/projetoIndividual" class="contato-link"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/dandara-ramos-240972352/" class="contato-link"><i class="fab fa-linkedin"></i></a>
+                <a href="https://www.instagram.com/d1n4ara/" class="contato-link"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>© 2025 Entre Linhas - Clube do Livro com Gamificação</p>
+                <p>Feito com <i class="fas fa-heart"></i> por Dandara</p>
+            </div>
+        </div>
+    </footer>
 </body>
 
 </html>

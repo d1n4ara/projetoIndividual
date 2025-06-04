@@ -137,7 +137,7 @@
       // Cria os slides do carrossel
       const totalSlides = Math.ceil(livrosFiltrados.length / slidePag);
       
-      for (let i = 0; i < totalSlides; i++) {
+      for (var i = 0; i < totalSlides; i++) {
         const slide = document.createElement('div');
         slide.className = 'carrossel-slide';
         
@@ -196,13 +196,7 @@
       const autor = document.getElementById("autor").value;
       const descricao = document.getElementById("descricao").value;
       const fkGenero = document.getElementById("fkGenero").value;
-      const generoNovo = document.getElementById("generoNovo").value;
-
-      // Se um novo gênero foi digitado, usamos ele
-      const generoPayload = generoNovo ? 
-        { novoGenero: generoNovo } : 
-        { fkGenero: fkGenero };
-
+  
       fetch("/livros/cadastrar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -210,7 +204,7 @@
           titulo, 
           autor, 
           descricao,
-          ...generoPayload
+          fkGenero
         })
       })
         .then(res => {
@@ -225,9 +219,6 @@
             carregarLivros();
             
             // Se foi adicionado um novo gênero, recarrega a lista de gêneros
-            if (generoNovo) {
-              carregarGeneros();
-            }
           }
         })
         .catch(err => {
@@ -281,7 +272,6 @@
     window.onload = function () {
       carregarGeneros();
       carregarLivros();
-      window.addEventListener('resize', adjustSlidesPerPage);
     };
 
   </script>
